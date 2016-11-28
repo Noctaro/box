@@ -1,19 +1,10 @@
-//
-//    FILE: dht22_test.ino
-//  AUTHOR: Rob Tillaart
-// VERSION: 0.1.03
-// PURPOSE: DHT library test sketch for DHT22 && Arduino
-//     URL:
-// HISTORY:
-// 0.1.03 extended stats for all errors
-// 0.1.02 added counters for error-regression testing.
-// 0.1.01
-// 0.1.00 initial version
-//
-// Released to the public domain
-//
+
+//*********************************************************************************************************
+
+
 //*********************************************************************************************************
 ///CLOCK_MODULE
+//*********************************************************************************************************
 // DS1302_Serial_Easy (C)2010 Henning Karlsen
 // web: http://www.henningkarlsen.com/electronics
 //
@@ -44,6 +35,22 @@ DS1302RTC RTC(10, 11, 12);
 
 //*********************************************************************************************************
 //Hydro DHT
+//*********************************************************************************************************
+//HYDRO SENSOR
+//
+//    FILE: dht22_test.ino
+//  AUTHOR: Rob Tillaart
+// VERSION: 0.1.03
+// PURPOSE: DHT library test sketch for DHT22 && Arduino
+//     URL:
+// HISTORY:
+// 0.1.03 extended stats for all errors
+// 0.1.02 added counters for error-regression testing.
+// 0.1.01
+// 0.1.00 initial version
+//
+// Released to the public domain
+//
 //*********************************************************************************************************
 // Example testing sketch for various DHT humidity/temperature sensors
 // Written by ladyada, public domain
@@ -76,14 +83,14 @@ DHT dht(DHTPIN, DHTTYPE);
 //*********************************************************************************************************
 
 //*****************
-#define Modeschalter 2 //Definiere den Namen für den Schalter zwischen Mode 0 und 1
+#define Modeschalter 2 //Definiere den Pin für den Schalter zwischen Mode 0 und 1
 #define LedPin1 13     //Namen für den Ledpin
 //*********************************************************************************************************
 
 //RELAITS
 //*********************************************************************************************************
-#define relaitPin1 5 //Definiere den Namen für den Steuerpin des 1. Relaits
-#define relaitPin2 6 //Definiere den Namen für den Steuerpin des 2. Relaits
+#define relaitPin1 5 //Definiere den Namen und Pin für das 1. Relait
+#define relaitPin2 6 //Definiere den Namen und Pin für das 2. Relait
 //*********************************************************************************************************
 
 //******************
@@ -99,6 +106,7 @@ int minLuftfeuchte = 0;
 int optimaleLuftfeuchte = 0;
 int relait1check = 0;
 int errorcheck = 0;
+
 
 //*********************************************************************************************************
 //*********************************************************************************************************
@@ -155,6 +163,20 @@ void setup()
   }
   
   delay(5000);
+//*********************************************************************************************************
+
+//UHRZEITEN für Bewässerung hier eintragen!
+//*********************************************************************************************************
+int water_hour_01 = 0;
+int water_hour_02 = 0;
+int water_hour_03 = 0;
+int water_hour_04 = 0;
+int water_hour_05 = 0;
+int water_hour_06 = 0;
+int water_hour_07 = 0;
+int water_hour_08 = 0;
+int water_hour_09 = 0;
+int water_hour_10 = 0;
 //*********************************************************************************************************
 }
 
