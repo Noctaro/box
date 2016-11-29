@@ -50,7 +50,7 @@ void watercontrol_active()
 //Wasser Sensor auslesen
 //*********************************************************************************************************
 /* The water sensor will switch LOW when water is detected.
-           Get the Arduino to illuminate the LED when no water is detected, and switch off when water is present */
+           Get the Arduino to illuminate the LED when water is detected, and switch off when no water is present */
          
 void water_level()
 {
