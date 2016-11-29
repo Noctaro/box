@@ -292,10 +292,11 @@ void loop()
 //Relaitcheck 
 //Gibt den aktuellen Status des Relaits aus
 //*********************************************************************************************************
-  Serial.print("Relait 1 Power: ");
-  Serial.println(relait1check);
-
-  
+  Serial.print("*Relait 1 Power: ");
+  Serial.print(relait1check);
+  Serial.print("* *Relait 2 Power: ");
+  Serial.print(relait2check);
+  Serial.println("*");  
 //*********************************************************************************************************
 //*********************************************************************************************************
 
