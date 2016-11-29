@@ -98,7 +98,7 @@ DHT dht(DHTPIN, DHTTYPE);
 //UHRZEITEN für Bewässerung hier eintragen!
 //*********************************************************************************************************
 int water_hour_01 = 4;
-int water_hour_02 = 6;
+int water_hour_02 = 5;
 int water_hour_03 = 1;
 int water_hour_04 = 4;
 int water_hour_05 = 7;
@@ -109,7 +109,7 @@ int water_hour_09 = 0;
 int water_hour_10 = 0;
 //*********************************************************************************************************
 //Zeit für eine Spülung in Sekunden
-int flush_time_secounds = 90;   
+long flush_time_secounds = 90;   
 
 //******************
 //*********************************************************************************************************
@@ -335,14 +335,27 @@ if(Mode == 1){
 //*************************************************** 
 //Der Schaltvorgang für die Bewässerung falls eine für die Bewässerung gewählte Stunde eintritt.
    int water_applied = EEPROM.read(eeprom_address_watered); 
+
+    //Überprüfe ob die Bewässerung zur aktuellen Stunde ausgeführt wurde
+    if ( tm.Minute == 59 && water_applied == 1 )
+      {
+       water_applied = 0;
+       int eeprom_watered = water_applied;
+       EEPROM.write(eeprom_address_watered, eeprom_watered);
+       Serial.print(eeprom_watered);
+       Serial.println(" ins EEPROM geschrieben um die nächste Bewaesserung zu aktivieren");
+       Serial.println("Warte 1 Minute bis zum naechsten Zyklus");
+       delay(65000);
+       
+      }
    
    if (tm.Hour == water_hour_01 && water_applied == 0 || tm.Hour == water_hour_02 && water_applied == 0 )
     {
       relait2check = 1;
       digitalWrite(relaitPin2, HIGH);           //Schalte Relait Pin 2 ein
-      Serial.print(" Relait 2 Power: ");
+      Serial.print("Relait 2 Power: ");
       Serial.println(relait2check);
-      Serial.println("Bewaesserung laeuft fuer ");
+      Serial.print("Bewaesserung laeuft fuer ");
       Serial.print(flush_time_secounds);
       Serial.println(" Sekunden");
       delay(flush_time_secounds*1000);                            //Verzögerung ca 30 Sekunden   
@@ -354,15 +367,7 @@ if(Mode == 1){
       Serial.println(" ins EEPROM geschrieben");
       delay(1000);
     }
-    //Überprüfe ob die Bewässerung zur aktuellen Stunde ausgeführt wurde
-    if ( tm.Hour != water_hour_01 && tm.Hour != water_hour_02 && water_applied == 1 )
-      {
-       water_applied = 0;
-       int eeprom_watered = water_applied;
-       EEPROM.write(eeprom_address_watered, eeprom_watered);
-       Serial.print(eeprom_watered);
-       Serial.println(" ins EEPROM geschrieben um die nächste Bewässerung zu aktivieren");
-      }
+   
 //***************************************************  
 
 //*********************************************************************************************************
@@ -434,7 +439,7 @@ if (zaehler==15)                                  //Wenn der Messzähler 15 Mess
     digitalWrite(relaitPin1, LOW);           //Schalte Relait Pin 1 aus
     relait1check = 0;
     Serial.println("Bin am rasten...keine Befeuchtung");
-    delay(15000);                            //Verzögerung ca 30 Sekunden
+    delay(5000);                            //Verzögerung ca 30 Sekunden
   }
 feuchtewert = 0;
   
