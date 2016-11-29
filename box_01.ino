@@ -167,11 +167,11 @@ void setup()
 
 //UHRZEITEN für Bewässerung hier eintragen!
 //*********************************************************************************************************
-int water_hour_01 = 0;
-int water_hour_02 = 0;
-int water_hour_03 = 0;
-int water_hour_04 = 0;
-int water_hour_05 = 0;
+int water_hour_01 = 20;
+int water_hour_02 = 22;
+int water_hour_03 = 1;
+int water_hour_04 = 4;
+int water_hour_05 = 7;
 int water_hour_06 = 0;
 int water_hour_07 = 0;
 int water_hour_08 = 0;
