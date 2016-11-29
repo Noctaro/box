@@ -27,7 +27,7 @@ int eeprom_address_watered = 0;
 //          I/O pin  (DAT)  -> Arduino Digital 11
 //          SCLK pin (CLK)  -> Arduino Digital 12
 //          VCC pin         -> Arduino Digital 9
-//          GND pin   -> Arduino GND
+//          GND pin         -> Arduino GND
 
 
 #include <Time.h>
@@ -72,8 +72,8 @@ DS1302RTC RTC(10, 11, 12);
 #define DHT_powerPin 10 //Powerpin für den dht
 
 // Uncomment whatever type you're using!
-//#define DHTTYPE DHT11   // DHT 11
-#define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
+#define DHTTYPE DHT11   // DHT 11
+//#define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
 //#define DHTTYPE DHT21   // DHT 21 (AM2301)
 
 // Connect pin 1 (on the left) of the sensor to +5V
@@ -218,6 +218,8 @@ void setup()
 //*********************************************************************************************************
 void loop()
 {
+  
+  digitalWrite(LedPin1, LOW);
   //*********************************************************************************************************
   //CLOCK
   //*********************************************************************************************************
