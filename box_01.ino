@@ -72,8 +72,8 @@ DS1302RTC RTC(10, 11, 12);
 #define DHT_powerPin 10 //Powerpin für den dht
 
 // Uncomment whatever type you're using!
-//#define DHTTYPE DHT11   // DHT 11
-#define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
+#define DHTTYPE DHT11   // DHT 11
+//#define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
 //#define DHTTYPE DHT21   // DHT 21 (AM2301)
 
 // Connect pin 1 (on the left) of the sensor to +5V
@@ -145,9 +145,9 @@ int water_applied = 1;
 long flush_time_secounds = 90;  //Dauer der Wasserzufuhr bei dem Bewässern
 float h = 0;
 float t = 0;
-float f = 0;
-float hif = 0;
-float hic = 0;
+//float f = 0;
+//float hif = 0;
+//float hic = 0;
 //*********************************************************************************************************
 //*********************************************************************************************************
 
@@ -186,8 +186,6 @@ void setup()
   //Clock Module Initialisierung
   //*********************************************************************************************************  
   Serial.println("DS1302RTC Read Test");
-  Serial.println("-------------------");
-
   //*****************
   // RTC Modul aktivieren
   //*****************
@@ -203,7 +201,6 @@ void setup()
   
   if (RTC.haltRTC()) {
     Serial.println("The DS1302 is stopped.  Please run the SetTime");
-    Serial.println("example to initialize the time and begin running.");
     Serial.println();
   }
   if (!RTC.writeEN()) {
@@ -332,17 +329,15 @@ if(Mode == 1)
 //*********************************************************************************************************
 //Der Schaltvorgang für die Bewässerung falls eine für die Bewässerung gewählte Stunde eintritt.
 //*********************************************************************************************************
-   water_applied = EEPROM.read(eeprom_address_watered); 
-   Serial.print("Bewaesserung bereits ausgefuehrt für diese Stunde (1 ja) (0 nein) - ");
-   Serial.println(water_applied);
+   //water_applied = EEPROM.read(eeprom_address_watered); 
    
     //Überprüfe ob die Bewässerung zur aktuellen Stunde ausgeführt wurde
-    if ( tm.Minute == 37 && water_applied == 1 )
+    if ( tm.Minute == 59 && water_applied == 1 )
       {
       watercontrol_reset();
       }
    
-   if (tm.Hour == water_hour_01 && water_applied == 0 || tm.Hour == water_hour_02 && water_applied == 0  )
+   if (tm.Hour == water_hour_01 && water_applied == 0 || tm.Hour == water_hour_02 && water_applied == 0 || tm.Hour == water_hour_03 && water_applied == 0 || tm.Hour == water_hour_04 && water_applied == 0 || tm.Hour == water_hour_05 && water_applied == 0 || tm.Hour == water_hour_06 && water_applied == 0 || tm.Hour == water_hour_07 && water_applied == 0 || tm.Hour == water_hour_08 && water_applied == 0 || tm.Hour == water_hour_09 && water_applied == 0 || tm.Hour == water_hour_10 && water_applied == 0 )
     {
     watercontrol_active();
     }

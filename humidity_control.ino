@@ -48,6 +48,7 @@ void DHT_check_input()
 //*********************************************************************************************************
 void huimdity_check_optimizer()
 {
+
 if (h > optimaleLuftfeuchte)
 {
 feuchtewert++;
@@ -56,7 +57,7 @@ Serial.print("Der aktuelle Feuchtewert ");
 Serial.println(feuchtewert);
 Serial.println("Schaltvorgang bei +-15");
 Serial.println("*********");
-Serial.println("Letzte Messung der Luftfeuchte war hoeher als der Optimalwert");
+Serial.println("Letzte Messung: Luftfeuchte hoeher als der Optimalwert");
 Serial.println("****************************************");
 }
 
@@ -68,7 +69,7 @@ Serial.print("Der aktuelle Feuchtewert ");
 Serial.print(feuchtewert);
 Serial.println("( Schaltvorgang bei +-15)");
 Serial.println("*********");
-Serial.println("Letzte Messung der Luftfeuchte war niedriger als der Optimalwert");
+Serial.println("Letzte Messung: Luftfeuchte niedriger als der Optimalwert");
 Serial.println("****************************************");
 }
 Serial.println("****************************************");
@@ -83,7 +84,8 @@ Serial.println("****************************************");
 //*********************************************************************************************************
 void humidity_balancer()
 {
-
+h = dht.readHumidity();
+t = dht.readTemperature();
 if (zaehler==15)                                  //Wenn der Messzähler 15 Messdurchgänge erreicht hat                                  
  {
   zaehler = 0;
