@@ -15,7 +15,7 @@ void Mode0_active()
   minLuftfeuchte = 35;
   optimaleLuftfeuchte = 36;
  //*********************************************************************************************************
- //UHRZEITEN für Bewässerung in Mode 1 hier eintragen! (10 verschiedeme Stunden stehen zur Verfügung) (Zum deaktivieren einer Zeit einfach 99 eintragen)
+ //UHRZEITEN für Bewässerung in Mode 1 hier eintragen! (10 verschiedeme Stunden stehen zur Verfügung 0-23 Uhr) (Zum deaktivieren einer Zeit einfach 99 eintragen)
  //*********************************************************************************************************
   water_hour_01 = 99;
   water_hour_02 = 99;
@@ -31,9 +31,13 @@ void Mode0_active()
   flush_time_secounds = 90;  //Dauer der Wasserzufuhr bei dem Bewässern
   //*********************************************************************************************************
   } 
+
+
 //*********************************************************************************************************
 //*********************************************************************************************************
 //*********************************************************************************************************
+  
+ 
   
   //**************************************************
   //MODE 1

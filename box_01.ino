@@ -91,19 +91,29 @@ DHT dht(DHTPIN, DHTTYPE);
 
 //*********************************************************************************************************
 
-//*****************
+
+//*********************************************************************************************************
+//PIN für den Schalter der Modeauswahlfunktion
+//*********************************************************************************************************
 #define Modeschalter 2 //Definiere den Pin für den Schalter zwischen Mode 0 und 1
+//*********************************************************************************************************
+
+
+//*********************************************************************************************************
+//PIN für die Statusled
+//*********************************************************************************************************
 #define LedPin1 13     //Namen für den Ledpin
 //*********************************************************************************************************
 
-//RELAITS
+
+//*********************************************************************************************************
+//RELAIT PINS
 //*********************************************************************************************************
 #define relaitPin1 5 //Definiere den Namen und Pin für das 1. Relait
 #define relaitPin2 6 //Definiere den Namen und Pin für das 2. Relait
 //*********************************************************************************************************
 
 
-//******************
 //*********************************************************************************************************
 //Globale Variablen (Bitte nicht ändern) -> Gewünschte Werte sind in mode_settings.ino anpassbar
 //*********************************************************************************************************
@@ -127,16 +137,28 @@ int water_hour_07 = 99;
 int water_hour_08 = 99;
 int water_hour_09 = 99;
 int water_hour_10 = 99;
+int water_applied = 1;
 long flush_time_secounds = 90;  //Dauer der Wasserzufuhr bei dem Bewässern
+float h = 0;
+float t = 0;
+float f = 0;
+float hif = 0;
+float hic = 0;
 //*********************************************************************************************************
 //*********************************************************************************************************
 
+
+//*********************************************************************************************************
+//Setup Loop wird einmal ausgeführt
+//*********************************************************************************************************
 void setup()
 {
-    Serial.begin(9600);
   
-  //DHT
-  //************ 
+  Serial.begin(9600);
+  
+  //*********************************************************************************************************
+  //DHT Initialisierung
+  //*********************************************************************************************************
   Serial.println("Hydrobalancer ist online.");
   dht.begin();
   //************
@@ -155,13 +177,15 @@ void setup()
   digitalWrite(DHT_powerPin, HIGH);      //Schalte DHT Powerpin ein 
   digitalWrite(LedPin1, LOW);            //Schalte LedPin 1 aus
 
-//*********************************************************************************************************
-//Clock Module initialisierung
-//*********************************************************************************************************  
+  //*********************************************************************************************************
+  //Clock Module Initialisierung
+  //*********************************************************************************************************  
   Serial.println("DS1302RTC Read Test");
   Serial.println("-------------------");
-  
-  // Activate RTC module
+
+  //*****************
+  // RTC Modul aktivieren
+  //*****************
   digitalWrite(DS1302_GND_PIN, LOW);
   pinMode(DS1302_GND_PIN, OUTPUT);
 
@@ -187,6 +211,9 @@ void setup()
     
 }
 
+//*********************************************************************************************************
+//MAINLOOP
+//*********************************************************************************************************
 void loop()
 {
   //*********************************************************************************************************
@@ -225,6 +252,7 @@ void loop()
   
   //************
   //cyclezähler
+  //************
   zaehler++;
   //*********************************************************************************************************
 
@@ -233,49 +261,20 @@ void loop()
   //*********************************************************************  
   // Reading temperature or humidity takes about 250 milliseconds!
   // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
-  float h = dht.readHumidity();
-  // Read temperature as Celsius (the default)
-  float t = dht.readTemperature();
-  // Read temperature as Fahrenheit (isFahrenheit = true)
-  float f = dht.readTemperature(true);
-
-  // Check if any reads failed and exit early (to try again).
-  if (isnan(h) || isnan(t) || isnan(f)) {
-    Serial.println("Failed to read from DHT sensor!");
-    return;
-  }
-
-  // Compute heat index in Fahrenheit (the default)
-  float hif = dht.computeHeatIndex(f, h);
-  // Compute heat index in Celsius (isFahreheit = false)
-  float hic = dht.computeHeatIndex(t, h, false);
-
-  Serial.print("Humidity: ");
-  Serial.print(h);
-  Serial.print(" %\t");
-  Serial.print("Temperature: ");
-  Serial.print(t);
-  Serial.print(" *C ");
-  //Serial.print(f);
-  //Serial.print(" *F\t");
-  Serial.print("Gefuehlte Temperatur: ");
-  Serial.print(hic);
-  Serial.println(" *C");
-  //Serial.print(hif);
-  //Serial.println(" *F");
-  
-    delay(2000);
-//********************************************
+  DHT_check_input();
+  //********************************************
+  //********************************************************************* 
 
 //*********************************************************************************************************  
 //Modeschalter
 //*********************************************************************************************************
-//int Mode = 0;                               //Mode im Code manuell setzen
+//int Mode = 0;                               //Mode im Code manuell setzen, dann muss die nächste Zeile auskommentiert werden
   int Mode = digitalRead(Modeschalter);       //Lese den Status des Modeschalters
   Serial.println("*********");
   Serial.print("Modus:"); 
   Serial.println(Mode,2); 
   Serial.println("*********");
+//*********************************************************************************************************   
 
 //*********************************************************************************************************
 //Messzähler
@@ -286,7 +285,7 @@ void loop()
   Serial.println(" von 15");
   Serial.println("*********");
 //*********************************************************************************************************
-//*********************************************************************************************************
+
 
 //*********************************************************************************************************
 //Relaitcheck 
@@ -300,28 +299,28 @@ void loop()
 //*********************************************************************************************************
 //*********************************************************************************************************
 
-
+//*********************************************************************************************************
 //Lesen der Modekonfiguration
+//*********************************************************************************************************
 if(Mode == 0)
   {
   Mode0_active();
   } 
-  //*************************************************
-  //*************************************************
+
+//*********************************************************************************************************
   
 if(Mode == 1)
   {
   Mode1_active();
   }     
-  //*************************************************
-  //*************************************************  
 //*********************************************************************************************************
 //*********************************************************************************************************
 
-//*************************************************** 
+//*********************************************************************************************************
 //Bewässerung
-//*************************************************** 
+//*********************************************************************************************************
 //Der Schaltvorgang für die Bewässerung falls eine für die Bewässerung gewählte Stunde eintritt.
+//*********************************************************************************************************
    int water_applied = EEPROM.read(eeprom_address_watered); 
 
     //Überprüfe ob die Bewässerung zur aktuellen Stunde ausgeführt wurde
@@ -334,84 +333,25 @@ if(Mode == 1)
     {
     watercontrol_active();
     }
-//***************************************************  
+//*********************************************************************************************************
+
 
 //*********************************************************************************************************
-//Schaltvorgang Optimierung Feuchte
+//Schaltvorgang optimieren Feuchte
 //*********************************************************************************************************
-if (h > optimaleLuftfeuchte)
-{
-feuchtewert++;
-Serial.println("*********");
-Serial.print("Der aktuelle Feuchtewert ");
-Serial.println(feuchtewert);
-Serial.println("Schaltvorgang bei +-15");
-Serial.println("*********");
-Serial.println("Letzte Messung war hoeher als der Optimalwert");
-Serial.println("****************************************");
-}
-
-if (h < optimaleLuftfeuchte)
-{
-feuchtewert--;
-Serial.println("*********");
-Serial.print("Der aktuelle Feuchtewert ");
-Serial.println(feuchtewert);
-Serial.println("(Schaltvorgang bei +-15)");
-Serial.println("*********");
-Serial.println("Letzte Messung war niedriger als der Optimalwert");
-Serial.println("****************************************");
-}
+huimdity_check_optimizer();
 //*************************************************  
-Serial.println("****************************************");
-
 
 
 
 //*********************************************************************************************************
 //Schaltvorgang und Feedback
 //*********************************************************************************************************
-if (zaehler==15)                                  //Wenn der Messzähler 15 Messdurchgänge erreicht hat                                  
-{
-  zaehler = 0;
-//***************************************************
-//***************************************************
-  if (t <= minTemperatur || t >= maxTemperatur || h <= minLuftfeuchte || h >= maxLuftfeuchte) //Wenn die Temperatur kleiner als minTemperatur oder höher als maxTemperatur oder Luftfeuchte unter minLuftfeuchte oder über maxLuftfeuchte
-  {
-    digitalWrite(LedPin1, HIGH);            //Schalte LedPin 1 ein
-    Serial.println("Achtung Temperatur oder Feuchte sind problematisch!!");
-    delay(3000);                            //Verzögerung 1000cycles - ca. 0,5 Sekunden
-  }
-  
- else //ansonsten
-  {
-    digitalWrite(LedPin1, LOW);              //Schalte LedPin 1 aus
-    Serial.println("Temperatur und Feuchte sind schwer in Ordnung :)");
-    delay(3000);                             //Verzögerung 1000cycles - ca. 0,5 Sekunden
-  }
-  
-  
-//Der Schaltvorgang für den Befeuchter
-  if (h < optimaleLuftfeuchte && feuchtewert < -14)    //Wenn die aktuelle Feuchte niedriger als die Optimale Luftfeuchte ist und feuchtewert dies 15 mal bestätigt hat.
-  {
-    digitalWrite(relaitPin1, HIGH);          //Schalte Relait Pin 1 ein
-    relait1check = 1;
-    Serial.println("Bin am befeuchten!");
-    delay(5000);     //Verzögerung 
-  }
-  
-  if (h > optimaleLuftfeuchte && feuchtewert > 14)    //Wenn die aktuelle Feuchte höher als die Optimale Luftfeuchte ist und feuchtewert dies 15 mal bestätigt hat.
-  {
-    digitalWrite(relaitPin1, LOW);           //Schalte Relait Pin 1 aus
-    relait1check = 0;
-    Serial.println("Bin am rasten...keine Befeuchtung");
-    delay(5000);                            //Verzögerung ca 30 Sekunden
-  }
-feuchtewert = 0;
-  
- }
+humidity_balancer();
 //***************************************************  
-//***************************************************    
+
+
+//*********************************************************************************************************
 }
 
 //CLOCK
