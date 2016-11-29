@@ -56,6 +56,10 @@ void water_level()
 {
   if(digitalRead(Water_Sensor) == HIGH)
   {
+  digitalWrite(LedPin1,HIGH);  
+  delay(100);
+  digitalWrite(LedPin1, LOW);  
+  delay(100);
   digitalWrite(LedPin1,HIGH);
   delay(40);
   Serial.println("Wasserstand Bewaesserung kritisch!!");

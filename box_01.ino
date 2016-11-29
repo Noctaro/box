@@ -27,7 +27,7 @@ int eeprom_address_watered = 0;
 //          I/O pin  (DAT)  -> Arduino Digital 11
 //          SCLK pin (CLK)  -> Arduino Digital 12
 //          VCC pin         -> Arduino Digital 9
-//          GND pin   -> Arduino GND
+//          GND pin         -> Arduino GND
 
 
 #include <Time.h>
@@ -218,6 +218,8 @@ void setup()
 //*********************************************************************************************************
 void loop()
 {
+  
+  digitalWrite(LedPin1, LOW);
   //*********************************************************************************************************
   //CLOCK
   //*********************************************************************************************************
