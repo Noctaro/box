@@ -16,11 +16,11 @@ int eeprom_address_watered = 0;
 // quickly send time and date information over a serial link
 //
 // I assume you know how to connect the DS1302.
-// DS1302:  CE pin    -> Arduino Digital 27
-//          I/O pin   -> Arduino Digital 29
-//          SCLK pin  -> Arduino Digital 31
-//          VCC pin   -> Arduino Digital 33
-//          GND pin   -> Arduino Digital 35
+// DS1302:  CE pin   (RST)    -> Arduino Digital 27
+//          I/O pin  (DAT)  -> Arduino Digital 29
+//          SCLK pin (CLK)  -> Arduino Digital 31
+//          VCC pin   -> Arduino Digital 8
+//          GND pin   -> Arduino GND
 
 
 #include <Time.h>
