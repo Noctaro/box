@@ -7,14 +7,15 @@
 //Bewässerung für die kommende Stunde wieder aktivieren
 //*********************************************************************************************************
 void watercontrol_reset() 
-{ //Bewässerung ab Minute 59 wieder ermöglichen.
-       Serial.println("Bewaesserung wird zur naechsten gewaehlten Stunde aktiviert.");
+{      
+       //Bewässerung ab Minute 59 wieder ermöglichen.
+       Serial.println("Bewaesserung wird zur gewaehlten Stunde aktiviert.");
        water_applied = 0;
        int eeprom_watered = water_applied;
        EEPROM.write(eeprom_address_watered, eeprom_watered);
        Serial.print(eeprom_watered);
-       Serial.println(" ins EEPROM geschrieben um die naechste Bewaesserung zu ermoeglichen");
-       Serial.println("Warte 1 Minute bis zum naechsten Zyklus");
+       Serial.println(" ins EEPROM geschrieben, Bewaesserung moeglich");
+       Serial.println("Warte 1 Minute");
        delay(65000);
 }
 
@@ -37,7 +38,7 @@ void watercontrol_active()
       Serial.println("Bewaesserung abgeschlossen");
       digitalWrite(relaitPin2, LOW);           //Schalte Relait Pin 2 aus
       relait2check = 0;
-      Serial.println("Bewaesserung wird fuer die aktuelle Stunde deaktiviert.");
+      Serial.println("Bewaesserung wird deaktiviert.");
       water_applied = 1;
       EEPROM.write(eeprom_address_watered, water_applied); 
       Serial.print(water_applied);
@@ -57,12 +58,12 @@ void water_level()
   {
   digitalWrite(LedPin1,HIGH);
   delay(40);
-  Serial.println("Wasserstand fuer Bewaesserung kritisch!!");
+  Serial.println("Wasserstand Bewaesserung kritisch!!");
   }
   
   else
         {
-        Serial.println("Wasserstand fuer Bewaesserung OK!"); 
+        Serial.println("Wasserstand Bewaesserung OK!"); 
         digitalWrite(LedPin1,LOW);
         }  
 }
