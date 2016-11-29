@@ -95,18 +95,18 @@ DHT dht(DHTPIN, DHTTYPE);
 #define relaitPin2 6 //Definiere den Namen und Pin für das 2. Relait
 //*********************************************************************************************************
 
-//UHRZEITEN für Bewässerung hier eintragen!
+//UHRZEITEN für Bewässerung hier eintragen! (Darf nicht 0 sein wegen Mitternacht, zum deaktivieren einer Zeit einfach z.B. 99 eintragen
 //*********************************************************************************************************
-int water_hour_01 = 4;
+int water_hour_01 = 6;
 int water_hour_02 = 5;
-int water_hour_03 = 1;
-int water_hour_04 = 4;
-int water_hour_05 = 7;
-int water_hour_06 = 0;
-int water_hour_07 = 0;
-int water_hour_08 = 0;
-int water_hour_09 = 0;
-int water_hour_10 = 0;
+int water_hour_03 = 99;
+int water_hour_04 = 99;
+int water_hour_05 = 99;
+int water_hour_06 = 99;
+int water_hour_07 = 99;
+int water_hour_08 = 99;
+int water_hour_09 = 99;
+int water_hour_10 = 99;
 //*********************************************************************************************************
 //Zeit für eine Spülung in Sekunden
 long flush_time_secounds = 90;   
