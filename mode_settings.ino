@@ -7,7 +7,7 @@
   //Hier die Werte für !Mode 0! nach belieben eintragen
   //Festlegen der gewünschten Temperaturen
   //**************************************************
-void Mode0_active()
+void Mode0_settings_active()
   {
   maxTemperatur = 29;
   minTemperatur = 17;
@@ -17,7 +17,7 @@ void Mode0_active()
  //*********************************************************************************************************
  //UHRZEITEN für Bewässerung in Mode 1 hier eintragen! (10 verschiedeme Stunden stehen zur Verfügung 0-23 Uhr) (Zum deaktivieren einer Zeit einfach 99 eintragen)
  //*********************************************************************************************************
-  water_hour_01 = 99;
+  water_hour_01 = 20;
   water_hour_02 = 99;
   water_hour_03 = 99;
   water_hour_04 = 99;
@@ -28,7 +28,7 @@ void Mode0_active()
   water_hour_09 = 99;
   water_hour_10 = 99;
   //*******************************************************************************************
-  flush_time_secounds = 90;  //Dauer der Wasserzufuhr bei dem Bewässern
+  long flush_time_secounds = 90;  //Dauer der Wasserzufuhr bei dem Bewässern
   //*********************************************************************************************************
   } 
 
@@ -45,7 +45,7 @@ void Mode0_active()
   //Hier die Werte für !Mode 1! nach belieben eintragen
   //Festlegen der gewünschten Temperaturen
   //************************************************** 
-void Mode1_active()
+void Mode1_settings_active()
   {
   maxTemperatur = 29;
   minTemperatur = 17;
@@ -56,16 +56,16 @@ void Mode1_active()
  //*********************************************************************************************************
  //UHRZEITEN für Bewässerung in Mode 1 hier eintragen! (10 verschiedeme Stunden stehen zur Verfügung)(Zum deaktivieren einer Zeit einfach 99 eintragen)
  //*********************************************************************************************************
-  water_hour_01 = 99;
-  water_hour_02 = 99;
-  water_hour_03 = 99;
-  water_hour_04 = 99;
-  water_hour_05 = 99;
-  water_hour_06 = 99;
-  water_hour_07 = 99;
-  water_hour_08 = 99;
-  water_hour_09 = 99;
-  water_hour_10 = 99;
+byte water_hour_01 = 99;
+byte water_hour_02 = 99;
+byte water_hour_03 = 99;
+byte water_hour_04 = 99;
+byte water_hour_05 = 99;
+byte water_hour_06 = 99;
+byte water_hour_07 = 99;
+byte water_hour_08 = 99;
+byte water_hour_09 = 99;
+byte water_hour_10 = 99;
   //*******************************************************************************************
   flush_time_secounds = 90;  //Dauer der Wasserzufuhr bei dem Bewässern
   //*********************************************************************************************************
