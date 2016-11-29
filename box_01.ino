@@ -343,7 +343,7 @@ if(Mode == 1){
        int eeprom_watered = water_applied;
        EEPROM.write(eeprom_address_watered, eeprom_watered);
        Serial.print(eeprom_watered);
-       Serial.println(" ins EEPROM geschrieben um die nächste Bewaesserung zu aktivieren");
+       Serial.println(" ins EEPROM geschrieben um die naechste Bewaesserung zu ermoeglichen");
        Serial.println("Warte 1 Minute bis zum naechsten Zyklus");
        delay(65000);
        
