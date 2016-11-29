@@ -93,6 +93,22 @@ DHT dht(DHTPIN, DHTTYPE);
 #define relaitPin2 6 //Definiere den Namen und Pin für das 2. Relait
 //*********************************************************************************************************
 
+//UHRZEITEN für Bewässerung hier eintragen!
+//*********************************************************************************************************
+int water_hour_01 = 20;
+int water_hour_02 = 22;
+int water_hour_03 = 1;
+int water_hour_04 = 4;
+int water_hour_05 = 7;
+int water_hour_06 = 0;
+int water_hour_07 = 0;
+int water_hour_08 = 0;
+int water_hour_09 = 0;
+int water_hour_10 = 0;
+//*********************************************************************************************************
+//Zeit für eine Spülung in Sekunden
+int flush_time_secounds = 90;   
+
 //******************
 //*********************************************************************************************************
 //Globale Variablen (Bitte nicht ändern)
@@ -105,6 +121,7 @@ int maxLuftfeuchte = 0;
 int minLuftfeuchte = 0;
 int optimaleLuftfeuchte = 0;
 int relait1check = 0;
+int relait2check = 0;
 int errorcheck = 0;
 
 
@@ -164,22 +181,6 @@ void setup()
   
   delay(5000);
 //*********************************************************************************************************
-
-//UHRZEITEN für Bewässerung hier eintragen!
-//*********************************************************************************************************
-int water_hour_01 = 20;
-int water_hour_02 = 22;
-int water_hour_03 = 1;
-int water_hour_04 = 4;
-int water_hour_05 = 7;
-int water_hour_06 = 0;
-int water_hour_07 = 0;
-int water_hour_08 = 0;
-int water_hour_09 = 0;
-int water_hour_10 = 0;
-//*********************************************************************************************************
-//Zeit für eine Spülung in Sekunden
-int flush_time_secounds = 90    
     
 }
 
@@ -398,6 +399,16 @@ if (zaehler==15)                                  //Wenn der Messzähler 15 Mess
     delay(15000);                            //Verzögerung ca 30 Sekunden
   }
 feuchtewert = 0;
+
+   //Der Schaltvorgang für die Bewässerung
+   if (tm.Hour = water_hour_01)
+    {
+      digitalWrite(relaitPin2, HIGH);           //Schalte Relait Pin 2 ein
+      relait2check = 1;
+      Serial.println("Bewässerung läuft");
+      delay(10000);                            //Verzögerung ca 30 Sekunden   
+      Serial.println("Bewässerung seit läuft 10 Sekunden");
+    }
 
  }
 //***************************************************  
