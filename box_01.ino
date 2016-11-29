@@ -178,6 +178,9 @@ int water_hour_08 = 0;
 int water_hour_09 = 0;
 int water_hour_10 = 0;
 //*********************************************************************************************************
+//Zeit für eine Spülung in Sekunden
+int flush_time_secounds = 90    
+    
 }
 
 void loop()
