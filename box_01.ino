@@ -71,8 +71,8 @@ DS1302RTC RTC(10, 11, 12);
 #define DHT_powerPin 10 //Powerpin für den dht
 
 // Uncomment whatever type you're using!
-//#define DHTTYPE DHT11   // DHT 11
-#define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
+#define DHTTYPE DHT11   // DHT 11
+//#define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
 //#define DHTTYPE DHT21   // DHT 21 (AM2301)
 
 // Connect pin 1 (on the left) of the sensor to +5V
@@ -102,25 +102,10 @@ DHT dht(DHTPIN, DHTTYPE);
 #define relaitPin2 6 //Definiere den Namen und Pin für das 2. Relait
 //*********************************************************************************************************
 
-//UHRZEITEN für Bewässerung hier eintragen! (Darf nicht 0 sein wegen Mitternacht, zum deaktivieren einer Zeit einfach z.B. 99 eintragen
-//*********************************************************************************************************
-int water_hour_01 = 6;
-int water_hour_02 = 5;
-int water_hour_03 = 99;
-int water_hour_04 = 99;
-int water_hour_05 = 99;
-int water_hour_06 = 99;
-int water_hour_07 = 99;
-int water_hour_08 = 99;
-int water_hour_09 = 99;
-int water_hour_10 = 99;
-//*********************************************************************************************************
-//Zeit für eine Spülung in Sekunden
-long flush_time_secounds = 90;   
 
 //******************
 //*********************************************************************************************************
-//Globale Variablen (Bitte nicht ändern)
+//Globale Variablen (Bitte nicht ändern) -> Gewünschte Werte sind in mode_settings.ino anpassbar
 //*********************************************************************************************************
 int zaehler = 0;
 int feuchtewert = 0;
@@ -132,8 +117,17 @@ int optimaleLuftfeuchte = 0;
 int relait1check = 0;
 int relait2check = 0;
 int errorcheck = 0;
-//int water_applied = 1;
-
+int water_hour_01 = 99;
+int water_hour_02 = 99;
+int water_hour_03 = 99;
+int water_hour_04 = 99;
+int water_hour_05 = 99;
+int water_hour_06 = 99;
+int water_hour_07 = 99;
+int water_hour_08 = 99;
+int water_hour_09 = 99;
+int water_hour_10 = 99;
+long flush_time_secounds = 90;  //Dauer der Wasserzufuhr bei dem Bewässern
 //*********************************************************************************************************
 //*********************************************************************************************************
 
@@ -195,7 +189,6 @@ void setup()
 
 void loop()
 {
-
   //*********************************************************************************************************
   //CLOCK
   //*********************************************************************************************************
@@ -270,14 +263,14 @@ void loop()
   Serial.println(" *C");
   //Serial.print(hif);
   //Serial.println(" *F");
-
+  
     delay(2000);
 //********************************************
 
 //*********************************************************************************************************  
 //Modeschalter
 //*********************************************************************************************************
-//int Mode = 0;  
+//int Mode = 0;                               //Mode im Code manuell setzen
   int Mode = digitalRead(Modeschalter);       //Lese den Status des Modeschalters
   Serial.println("*********");
   Serial.print("Modus:"); 
@@ -308,30 +301,17 @@ void loop()
 //*********************************************************************************************************
 
 
-  //**************************************************
-  //Hier die Werte für !Mode 0! nach belieben eintragen
-  //Festlegen der gewünschten Temperaturen
-  //**************************************************
-if(Mode == 0){
-  maxTemperatur = 29;
-  minTemperatur = 17;
-  maxLuftfeuchte = 70;
-  minLuftfeuchte = 50;
-  optimaleLuftfeuchte = 65;
-} 
+//Lesen der Modekonfiguration
+if(Mode == 0)
+  {
+  Mode0_active();
+  } 
   //*************************************************
   //*************************************************
   
-  //**************************************************
-  //Hier die Werte für !Mode 1! nach belieben eintragen
-  //Festlegen der gewünschten Temperaturen
-  //**************************************************    
-if(Mode == 1){
-  maxTemperatur = 29;
-  minTemperatur = 17;
-  maxLuftfeuchte = 70;
-  minLuftfeuchte = 60;
-  optimaleLuftfeuchte = 68;
+if(Mode == 1)
+  {
+  Mode1_active();
   }     
   //*************************************************
   //*************************************************  
@@ -347,35 +327,13 @@ if(Mode == 1){
     //Überprüfe ob die Bewässerung zur aktuellen Stunde ausgeführt wurde
     if ( tm.Minute == 59 && water_applied == 1 )
       {
-       water_applied = 0;
-       int eeprom_watered = water_applied;
-       EEPROM.write(eeprom_address_watered, eeprom_watered);
-       Serial.print(eeprom_watered);
-       Serial.println(" ins EEPROM geschrieben um die naechste Bewaesserung zu ermoeglichen");
-       Serial.println("Warte 1 Minute bis zum naechsten Zyklus");
-       delay(65000);
-       
+      watercontrol_reset();
       }
    
    if (tm.Hour == water_hour_01 && water_applied == 0 || tm.Hour == water_hour_02 && water_applied == 0 )
     {
-      relait2check = 1;
-      digitalWrite(relaitPin2, HIGH);           //Schalte Relait Pin 2 ein
-      Serial.print("Relait 2 Power: ");
-      Serial.println(relait2check);
-      Serial.print("Bewaesserung laeuft fuer ");
-      Serial.print(flush_time_secounds);
-      Serial.println(" Sekunden");
-      delay(flush_time_secounds*1000);                            //Verzögerung ca 30 Sekunden   
-      Serial.println("Bewaesserung abgeschlossen");
-      digitalWrite(relaitPin2, LOW);           //Schalte Relait Pin 2 aus
-      water_applied = 1;
-      EEPROM.write(eeprom_address_watered, water_applied);
-      Serial.print(water_applied);
-      Serial.println(" ins EEPROM geschrieben");
-      delay(1000);
+    watercontrol_active();
     }
-   
 //***************************************************  
 
 //*********************************************************************************************************
@@ -466,4 +424,5 @@ void print2digits(int number) {
 //
 // END OF FILE
 //
+
 
