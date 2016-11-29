@@ -9,7 +9,7 @@
 void watercontrol_reset() 
 { //Bewässerung ab Minute 59 wieder ermöglichen.
        Serial.println("Bewaesserung wird zur naechsten gewaehlten Stunde aktiviert.");
-       int water_applied = 0;
+       water_applied = 0;
        int eeprom_watered = water_applied;
        EEPROM.write(eeprom_address_watered, eeprom_watered);
        Serial.print(eeprom_watered);
@@ -36,12 +36,34 @@ void watercontrol_active()
       //Bewässerung deaktivieren
       Serial.println("Bewaesserung abgeschlossen");
       digitalWrite(relaitPin2, LOW);           //Schalte Relait Pin 2 aus
+      relait2check = 0;
       Serial.println("Bewaesserung wird fuer die aktuelle Stunde deaktiviert.");
-      int water_applied = 1;
+      water_applied = 1;
       EEPROM.write(eeprom_address_watered, water_applied); 
       Serial.print(water_applied);
       Serial.println(" ins EEPROM geschrieben");
       delay(1000);
 }
+
 //*********************************************************************************************************
-//*********************************************************************************************************      
+//Wasser Sensor auslesen
+//*********************************************************************************************************
+/* The water sensor will switch LOW when water is detected.
+           Get the Arduino to illuminate the LED when no water is detected, and switch off when water is present */
+         
+void water_level()
+{
+  if(digitalRead(Water_Sensor) == HIGH)
+  {
+  digitalWrite(LedPin1,HIGH);
+  delay(40);
+  Serial.println("Wasserstand fuer Bewaesserung kritisch!!");
+  }
+  
+  else
+        {
+        Serial.println("Wasserstand fuer Bewaesserung OK!"); 
+        digitalWrite(LedPin1,LOW);
+        }  
+}
+//*********************************************************************************************************

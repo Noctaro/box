@@ -23,10 +23,10 @@ int eeprom_address_watered = 0;
 // quickly send time and date information over a serial link
 //
 // I assume you know how to connect the DS1302.
-// DS1302:  CE pin   (RST)    -> Arduino Digital 27
-//          I/O pin  (DAT)  -> Arduino Digital 29
-//          SCLK pin (CLK)  -> Arduino Digital 31
-//          VCC pin   -> Arduino Digital 8
+// DS1302:  CE pin   (RST)  -> Arduino Digital 10
+//          I/O pin  (DAT)  -> Arduino Digital 11
+//          SCLK pin (CLK)  -> Arduino Digital 12
+//          VCC pin         -> Arduino Digital 9
 //          GND pin   -> Arduino GND
 
 
@@ -37,8 +37,9 @@ int eeprom_address_watered = 0;
 // Set pins:  CE(Reset), IO(DAT),CLK
 DS1302RTC RTC(10, 11, 12);
 // Optional connection for RTC module
-#define DS1302_GND_PIN 31
 #define DS1302_VCC_PIN 9
+#define DS1302_GND_PIN 31
+
 
 //*********************************************************************************************************
 
@@ -87,10 +88,13 @@ DS1302RTC RTC(10, 11, 12);
 // tweak the timings for faster processors.  This parameter is no longer needed
 // as the current DHT reading algorithm adjusts itself to work on faster procs.
 DHT dht(DHTPIN, DHTTYPE);
-
-
 //*********************************************************************************************************
 
+//*********************************************************************************************************
+//PIN für den Wassersensor
+//*********************************************************************************************************
+#define Water_Sensor 1 //Definiere den Wassersensor Pin
+//*********************************************************************************************************
 
 //*********************************************************************************************************
 //PIN für den Schalter der Modeauswahlfunktion
@@ -117,16 +121,16 @@ DHT dht(DHTPIN, DHTTYPE);
 //*********************************************************************************************************
 //Globale Variablen (Bitte nicht ändern) -> Gewünschte Werte sind in mode_settings.ino anpassbar
 //*********************************************************************************************************
-int zaehler = 0;
+byte zaehler = 0;
 int feuchtewert = 0;
 int maxTemperatur = 0;
 int minTemperatur = 0;
 int maxLuftfeuchte = 0;
 int minLuftfeuchte = 0;
 int optimaleLuftfeuchte = 0;
-int relait1check = 0;
-int relait2check = 0;
-int errorcheck = 0;
+boolean relait1check = 0;
+boolean relait2check = 0;
+boolean errorcheck = 0;
 int water_hour_01 = 99;
 int water_hour_02 = 99;
 int water_hour_03 = 99;
@@ -170,6 +174,7 @@ void setup()
   pinMode(Modeschalter, INPUT);  //Setze den Steuerpin für den gewünschten Modus als Eingang
   pinMode(DHT_powerPin, OUTPUT); //Setze den PowerPin für den DHT Sensor als Ausgang
   pinMode(LedPin1, OUTPUT); //Setze den Steuerpin für Led1 als Ausgang
+  pinMode(Water_Sensor, INPUT);     //The Water Sensor is an Input
   //*****************
  
   digitalWrite(relaitPin1, LOW);         //Schalte relaitPin1 aus 
@@ -256,20 +261,26 @@ void loop()
   zaehler++;
   //*********************************************************************************************************
 
-  //*********************************************************************
-  //DHT
-  //*********************************************************************  
-  // Reading temperature or humidity takes about 250 milliseconds!
-  // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
-  DHT_check_input();
-  //********************************************
-  //********************************************************************* 
+//*********************************************************************
+//DHT
+//*********************************************************************  
+// Reading temperature or humidity takes about 250 milliseconds!
+// Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
+//*********************************************************************  
+ DHT_check_input();
+//********************************************************************* 
+
+//*********************************************************************************************************  
+//Wassersensor auslesen
+//*********************************************************************************************************
+ water_level();  
+//*********************************************************************************************************
 
 //*********************************************************************************************************  
 //Modeschalter
 //*********************************************************************************************************
 //int Mode = 0;                               //Mode im Code manuell setzen, dann muss die nächste Zeile auskommentiert werden
-  int Mode = digitalRead(Modeschalter);       //Lese den Status des Modeschalters
+  byte Mode = digitalRead(Modeschalter);       //Lese den Status des Modeschalters
   Serial.println("*********");
   Serial.print("Modus:"); 
   Serial.println(Mode,2); 
@@ -304,14 +315,14 @@ void loop()
 //*********************************************************************************************************
 if(Mode == 0)
   {
-  Mode0_active();
+  Mode0_settings_active();
   } 
 
 //*********************************************************************************************************
   
 if(Mode == 1)
   {
-  Mode1_active();
+  Mode1_settings_active();
   }     
 //*********************************************************************************************************
 //*********************************************************************************************************
@@ -321,15 +332,17 @@ if(Mode == 1)
 //*********************************************************************************************************
 //Der Schaltvorgang für die Bewässerung falls eine für die Bewässerung gewählte Stunde eintritt.
 //*********************************************************************************************************
-   int water_applied = EEPROM.read(eeprom_address_watered); 
-
+   water_applied = EEPROM.read(eeprom_address_watered); 
+   Serial.print("Bewaesserung bereits ausgefuehrt für diese Stunde (1 ja) (0 nein) - ");
+   Serial.println(water_applied);
+   
     //Überprüfe ob die Bewässerung zur aktuellen Stunde ausgeführt wurde
-    if ( tm.Minute == 59 && water_applied == 1 )
+    if ( tm.Minute == 37 && water_applied == 1 )
       {
       watercontrol_reset();
       }
    
-   if (tm.Hour == water_hour_01 && water_applied == 0 || tm.Hour == water_hour_02 && water_applied == 0 )
+   if (tm.Hour == water_hour_01 && water_applied == 0 || tm.Hour == water_hour_02 && water_applied == 0  )
     {
     watercontrol_active();
     }
@@ -345,7 +358,7 @@ huimdity_check_optimizer();
 
 
 //*********************************************************************************************************
-//Schaltvorgang und Feedback
+//Schaltvorgang und Feedback für Luftfeuchteregler
 //*********************************************************************************************************
 humidity_balancer();
 //***************************************************  

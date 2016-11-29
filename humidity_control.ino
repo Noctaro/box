@@ -56,7 +56,7 @@ Serial.print("Der aktuelle Feuchtewert ");
 Serial.println(feuchtewert);
 Serial.println("Schaltvorgang bei +-15");
 Serial.println("*********");
-Serial.println("Letzte Messung war hoeher als der Optimalwert");
+Serial.println("Letzte Messung der Luftfeuchte war hoeher als der Optimalwert");
 Serial.println("****************************************");
 }
 
@@ -65,10 +65,10 @@ if (h < optimaleLuftfeuchte)
 feuchtewert--;
 Serial.println("*********");
 Serial.print("Der aktuelle Feuchtewert ");
-Serial.println(feuchtewert);
-Serial.println("(Schaltvorgang bei +-15)");
+Serial.print(feuchtewert);
+Serial.println("( Schaltvorgang bei +-15)");
 Serial.println("*********");
-Serial.println("Letzte Messung war niedriger als der Optimalwert");
+Serial.println("Letzte Messung der Luftfeuchte war niedriger als der Optimalwert");
 Serial.println("****************************************");
 }
 Serial.println("****************************************");
