@@ -95,7 +95,7 @@ DHT dht(DHTPIN, DHTTYPE);
 
 //UHRZEITEN für Bewässerung hier eintragen!
 //*********************************************************************************************************
-int water_hour_01 = 20;
+int water_hour_01 = 3;
 int water_hour_02 = 22;
 int water_hour_03 = 1;
 int water_hour_04 = 4;
@@ -123,7 +123,7 @@ int optimaleLuftfeuchte = 0;
 int relait1check = 0;
 int relait2check = 0;
 int errorcheck = 0;
-
+int water_applied = 1;
 
 //*********************************************************************************************************
 //*********************************************************************************************************
@@ -292,7 +292,9 @@ void loop()
 //*********************************************************************************************************
   Serial.print("Relait 1 Power: ");
   Serial.print(relait1check);
-  Serial.println("*********");
+  Serial.print("|***|Relait 2 Power: ");
+  Serial.println(relait2check);
+  
 //*********************************************************************************************************
 //*********************************************************************************************************
 
@@ -327,8 +329,32 @@ if(Mode == 1){
 //*********************************************************************************************************
 //*********************************************************************************************************
 
+//*************************************************** 
+//Bewässerung
+//*************************************************** 
+//Der Schaltvorgang für die Bewässerung falls eine für die Bewässerung gewählte Stunde eintritt.
+   if (tm.Hour == water_hour_01 | water_hour_02 && water_applied == 0 )
+    {
+      relait2check = 1;
+      digitalWrite(relaitPin2, HIGH);           //Schalte Relait Pin 2 ein
+      Serial.print("Bewaesserung laeuft fuer ");
+      Serial.print(flush_time_secounds);
+      Serial.println(" Sekunden");
+      delay(flush_time_secounds*1000);                            //Verzögerung ca 30 Sekunden   
+      Serial.println("Bewaesserung abgeschlossen");
+      digitalWrite(relaitPin2, LOW);           //Schalte Relait Pin 2 aus
+      water_applied = 1; //Bewässerung für diese Uhrzeit absgeschlossen
+      delay(1000);
+    }
+    //Überprüfe ob die Bewässerung zur aktuellen Stunde ausgeführt wurde
+    if (tm.Hour != water_hour_01 | water_hour_02 && water_applied == 1 )
+      {
+        water_applied = 0;
+      }
+//***************************************************  
+
 //*********************************************************************************************************
-//Schaltvorgang Optimierung
+//Schaltvorgang Optimierung Feuchte
 //*********************************************************************************************************
 if (h > optimaleLuftfeuchte)
 {
@@ -388,7 +414,7 @@ if (zaehler==15)                                  //Wenn der Messzähler 15 Mess
     digitalWrite(relaitPin1, HIGH);          //Schalte Relait Pin 1 ein
     relait1check = 1;
     Serial.println("Bin am befeuchten!");
-    delay(15000);     //Verzögerung ca 30 Sekunden
+    delay(5000);     //Verzögerung 
   }
   
   if (h > optimaleLuftfeuchte && feuchtewert > 14)    //Wenn die aktuelle Feuchte höher als die Optimale Luftfeuchte ist und feuchtewert dies 15 mal bestätigt hat.
@@ -399,17 +425,7 @@ if (zaehler==15)                                  //Wenn der Messzähler 15 Mess
     delay(15000);                            //Verzögerung ca 30 Sekunden
   }
 feuchtewert = 0;
-
-   //Der Schaltvorgang für die Bewässerung
-   if (tm.Hour = water_hour_01)
-    {
-      digitalWrite(relaitPin2, HIGH);           //Schalte Relait Pin 2 ein
-      relait2check = 1;
-      Serial.println("Bewässerung läuft");
-      delay(10000);                            //Verzögerung ca 30 Sekunden   
-      Serial.println("Bewässerung seit läuft 10 Sekunden");
-    }
-
+  
  }
 //***************************************************  
 //***************************************************    
