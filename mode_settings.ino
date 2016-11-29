@@ -20,8 +20,8 @@ void Mode0_settings_active()
   water_hour_01 = 20;
   water_hour_02 = 21;
   water_hour_03 = 22;
-  water_hour_04 = 99;
-  water_hour_05 = 99;
+  water_hour_04 = 23;
+  water_hour_05 = 24;
   water_hour_06 = 99;
   water_hour_07 = 99;
   water_hour_08 = 99;
