@@ -145,7 +145,7 @@ int water_hour_07 = 99;
 int water_hour_08 = 99;
 int water_hour_09 = 99;
 int water_hour_10 = 99;
-int water_applied = 1;
+boolean water_applied = 1;
 long flush_time_secounds = 90;  //Dauer der Wasserzufuhr bei dem Bewässern
 int optimaleTemperatur = 20;
 float h = 0;
@@ -217,6 +217,10 @@ void setup()
   }
   
   delay(5000);
+
+  water_applied = EEPROM.read(eeprom_address_watered);
+  Serial.print("Bewaesserungsstatus ausgelesen = ");
+  Serial.println(water_applied);
 //*********************************************************************************************************
     
 }

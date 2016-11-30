@@ -1,5 +1,5 @@
  
-  
+
   
   //**************************************************
   //MODE 0
@@ -7,7 +7,7 @@
   //Hier die Werte für !Mode 0! nach belieben eintragen
   //Festlegen der gewünschten Temperaturen
   //**************************************************
-void Mode0_settings_active()
+  void Mode0_settings_active()
   {
   maxTemperatur = 29;
   optimaleTemperatur = 20;
