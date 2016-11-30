@@ -207,7 +207,7 @@ void setup()
     Serial.println("The DS1302 is write protected. This normal.");
     Serial.println();
   }
-  
+  water_applied = EEPROM.read(eeprom_address_watered);
   delay(5000);
 //*********************************************************************************************************
     
@@ -331,7 +331,7 @@ if(Mode == 1)
 //*********************************************************************************************************
 //Der Schaltvorgang für die Bewässerung falls eine für die Bewässerung gewählte Stunde eintritt.
 //*********************************************************************************************************
-   //water_applied = EEPROM.read(eeprom_address_watered); 
+    
    
     //Überprüfe ob die Bewässerung zur aktuellen Stunde ausgeführt wurde
     if ( tm.Minute == 59 && water_applied == 1 )
