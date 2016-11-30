@@ -24,7 +24,7 @@ if (zaehler == 15)
   delay(100);
   }
 
-  if (t <= optimaleTemperatur && temperaturwert == 15)
+  if (t >= optimaleTemperatur && temperaturwert == 15)
   {
   Serial.println("Heizung inaktiv*");
   digitalWrite(relaitPin3, LOW);         //Schalte relaitPin3 aus 
