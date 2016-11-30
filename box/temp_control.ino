@@ -31,6 +31,7 @@ if (zaehler == 15)
   relait3check = 0;    
   delay(100);
   }
+
   temperaturwert = 0;
  }
 
