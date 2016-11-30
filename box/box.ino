@@ -5,7 +5,7 @@
 //   \/_/ \/_/   \/_____/   \/_____/    &    \/_____/   \/_____/   \/___/_/   \/_____/   \/_/ 
                                                                                            
 
-NOCEDIT
+//NOCEDIT
 //*********************************************************************************************************
 //EEPROM
 #include <EEPROM.h>
@@ -115,13 +115,14 @@ DHT dht(DHTPIN, DHTTYPE);
 //*********************************************************************************************************
 #define relaitPin1 5 //Definiere den Namen und Pin für das 1. Relait
 #define relaitPin2 6 //Definiere den Namen und Pin für das 2. Relait
+#define relaitPin3 7 //Definiere den Namen und Pin für das 3. Relait
 //*********************************************************************************************************
 
 
 //*********************************************************************************************************
 //Globale Variablen (Bitte nicht ändern) -> Gewünschte Werte sind in mode_settings.ino anpassbar
 //*********************************************************************************************************
-byte zaehler = 0;
+int zaehler = 0;
 int feuchtewert = 0;
 int maxTemperatur = 0;
 int minTemperatur = 0;
@@ -130,6 +131,7 @@ int minLuftfeuchte = 0;
 int optimaleLuftfeuchte = 0;
 boolean relait1check = 0;
 boolean relait2check = 0;
+//boolean relait3check = 0;
 boolean errorcheck = 0;
 int water_hour_01 = 99;
 int water_hour_02 = 99;
@@ -143,6 +145,7 @@ int water_hour_09 = 99;
 int water_hour_10 = 99;
 int water_applied = 1;
 long flush_time_secounds = 90;  //Dauer der Wasserzufuhr bei dem Bewässern
+int optimaleTemperatur = 20;
 float h = 0;
 float t = 0;
 //float f = 0;
@@ -170,6 +173,7 @@ void setup()
   //PIN Modus festlegen  
   pinMode(relaitPin1, OUTPUT); //Setze den Steuerpin für Relait 1 als Ausgang
   pinMode(relaitPin2, OUTPUT); //Setze den Steuerpin für Relait 2 als Ausgang
+  pinMode(relaitPin3, OUTPUT); //Setze den Steuerpin für Relait 3 als Ausgang
   
   pinMode(Modeschalter, INPUT);  //Setze den Steuerpin für den gewünschten Modus als Eingang
   pinMode(DHT_powerPin, OUTPUT); //Setze den PowerPin für den DHT Sensor als Ausgang
@@ -178,7 +182,9 @@ void setup()
   //*****************
  
   digitalWrite(relaitPin1, LOW);         //Schalte relaitPin1 aus 
-  digitalWrite(relaitPin2, LOW);         //Schalte relaitPin2 aus   
+  digitalWrite(relaitPin2, LOW);         //Schalte relaitPin2 aus 
+  digitalWrite(relaitPin3, LOW);         //Schalte relaitPin3 aus   
+  
   digitalWrite(DHT_powerPin, HIGH);      //Schalte DHT Powerpin ein 
   digitalWrite(LedPin1, LOW);            //Schalte LedPin 1 aus
 
@@ -305,7 +311,8 @@ void loop()
   Serial.print(relait1check);
   Serial.print("* *Relait 2 Power: ");
   Serial.print(relait2check);
-  Serial.println("*");  
+  Serial.print("* *Relait 3: ");
+  //Serial.print(relait3check);  
 //*********************************************************************************************************
 //*********************************************************************************************************
 
@@ -325,6 +332,11 @@ if(Mode == 1)
   }     
 //*********************************************************************************************************
 //*********************************************************************************************************
+
+//*********************************************************************************************************
+//Temperatur regulieren
+//*********************************************************************************************************
+heat_control();
 
 //*********************************************************************************************************
 //Bewässerung

@@ -10,10 +10,11 @@
 void Mode0_settings_active()
   {
   maxTemperatur = 29;
-  minTemperatur = 17;
-  maxLuftfeuchte = 37;
+  optimaleTemperatur = 20;
+  minTemperatur = 19;
+  maxLuftfeuchte = 39;
   minLuftfeuchte = 35;
-  optimaleLuftfeuchte = 36;
+  optimaleLuftfeuchte = 37;
  //*********************************************************************************************************
  //UHRZEITEN für Bewässerung in Mode 1 hier eintragen! (10 verschiedeme Stunden stehen zur Verfügung 0-23 Uhr) (Zum deaktivieren einer Zeit einfach 99 eintragen)
  //*********************************************************************************************************
@@ -48,6 +49,7 @@ void Mode0_settings_active()
 void Mode1_settings_active()
   {
   maxTemperatur = 29;
+  optimaleTemperatur = 20;
   minTemperatur = 17;
   maxLuftfeuchte = 70;
   minLuftfeuchte = 60;
