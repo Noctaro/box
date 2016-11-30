@@ -11,9 +11,8 @@ void watercontrol_reset()
        //Bewässerung ab Minute 59 wieder ermöglichen.
        Serial.println("Bewaesserung wird zur gewaehlten Stunde aktiviert.");
        water_applied = 0;
-       int eeprom_watered = water_applied;
-       EEPROM.write(eeprom_address_watered, eeprom_watered);
-       Serial.print(eeprom_watered);
+       EEPROM.write(eeprom_address_watered, water_applied);
+       Serial.print(water_applied);
        Serial.println(" ins EEPROM geschrieben, Bewaesserung moeglich");
        Serial.println("Warte 1 Minute");
        delay(65000);
