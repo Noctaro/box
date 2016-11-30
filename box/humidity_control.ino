@@ -52,27 +52,17 @@ void huimdity_check_optimizer()
 if (h > optimaleLuftfeuchte)
 {
 feuchtewert++;
-Serial.println("*********");
-Serial.print("Der aktuelle Feuchtewert ");
-Serial.println(feuchtewert);
-Serial.println("Schaltvorgang bei +-15");
-Serial.println("*********");
-Serial.println("Letzte Messung: Luftfeuchte hoeher als der Optimalwert");
-Serial.println("****************************************");
 }
 
 if (h < optimaleLuftfeuchte)
 {
 feuchtewert--;
-Serial.println("*********");
-Serial.print("Der aktuelle Feuchtewert ");
-Serial.print(feuchtewert);
-Serial.println("( Schaltvorgang bei +-15)");
-Serial.println("*********");
-Serial.println("Letzte Messung: Luftfeuchte niedriger als der Optimalwert");
-Serial.println("****************************************");
 }
-Serial.println("****************************************");
+
+Serial.print("Der aktuelle Feuchtewert ");
+Serial.println(feuchtewert);
+Serial.println("(Schaltvorgang bei +-15)");
+Serial.println("*********");
 }
 //*************************************************
 

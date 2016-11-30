@@ -124,6 +124,8 @@ DHT dht(DHTPIN, DHTTYPE);
 //*********************************************************************************************************
 int zaehler = 0;
 int feuchtewert = 0;
+int temperaturwert = 0;
+
 int maxTemperatur = 0;
 int minTemperatur = 0;
 int maxLuftfeuchte = 0;
@@ -131,7 +133,7 @@ int minLuftfeuchte = 0;
 int optimaleLuftfeuchte = 0;
 boolean relait1check = 0;
 boolean relait2check = 0;
-//boolean relait3check = 0;
+boolean relait3check = 0;
 boolean errorcheck = 0;
 int water_hour_01 = 99;
 int water_hour_02 = 99;
@@ -307,12 +309,15 @@ void loop()
 //Relaitcheck 
 //Gibt den aktuellen Status des Relaits aus
 //*********************************************************************************************************
+  Serial.println("*********");
   Serial.print("*Relait 1 Power: ");
   Serial.print(relait1check);
   Serial.print("* *Relait 2 Power: ");
   Serial.print(relait2check);
-  Serial.print("* *Relait 3: ");
-  //Serial.print(relait3check);  
+  Serial.print("* *Relait 3 Power: ");
+  Serial.println(relait3check);
+  Serial.print("*");
+  Serial.println("*********");  
 //*********************************************************************************************************
 //*********************************************************************************************************
 
