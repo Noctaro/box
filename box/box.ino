@@ -74,7 +74,7 @@ DS1302RTC RTC(8, 9, 10); //new version
 #include "Adafruit_Sensor.h"
 
 #define DHTPIN 4     // what digital pin we're connected to
-//#define DHT_powerPin 10 //Powerpin für den dht
+//#define DHT_powerPin 3 //Powerpin für den dht
 
 // Uncomment whatever type you're using!
 #define DHTTYPE DHT11   // DHT 11
