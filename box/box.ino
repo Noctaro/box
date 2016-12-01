@@ -37,12 +37,15 @@ int eeprom_address_watered = 0;
 #include <DS1302RTC.h>
 
 // Set pins:  CE(Reset), IO(DAT),CLK
-DS1302RTC RTC(10, 11, 12);
+//DS1302RTC RTC(10, 11, 12); //old version
+DS1302RTC RTC(8, 9, 10); //new version
+
+
 // Optional connection for RTC module
-#define DS1302_VCC_PIN 9
-#define DS1302_GND_PIN 31
-
-
+//#define DS1302_VCC_PIN 9  //old version
+//#define DS1302_GND_PIN 31 //old version
+#define DS1302_VCC_PIN 12
+#define DS1302_GND_PIN 11
 //*********************************************************************************************************
 
 //*********************************************************************************************************
