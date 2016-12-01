@@ -63,6 +63,19 @@ Serial.print("      Luftfeuchtewert ");
 Serial.print(feuchtewert);
 Serial.println("        (Schaltvorgang bei +-15)");
 Serial.println("*********");
+  
+  if (h <= minLuftfeuchte || h >= maxLuftfeuchte) //Wenn die Luftfeuchte unter minLuftfeuchte oder über maxLuftfeuchte
+  {
+    digitalWrite(LedPin1, HIGH);            //Schalte LedPin 1 ein
+    Serial.print("Luftfeuchtigkeit KRITISCH! -.-        ");
+    delay(1000);                            //Verzögerung 1000cycles - ca. 0,5 Sekunden
+  }
+  
+   else //ansonsten
+    {
+    digitalWrite(LedPin1, LOW);              //Schalte LedPin 1 aus
+    Serial.print("Luftfeuchtigkeit OK ^^        ");
+    }
 }
 //*************************************************
 
@@ -81,28 +94,9 @@ if (zaehler==15)                                  //Wenn der Messzähler 15 Mess
   zaehler = 0;
 //***************************************************
 //***************************************************
-  if (h <= minLuftfeuchte || h >= maxLuftfeuchte) //Wenn die Luftfeuchte unter minLuftfeuchte oder über maxLuftfeuchte
-  {
-    digitalWrite(LedPin1, HIGH);            //Schalte LedPin 1 ein
-    Serial.print("Luftfeuchtigkeit KRITISCH! -.-        ");
-    delay(3000);                            //Verzögerung 1000cycles - ca. 0,5 Sekunden
-  }
+
   
-   else //ansonsten
-    {
-    digitalWrite(LedPin1, LOW);              //Schalte LedPin 1 aus
-    Serial.print("Luftfeuchtigkeit OK ^^        ");
-    }
-  
-  if(t <= minTemperatur || t >= maxTemperatur)
-  {
-    Serial.println("Temperatur KRITISCH! -.-");   
-  } 
-    else
-    {
-     Serial.println("Temperatur OK ^^"); 
-    }
-    
+
   
 //Der Schaltvorgang für den Befeuchter
   if (h < optimaleLuftfeuchte && feuchtewert < -14)    //Wenn die aktuelle Feuchte niedriger als die Optimale Luftfeuchte ist und feuchtewert dies 15 mal bestätigt hat.

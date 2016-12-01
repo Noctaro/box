@@ -1,3 +1,24 @@
+void heat_check()
+{
+  if(t <= minTemperatur || t >= maxTemperatur)
+  {
+    Serial.println("Temperatur KRITISCH! -.-"); 
+    Serial.println("***");
+    digitalWrite(LedPin1, HIGH);            //Schalte LedPin 1 ein  
+    delay(100);
+  } 
+ 
+ else
+    {
+     Serial.println("Temperatur OK ^^"); 
+     Serial.println("***");
+     digitalWrite(LedPin1, LOW);            //Schalte LedPin 1 ein
+    }
+
+}
+
+
+
 void heat_control()
 {
 if (t > optimaleTemperatur)
@@ -34,6 +55,8 @@ if (zaehler2 == 15)
   zaehler2 = 0;
   temperaturwert = 0;
  }
+
+  
 
 }
 

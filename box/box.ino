@@ -385,6 +385,7 @@ heat_control(); //Auskommentieren falls keine Temperaturregulierung notwendig
 huimdity_check_optimizer(); //Auskommentieren falls keine Luftfeuchtenregulierung notwendig
 //*************************************************  
 
+heat_check(); //Temperatur überprüfen
 
 //*********************************************************************************************************
 //Schaltvorgang und Feedback für Luftfeuchteregler
