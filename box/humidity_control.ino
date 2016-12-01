@@ -99,7 +99,7 @@ if (zaehler==15)                                  //Wenn der Messzähler 15 Mess
 
   
 //Der Schaltvorgang für den Befeuchter
-  if (h < optimaleLuftfeuchte && feuchtewert < -14)    //Wenn die aktuelle Feuchte niedriger als die Optimale Luftfeuchte ist und feuchtewert dies 15 mal bestätigt hat.
+  if (h <= minLuftfeuchte && feuchtewert < -14)    //Wenn die aktuelle Feuchte niedriger als die Optimale Luftfeuchte ist und feuchtewert dies 15 mal bestätigt hat.
   {
     digitalWrite(relaitPin1, HIGH);          //Schalte Relait Pin 1 ein
     relait1check = 1;
