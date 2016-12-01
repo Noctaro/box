@@ -11,6 +11,8 @@
 #include <EEPROM.h>
 int eeprom_address_watered = 0;
 
+
+
 //*********************************************************************************************************
 ///CLOCK_MODULE
 //*********************************************************************************************************
@@ -123,6 +125,7 @@ DHT dht(DHTPIN, DHTTYPE);
 //Globale Variablen (Bitte nicht ändern) -> Gewünschte Werte sind in mode_settings.ino anpassbar
 //*********************************************************************************************************
 int zaehler = 0;
+int zaehler2 = 0;
 int feuchtewert = 0;
 int temperaturwert = 0;
 
@@ -270,6 +273,7 @@ void loop()
   //cyclezähler
   //************
   zaehler++;
+  zaehler2++;
   //*********************************************************************************************************
 
 //*********************************************************************
@@ -284,7 +288,7 @@ void loop()
 //*********************************************************************************************************  
 //Wassersensor auslesen
 //*********************************************************************************************************
- water_level();  
+ //water_level();  //Auskommentieren falls keine Wasserstandsüberprüfung notwendig
 //*********************************************************************************************************
 
 //*********************************************************************************************************  
@@ -345,7 +349,7 @@ if(Mode == 1)
 //*********************************************************************************************************
 //Temperatur regulieren
 //*********************************************************************************************************
-heat_control();
+heat_control(); //Auskommentieren falls keine Temperaturregulierung notwendig
 
 //*********************************************************************************************************
 //Bewässerung
@@ -357,12 +361,12 @@ heat_control();
     //Überprüfe ob die Bewässerung zur aktuellen Stunde ausgeführt wurde
     if ( tm.Minute == 59 && water_applied == 1 )
       {
-      watercontrol_reset();
+      //watercontrol_reset(); //Auskommentieren falls keine Bewässerung notwendig
       }
    
    if (tm.Hour == water_hour_01 && water_applied == 0 || tm.Hour == water_hour_02 && water_applied == 0 || tm.Hour == water_hour_03 && water_applied == 0 || tm.Hour == water_hour_04 && water_applied == 0 || tm.Hour == water_hour_05 && water_applied == 0 || tm.Hour == water_hour_06 && water_applied == 0 || tm.Hour == water_hour_07 && water_applied == 0 || tm.Hour == water_hour_08 && water_applied == 0 || tm.Hour == water_hour_09 && water_applied == 0 || tm.Hour == water_hour_10 && water_applied == 0 )
     {
-    watercontrol_active();
+    //watercontrol_active(); //Auskommentieren falls keine Bewässerung notwendig
     }
 //*********************************************************************************************************
 
@@ -370,15 +374,14 @@ heat_control();
 //*********************************************************************************************************
 //Schaltvorgang optimieren Feuchte
 //*********************************************************************************************************
-huimdity_check_optimizer();
+huimdity_check_optimizer(); //Auskommentieren falls keine Luftfeuchtenregulierung notwendig
 //*************************************************  
-
 
 
 //*********************************************************************************************************
 //Schaltvorgang und Feedback für Luftfeuchteregler
 //*********************************************************************************************************
-humidity_balancer();
+humidity_balancer(); //Auskommentieren falls keine Luftfeuchtenregulierung notwendig
 //***************************************************  
 
 

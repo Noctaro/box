@@ -81,7 +81,7 @@ if (zaehler==15)                                  //Wenn der Messzähler 15 Mess
   zaehler = 0;
 //***************************************************
 //***************************************************
-  if (t <= minTemperatur || t >= maxTemperatur || h <= minLuftfeuchte || h >= maxLuftfeuchte) //Wenn die Temperatur kleiner als minTemperatur oder höher als maxTemperatur oder Luftfeuchte unter minLuftfeuchte oder über maxLuftfeuchte
+  if (h <= minLuftfeuchte || h >= maxLuftfeuchte) //Wenn die Luftfeuchte unter minLuftfeuchte oder über maxLuftfeuchte
   {
     digitalWrite(LedPin1, HIGH);            //Schalte LedPin 1 ein
     Serial.print("Luftfeuchtigkeit KRITISCH! -.-        ");
