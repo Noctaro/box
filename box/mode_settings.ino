@@ -10,8 +10,8 @@
   void Mode0_settings_active()
   {
   maxTemperatur = 29;
-  optimaleTemperatur = 26;
-  minTemperatur = 19;
+  optimaleTemperatur = 24;
+  minTemperatur = 22;
   maxLuftfeuchte = 39;
   minLuftfeuchte = 36;
   optimaleLuftfeuchte = 37;

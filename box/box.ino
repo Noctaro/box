@@ -71,7 +71,7 @@ DS1302RTC RTC(10, 11, 12);
 #include "Adafruit_Sensor.h"
 
 #define DHTPIN 4     // what digital pin we're connected to
-#define DHT_powerPin 10 //Powerpin für den dht
+//#define DHT_powerPin 10 //Powerpin für den dht
 
 // Uncomment whatever type you're using!
 #define DHTTYPE DHT11   // DHT 11
@@ -181,7 +181,7 @@ void setup()
   pinMode(relaitPin3, OUTPUT); //Setze den Steuerpin für Relait 3 als Ausgang
   
   pinMode(Modeschalter, INPUT);  //Setze den Steuerpin für den gewünschten Modus als Eingang
-  pinMode(DHT_powerPin, OUTPUT); //Setze den PowerPin für den DHT Sensor als Ausgang
+//  pinMode(DHT_powerPin, OUTPUT); //Setze den PowerPin für den DHT Sensor als Ausgang
   pinMode(LedPin1, OUTPUT); //Setze den Steuerpin für Led1 als Ausgang
   pinMode(Water_Sensor, INPUT);     //The Water Sensor is an Input
   //*****************
@@ -190,7 +190,7 @@ void setup()
   digitalWrite(relaitPin2, LOW);         //Schalte relaitPin2 aus 
   digitalWrite(relaitPin3, LOW);         //Schalte relaitPin3 aus   
   
-  digitalWrite(DHT_powerPin, HIGH);      //Schalte DHT Powerpin ein 
+// digitalWrite(DHT_powerPin, HIGH);      //Schalte DHT Powerpin ein 
   digitalWrite(LedPin1, LOW);            //Schalte LedPin 1 aus
 
   //*********************************************************************************************************
@@ -235,6 +235,11 @@ void loop()
 {
   
   digitalWrite(LedPin1, LOW);
+  delay(100);
+  digitalWrite(LedPin1, HIGH); 
+  delay(100);
+  digitalWrite(LedPin1, LOW);
+  delay(100);
   //*********************************************************************************************************
   //CLOCK
   //*********************************************************************************************************
