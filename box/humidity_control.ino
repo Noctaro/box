@@ -107,7 +107,7 @@ if (zaehler==15)                                  //Wenn der Messzähler 15 Mess
     delay(5000);     //Verzögerung 
   }
   
-  if (h > optimaleLuftfeuchte && feuchtewert > 14)    //Wenn die aktuelle Feuchte höher als die Optimale Luftfeuchte ist und feuchtewert dies 15 mal bestätigt hat.
+  if (h >= optimaleLuftfeuchte && feuchtewert > 14)    //Wenn die aktuelle Feuchte höher als die Optimale Luftfeuchte ist und feuchtewert dies 15 mal bestätigt hat.
   {
     digitalWrite(relaitPin1, LOW);           //Schalte Relait Pin 1 aus
     relait1check = 0;
