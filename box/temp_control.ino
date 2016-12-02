@@ -1,6 +1,6 @@
 void heat_check()
 {
-  if(t <= minTemperatur || t >= maxTemperatur)
+  if(t < minTemperatur || t >= maxTemperatur)
   {
     Serial.println("Temperatur KRITISCH! -.-"); 
     Serial.println("***");
