@@ -21,7 +21,7 @@ void heat_check()
 
 void heat_control()
 {
-if (t > optimaleTemperatur)
+if (t => optimaleTemperatur)
 {
 temperaturwert++;
 }
