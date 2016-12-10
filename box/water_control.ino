@@ -10,10 +10,9 @@ void watercontrol_reset()
 {      
        //Bewässerung ab Minute 59 wieder ermöglichen.
        Serial.println("Bewaesserung wird zur gewaehlten Stunde aktiviert.");
-       water_applied = 0;
-       int eeprom_watered = water_applied;
-       EEPROM.write(eeprom_address_watered, eeprom_watered);
-       Serial.print(eeprom_watered);
+       water_applied = 0;    
+       EEPROM.write(eeprom_address_watered, water_applied);
+       Serial.print(water_applied);
        Serial.println(" ins EEPROM geschrieben, Bewaesserung moeglich");
        Serial.println("Warte 1 Minute");
        delay(65000);
@@ -72,3 +71,30 @@ void water_level()
         }  
 }
 //*********************************************************************************************************
+<<<<<<< HEAD:box/water_control.ino
+=======
+
+//*********************************************************************************************************
+//Flush Mode
+//*********************************************************************************************************
+void flushcontrol_active() 
+{
+      //Bewässerung aktivieren  
+      relait2check = 1;
+      digitalWrite(relaitPin2, HIGH);           //Schalte Relait Pin 2 ein
+      Serial.print("Relait 2 Power: ");
+      Serial.println(relait2check);
+      Serial.print("Bewaesserung laeuft fuer ");
+      Serial.print(flush_time_secounds);
+      Serial.println(" Sekunden");
+      delay(flush_time_secounds*1000);                            //Verzögerung    
+
+      //Bewässerung deaktivieren
+      Serial.println("Bewaesserung abgeschlossen");
+      digitalWrite(relaitPin2, LOW);           //Schalte Relait Pin 2 aus
+      relait2check = 0;
+      Serial.println("Bewaesserung wird deaktiviert.");
+      water_applied = 1;
+      delay(flush_timer_secounds*1000);
+}
+>>>>>>> 80a6675dd273f5958624741cd0e701e7e6a35efa:box/water_control.ino

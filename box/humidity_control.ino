@@ -52,27 +52,30 @@ void huimdity_check_optimizer()
 if (h > optimaleLuftfeuchte)
 {
 feuchtewert++;
-Serial.println("*********");
-Serial.print("Der aktuelle Feuchtewert ");
-Serial.println(feuchtewert);
-Serial.println("Schaltvorgang bei +-15");
-Serial.println("*********");
-Serial.println("Letzte Messung: Luftfeuchte hoeher als der Optimalwert");
-Serial.println("****************************************");
 }
 
 if (h < optimaleLuftfeuchte)
 {
 feuchtewert--;
-Serial.println("*********");
-Serial.print("Der aktuelle Feuchtewert ");
-Serial.print(feuchtewert);
-Serial.println("( Schaltvorgang bei +-15)");
-Serial.println("*********");
-Serial.println("Letzte Messung: Luftfeuchte niedriger als der Optimalwert");
-Serial.println("****************************************");
 }
-Serial.println("****************************************");
+
+Serial.print("      Luftfeuchtewert ");
+Serial.print(feuchtewert);
+Serial.println("        (Schaltvorgang bei +-15)");
+Serial.println("*********");
+  
+  if (h <= minLuftfeuchte || h >= maxLuftfeuchte) //Wenn die Luftfeuchte unter minLuftfeuchte oder über maxLuftfeuchte
+  {
+    digitalWrite(LedPin1, HIGH);            //Schalte LedPin 1 ein
+    Serial.print("Luftfeuchtigkeit KRITISCH! -.-        ");
+    delay(1000);                            //Verzögerung 1000cycles - ca. 0,5 Sekunden
+  }
+  
+   else //ansonsten
+    {
+    digitalWrite(LedPin1, LOW);              //Schalte LedPin 1 aus
+    Serial.print("Luftfeuchtigkeit OK ^^        ");
+    }
 }
 //*************************************************
 
@@ -91,23 +94,12 @@ if (zaehler==15)                                  //Wenn der Messzähler 15 Mess
   zaehler = 0;
 //***************************************************
 //***************************************************
-  if (t <= minTemperatur || t >= maxTemperatur || h <= minLuftfeuchte || h >= maxLuftfeuchte) //Wenn die Temperatur kleiner als minTemperatur oder höher als maxTemperatur oder Luftfeuchte unter minLuftfeuchte oder über maxLuftfeuchte
-  {
-    digitalWrite(LedPin1, HIGH);            //Schalte LedPin 1 ein
-    Serial.println("Achtung Temperatur oder Feuchte sind problematisch!!");
-    delay(3000);                            //Verzögerung 1000cycles - ca. 0,5 Sekunden
-  }
+
   
- else //ansonsten
-  {
-    digitalWrite(LedPin1, LOW);              //Schalte LedPin 1 aus
-    Serial.println("Temperatur und Feuchte sind schwer in Ordnung :)");
-    delay(3000);                             //Verzögerung 1000cycles - ca. 0,5 Sekunden
-  }
-  
+
   
 //Der Schaltvorgang für den Befeuchter
-  if (h < optimaleLuftfeuchte && feuchtewert < -14)    //Wenn die aktuelle Feuchte niedriger als die Optimale Luftfeuchte ist und feuchtewert dies 15 mal bestätigt hat.
+  if (h <= minLuftfeuchte && feuchtewert < -14)    //Wenn die aktuelle Feuchte niedriger als die Optimale Luftfeuchte ist und feuchtewert dies 15 mal bestätigt hat.
   {
     digitalWrite(relaitPin1, HIGH);          //Schalte Relait Pin 1 ein
     relait1check = 1;
@@ -115,7 +107,7 @@ if (zaehler==15)                                  //Wenn der Messzähler 15 Mess
     delay(5000);     //Verzögerung 
   }
   
-  if (h > optimaleLuftfeuchte && feuchtewert > 14)    //Wenn die aktuelle Feuchte höher als die Optimale Luftfeuchte ist und feuchtewert dies 15 mal bestätigt hat.
+  if (h >= optimaleLuftfeuchte && feuchtewert > 14)    //Wenn die aktuelle Feuchte höher als die Optimale Luftfeuchte ist und feuchtewert dies 15 mal bestätigt hat.
   {
     digitalWrite(relaitPin1, LOW);           //Schalte Relait Pin 1 aus
     relait1check = 0;
