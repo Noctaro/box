@@ -71,3 +71,27 @@ void water_level()
         }  
 }
 //*********************************************************************************************************
+
+//*********************************************************************************************************
+//Flush Mode
+//*********************************************************************************************************
+void flushcontrol_active() 
+{
+      //Bewässerung aktivieren  
+      relait2check = 1;
+      digitalWrite(relaitPin2, HIGH);           //Schalte Relait Pin 2 ein
+      Serial.print("Relait 2 Power: ");
+      Serial.println(relait2check);
+      Serial.print("Bewaesserung laeuft fuer ");
+      Serial.print(flush_time_secounds);
+      Serial.println(" Sekunden");
+      delay(flush_time_secounds*1000);                            //Verzögerung    
+
+      //Bewässerung deaktivieren
+      Serial.println("Bewaesserung abgeschlossen");
+      digitalWrite(relaitPin2, LOW);           //Schalte Relait Pin 2 aus
+      relait2check = 0;
+      Serial.println("Bewaesserung wird deaktiviert.");
+      water_applied = 1;
+      delay(flush_timer_secounds*1000);
+}

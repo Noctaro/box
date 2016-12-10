@@ -7,11 +7,6 @@
 
 //NOCEDIT
 //*********************************************************************************************************
-//EEPROM
-#include <EEPROM.h>
-int eeprom_address_watered = 0;
-
-
 
 //*********************************************************************************************************
 ///CLOCK_MODULE
@@ -25,27 +20,28 @@ int eeprom_address_watered = 0;
 // quickly send time and date information over a serial link
 //
 // I assume you know how to connect the DS1302.
-// DS1302:  CE pin   (RST)  -> Arduino Digital 10
-//          I/O pin  (DAT)  -> Arduino Digital 11
-//          SCLK pin (CLK)  -> Arduino Digital 12
-//          VCC pin         -> Arduino Digital 9
-//          GND pin         -> Arduino GND
+// DS1302:  CE pin   (RST)  -> Arduino Digital 8
+//          I/O pin  (DAT)  -> Arduino Digital 9
+//          SCLK pin (CLK)  -> Arduino Digital 10
+//          VCC pin         -> Arduino VCC oder Digital 12
+//          GND pin         -> Arduino GND oder Digital 11
 
 
 #include <Time.h>
 #include <TimeLib.h>
 #include <DS1302RTC.h>
 
+//*************************************
 // Set pins:  CE(Reset), IO(DAT),CLK
 //DS1302RTC RTC(10, 11, 12); //old version
 DS1302RTC RTC(8, 9, 10); //new version
 
-
 // Optional connection for RTC module
 //#define DS1302_VCC_PIN 9  //old version
 //#define DS1302_GND_PIN 31 //old version
-#define DS1302_VCC_PIN 12
-#define DS1302_GND_PIN 11
+#define DS1302_VCC_PIN 12 //zum deaktivieren einfach Pin 99 angeben
+#define DS1302_GND_PIN 11 //zum deaktivieren einfach Pin 98 angeben
+//*************************************
 //*********************************************************************************************************
 
 //*********************************************************************************************************
@@ -104,7 +100,7 @@ DHT dht(DHTPIN, DHTTYPE);
 //*********************************************************************************************************
 //PIN für den Schalter der Modeauswahlfunktion
 //*********************************************************************************************************
-#define Modeschalter 2 //Definiere den Pin für den Schalter zwischen Mode 0 und 1
+#define Modeschalter 2 //Definiere den Pin für den Schalter zwischen Mode 0, 1 und 2
 //*********************************************************************************************************
 
 
@@ -121,6 +117,14 @@ DHT dht(DHTPIN, DHTTYPE);
 #define relaitPin1 5 //Definiere den Namen und Pin für das 1. Relait
 #define relaitPin2 6 //Definiere den Namen und Pin für das 2. Relait
 #define relaitPin3 7 //Definiere den Namen und Pin für das 3. Relait
+//*********************************************************************************************************
+
+
+//*********************************************************************************************************
+//EEPROM
+//*********************************************************************************************************
+#include <EEPROM.h>
+int eeprom_address_watered = 0;
 //*********************************************************************************************************
 
 
@@ -153,6 +157,7 @@ int water_hour_09 = 99;
 int water_hour_10 = 99;
 boolean water_applied = 1;
 long flush_time_secounds = 90;  //Dauer der Wasserzufuhr bei dem Bewässern
+long flush_timer_secounds = 60; //Dauer der Pause bis zur nächsten Spülung
 int optimaleTemperatur = 20;
 float h = 0;
 float t = 0;
@@ -296,14 +301,14 @@ void loop()
 //*********************************************************************************************************  
 //Wassersensor auslesen
 //*********************************************************************************************************
- //water_level();  //Auskommentieren falls keine Wasserstandsüberprüfung notwendig
+ water_level();  //Auskommentieren falls keine Wasserstandsüberprüfung notwendig
 //*********************************************************************************************************
 
 //*********************************************************************************************************  
 //Modeschalter
 //*********************************************************************************************************
-//int Mode = 0;                               //Mode im Code manuell setzen, dann muss die nächste Zeile auskommentiert werden
-  byte Mode = digitalRead(Modeschalter);       //Lese den Status des Modeschalters
+  byte Mode = 0;                               //Mode im Code manuell setzen, dann muss die nächste Zeile auskommentiert werden
+  //byte Mode = digitalRead(Modeschalter);       //Lese den Status des Modeschalters
   Serial.println("*********");
   Serial.print("Modus:"); 
   Serial.println(Mode,2); 
@@ -340,16 +345,24 @@ void loop()
 //*********************************************************************************************************
 //Lesen der Modekonfiguration
 //*********************************************************************************************************
-if(Mode == 0)
+if(Mode == 0) //Grow
   {
   Mode0_settings_active();
   } 
 
 //*********************************************************************************************************
   
-if(Mode == 1)
+if(Mode == 1) //Bloom
   {
   Mode1_settings_active();
+  }     
+
+//*********************************************************************************************************
+  
+if(Mode == 2) //FLUSH
+  {
+  Mode2_settings_active();
+  flushcontrol_active();
   }     
 //*********************************************************************************************************
 //*********************************************************************************************************
@@ -364,18 +377,21 @@ heat_control(); //Auskommentieren falls keine Temperaturregulierung notwendig
 //*********************************************************************************************************
 //Der Schaltvorgang für die Bewässerung falls eine für die Bewässerung gewählte Stunde eintritt.
 //*********************************************************************************************************
-   //water_applied = EEPROM.read(eeprom_address_watered); 
+if(Mode == 1 || Mode == 0)
+  {
+   water_applied = EEPROM.read(eeprom_address_watered); 
    
     //Überprüfe ob die Bewässerung zur aktuellen Stunde ausgeführt wurde
     if ( tm.Minute == 59 && water_applied == 1 )
       {
-      //watercontrol_reset(); //Auskommentieren falls keine Bewässerung notwendig
+      watercontrol_reset(); //Auskommentieren falls keine Bewässerung notwendig
       }
    
    if (tm.Hour == water_hour_01 && water_applied == 0 || tm.Hour == water_hour_02 && water_applied == 0 || tm.Hour == water_hour_03 && water_applied == 0 || tm.Hour == water_hour_04 && water_applied == 0 || tm.Hour == water_hour_05 && water_applied == 0 || tm.Hour == water_hour_06 && water_applied == 0 || tm.Hour == water_hour_07 && water_applied == 0 || tm.Hour == water_hour_08 && water_applied == 0 || tm.Hour == water_hour_09 && water_applied == 0 || tm.Hour == water_hour_10 && water_applied == 0 )
-    {
-    //watercontrol_active(); //Auskommentieren falls keine Bewässerung notwendig
-    }
+      {
+      watercontrol_active(); //Auskommentieren falls keine Bewässerung notwendig
+      }
+  }    
 //*********************************************************************************************************
 
 
