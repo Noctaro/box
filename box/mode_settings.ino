@@ -103,7 +103,3 @@ void Mode2_settings_active() //Flush Mode
 
 
 
-<<<<<<< HEAD:box/mode_settings.ino
-
-=======
->>>>>>> 80a6675dd273f5958624741cd0e701e7e6a35efa:box/mode_settings.ino
