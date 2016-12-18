@@ -95,9 +95,9 @@ void Mode2_settings_active() //Flush Mode
  //*********************************************************************************************************
  //Zeitintervall für Bewässerung in Mode 2 hier eintragen! (10 verschiedeme Stunden stehen zur Verfügung)(Zum deaktivieren einer Zeit einfach 99 eintragen)
  //*********************************************************************************************************
- flush_timer_secounds = 60;
- //*******************************************************************************************
  flush_time_secounds = 120;  //Dauer der Wasserzufuhr bei dem Bewässern
+ //*******************************************************************************************
+ flush_timer_secounds = 60;  //Zeit für Pause nach der Wasserzufuhr
  //*********************************************************************************************************
   }    
 
