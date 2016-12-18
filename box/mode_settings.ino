@@ -16,7 +16,7 @@
   minLuftfeuchte = 30;
   optimaleLuftfeuchte = 37;
  //*********************************************************************************************************
- //UHRZEITEN für Bewässerung in Mode 1 hier eintragen! (10 verschiedeme Stunden stehen zur Verfügung 0-23 Uhr) (Zum deaktivieren einer Zeit einfach 99 eintragen)
+ //UHRZEITEN für Bewässerung in Mode 0 hier eintragen! (10 verschiedeme Stunden stehen zur Verfügung 0-23 Uhr) (Zum deaktivieren einer Zeit einfach 99 eintragen)
  //*********************************************************************************************************
   water_hour_01 = 20;
   water_hour_02 = 21;
@@ -78,7 +78,7 @@ void Mode1_settings_active()
 //**************************************************
 //MODE 2 - FLUSH
 //**************************************************
-  //Hier die Werte für !Mode 1! nach belieben eintragen
+  //Hier die Werte für !Mode 2! nach belieben eintragen
   //Festlegen der gewünschten Temperaturen
   //************************************************** 
 
@@ -93,7 +93,7 @@ void Mode2_settings_active() //Flush Mode
 
  
  //*********************************************************************************************************
- //Zeitintervall für Bewässerung in Mode 3 hier eintragen! (10 verschiedeme Stunden stehen zur Verfügung)(Zum deaktivieren einer Zeit einfach 99 eintragen)
+ //Zeitintervall für Bewässerung in Mode 2 hier eintragen! (10 verschiedeme Stunden stehen zur Verfügung)(Zum deaktivieren einer Zeit einfach 99 eintragen)
  //*********************************************************************************************************
  flush_timer_secounds = 60;
  //*******************************************************************************************
