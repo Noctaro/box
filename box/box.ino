@@ -226,7 +226,7 @@ void setup()
     Serial.println("The DS1302 is write protected. This normal.");
     Serial.println();
   }
-  water_applied = EEPROM.read(eeprom_address_watered); 
+  
   delay(5000);
 
   water_applied = EEPROM.read(eeprom_address_watered);
@@ -377,6 +377,7 @@ heat_control(); //Auskommentieren falls keine Temperaturregulierung notwendig
 //*********************************************************************************************************
 //Der Schaltvorgang für die Bewässerung falls eine für die Bewässerung gewählte Stunde eintritt.
 //*********************************************************************************************************
+<<<<<<< HEAD
 <<<<<<< HEAD:box/box.ino
    
 =======
@@ -384,6 +385,9 @@ if(Mode == 1 || Mode == 0)
   {
    water_applied = EEPROM.read(eeprom_address_watered); 
 >>>>>>> 80a6675dd273f5958624741cd0e701e7e6a35efa:box/box.ino
+=======
+   //water_applied = EEPROM.read(eeprom_address_watered); 
+>>>>>>> parent of 1fcc564... Update box.ino
    
     //Überprüfe ob die Bewässerung zur aktuellen Stunde ausgeführt wurde
     if ( tm.Minute == 59 && water_applied == 1 )
