@@ -5,7 +5,7 @@
 //   \/_/ \/_/   \/_____/   \/_____/    &    \/_____/   \/_____/   \/___/_/   \/_____/   \/_/ 
                                                                                            
 
-//NOCEDIT
+//LEQEDIT
 //*********************************************************************************************************
 
 //*********************************************************************************************************
@@ -33,14 +33,14 @@
 
 //*************************************
 // Set pins:  CE(Reset), IO(DAT),CLK
-//DS1302RTC RTC(10, 11, 12); //old version
-DS1302RTC RTC(8, 9, 10); //new version
+DS1302RTC RTC(10, 11, 12); //old version
+//DS1302RTC RTC(8, 9, 10); //new version
 
 // Optional connection for RTC module
-//#define DS1302_VCC_PIN 9  //old version
-//#define DS1302_GND_PIN 31 //old version
-#define DS1302_VCC_PIN 12 //zum deaktivieren einfach Pin 99 angeben
-#define DS1302_GND_PIN 11 //zum deaktivieren einfach Pin 98 angeben
+#define DS1302_VCC_PIN 9  //old version
+#define DS1302_GND_PIN 31 //old version
+//#define DS1302_VCC_PIN 12 //zum deaktivieren einfach Pin 99 angeben
+//#define DS1302_GND_PIN 11 //zum deaktivieren einfach Pin 98 angeben
 //*************************************
 //*********************************************************************************************************
 
@@ -73,8 +73,8 @@ DS1302RTC RTC(8, 9, 10); //new version
 //#define DHT_powerPin 3 //Powerpin für den dht
 
 // Uncomment whatever type you're using!
-#define DHTTYPE DHT11   // DHT 11
-//#define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
+//#define DHTTYPE DHT11   // DHT 11
+#define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
 //#define DHTTYPE DHT21   // DHT 21 (AM2301)
 
 // Connect pin 1 (on the left) of the sensor to +5V
