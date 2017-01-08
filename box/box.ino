@@ -563,9 +563,9 @@ void print2digits(int number) {
 // END OF FILE
 //
 
-
 //vorgefertigte Textsegmente
 void Stars()
 {
   Serial.println("*********");
 }
+
