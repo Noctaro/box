@@ -563,13 +563,9 @@ void print2digits(int number) {
 // END OF FILE
 //
 
-<<<<<<< HEAD
 
-=======
 //vorgefertigte Textsegmente
 void Stars()
 {
   Serial.println("*********");
 }
-
->>>>>>> refs/remotes/origin/noc
