@@ -4,7 +4,8 @@
  tmElements_t tm; 
  if (! RTC.read(tm)) 
   {
-
+    hour_global = tm.Hour;
+    minute_global = tm.Minute;
     if(Uhrzeit_anzeigen == 1 && excel_output == 0)
     {
     Stars();  
@@ -281,10 +282,15 @@ void watercontrol_active_ausgabe2()
       Serial.println(" ins EEPROM geschrieben");
       }
 }
+
 //**********************************
-
-
-
+void bewaesserung_status_ausgabe()
+  {
+    
+    Serial.print("Bewaesserung ausgeführt: "); 
+    Serial.println(water_applied); 
+    Stars();
+  }
 
 
 //**********************************
@@ -332,7 +338,7 @@ void flushcontrol_active_ausgabe()
  Serial.print("*");
  delay(flush_time_secounds*1000);
  }
- Serial.println("☺");
+ Serial.println("^^");
 }
 
 void flushcontrol_active_ausgabe2()
@@ -413,6 +419,17 @@ void air_ausgabe2()
     Serial.println("Luftzirkulation deaktiviert" );  
     Stars();
     }
+}
+
+void air_refresh_ausgabe()
+{
+ int air_refresh_counter = 0;
+ while(air_refresh_counter <= 10)
+ {
+ air_refresh_counter++; 
+ Serial.print("*");
+ delay(air_refresh_secound*1000);
+ } 
 }
 //**********************************
 

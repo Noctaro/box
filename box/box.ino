@@ -116,10 +116,14 @@ DHT dht(DHTPIN, DHTTYPE);
 //*********************************************************************************************************
 #define relaitPin1 5 //Definiere den Namen und Pin für das 1. Relait
 #define relaitPin2 6 //Definiere den Namen und Pin für das 2. Relait
-#define relaitPin3 7 //Definiere den Namen und Pin für das 3. Relait
-#define relaitPin4 3 //Definiere den Namen und Pin für das 3. Relait
-//*********************************************************************************************************
+//#define relaitPin3 7 //Definiere den Namen und Pin für das 3. Relait
+//#define relaitPin4 3 //Definiere den Namen und Pin für das 3. Relait
 
+//alternate Testing
+
+//*********************************************************************************************************
+#define relaitPin3 3 //Definiere den Namen und Pin für das 3. Relait
+#define relaitPin4 7 //Definiere den Namen und Pin für das 3. Relait
 
 //*********************************************************************************************************
 //EEPROM
@@ -150,11 +154,16 @@ int optimaleLuftfeuchte = 0;
 
 int Messpause = 0;
 
+int air_refresh_secound = 0;
+
 float h = 0; //Variable für aktuelle Luftfeuchte in %
 float t = 0; //Variable für aktuelle Temperatur in Celsius
 float f = 0; //Variable für aktuelle Temperatur in Fahrenheit
 float hif = 0;
 float hic = 0;
+
+int minute_global = 0;
+int hour_global = 0;
 
 boolean relait1check = 0;
 boolean relait2check = 0;
@@ -383,6 +392,7 @@ led_cycle_check();
   if(Abluft_regulieren == 1)
   {
   aircontrol();
+  air_refresh(); //TESTING
   }
  
 //*********************************************************************************************************
@@ -411,10 +421,20 @@ if(Bewaesserung_regulieren == 1)
 {
 if(Mode == 1 || Mode == 0)
     {
-    water_applied = EEPROM.read(eeprom_address_watered); 
-   
+    water_applied = EEPROM.read(eeprom_address_watered);
+    bewaesserung_status_ausgabe();
+
+      if (hour_global == water_hour_01 && water_applied == 0 || hour_global == water_hour_02 && water_applied == 0 || hour_global == water_hour_03 && water_applied == 0 || hour_global == water_hour_04 && water_applied == 0 || hour_global == water_hour_05 && water_applied == 0 || hour_global == water_hour_06 && water_applied == 0 || hour_global == water_hour_07 && water_applied == 0 || hour_global == water_hour_08 && water_applied == 0 || hour_global == water_hour_09 && water_applied == 0 || hour_global == water_hour_10 && water_applied == 0 )
+      {
+      //Stars();     
+      
+      watercontrol_active(); //Auskommentieren falls keine Bewässerung notwendig
+      
+      //Stars();
+      }
+  
       //Überprüfe ob die Bewässerung zur aktuellen Stunde ausgeführt wurde
-       if ( tm.Minute == 59 && water_applied == 1 )
+      if ( minute_global == 59 && water_applied == 1 )
       {
       //Stars();
         
@@ -423,14 +443,7 @@ if(Mode == 1 || Mode == 0)
       //Stars();   
       }
    
-      if (tm.Hour == water_hour_01 && water_applied == 0 || tm.Hour == water_hour_02 && water_applied == 0 || tm.Hour == water_hour_03 && water_applied == 0 || tm.Hour == water_hour_04 && water_applied == 0 || tm.Hour == water_hour_05 && water_applied == 0 || tm.Hour == water_hour_06 && water_applied == 0 || tm.Hour == water_hour_07 && water_applied == 0 || tm.Hour == water_hour_08 && water_applied == 0 || tm.Hour == water_hour_09 && water_applied == 0 || tm.Hour == water_hour_10 && water_applied == 0 )
-      {
-      //Stars();     
-      
-      watercontrol_active(); //Auskommentieren falls keine Bewässerung notwendig
-      
-      //Stars();
-      }
+
     }
   }
 

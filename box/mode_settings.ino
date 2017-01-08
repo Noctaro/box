@@ -31,6 +31,8 @@ void Box_functions()
   //Dauer bis zum nächsten Messdurchgang in Sekunden (WICHTIG: Mindestens 2 Sekunden um den DHT Sensor nicht zu überfordern!)
   //*********************************************************************************************************
    Messpause = 4;
+   
+   air_refresh_secound = 20; //Dauer der Belüftung in Sekunden
 }
 
 
@@ -40,11 +42,12 @@ void Box_functions()
 //MODEAUSWAHL
 //**************************************************
 //Hier die die gewünschte Modeauswahlmethode festlegen. Der gewünschte kann Mode nach belieben per Schalter oder Quellcode gweählt werden.
+//Mode
 //**************************************************
 
 void Modeswitch()
 {
-Mode = 1;                               //Den gewünschten Modus im Code manuell setzen - Hierfür muss die nächste Zeile auskommentiert werden
+Mode = 0;                               //Den gewünschten Modus im Code manuell setzen - Hierfür muss die nächste Zeile auskommentiert werden
 //Mode = digitalRead(Modeschalter);     //Lese den Status des physichen Modeschalters für die Wahl des gewünschten Modus - Hiefür muss die vorherige Zeile auskommentiert werden
 }
 //*********************************************************************************************************
@@ -76,13 +79,13 @@ Mode = 1;                               //Den gewünschten Modus im Code manuell
  //*********************************************************************************************************
  //UHRZEITEN für Bewässerung in MODE 0 hier eintragen! (10 verschiedeme Stunden stehen zur Verfügung 0-23 Uhr) (Zum deaktivieren einer Zeit einfach 99 eintragen)
  //*********************************************************************************************************
-  water_hour_01 = 13;
-  water_hour_02 = 99;
-  water_hour_03 = 99;
-  water_hour_04 = 99;
-  water_hour_05 = 99;
-  water_hour_06 = 99;
-  water_hour_07 = 99;
+  water_hour_01 = 10;
+  water_hour_02 = 12;
+  water_hour_03 = 14;
+  water_hour_04 = 16;
+  water_hour_05 = 17;
+  water_hour_06 = 20;
+  water_hour_07 = 22;
   water_hour_08 = 99;
   water_hour_09 = 99;
   water_hour_10 = 99;
@@ -92,6 +95,7 @@ Mode = 1;                               //Den gewünschten Modus im Code manuell
   //*******************************************************************************************
   long flush_time_secounds = 90;  
   //*********************************************************************************************************
+  
 
 
    

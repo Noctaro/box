@@ -20,9 +20,9 @@ void watercontrol_reset()
 void watercontrol_active() 
 {
       //Bewässerung aktivieren  
-      relait2check = 1;
-      watercontrol_active_ausgabe();
+      relait2check = 1;      
       digitalWrite(relaitPin2, HIGH);           //Schalte Relait Pin 2 ein
+      watercontrol_active_ausgabe();
       
       //Bewässerung deaktivieren
       digitalWrite(relaitPin2, LOW);           //Schalte Relait Pin 2 aus

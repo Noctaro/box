@@ -2,6 +2,7 @@ void aircontrol()
 {
 
   //Wenn Luftfeuchte zu niederig ODER Temperatur zo hoch UND Luftefeuchte höher als der Minimalwert ist addieren wir zur Variable "air_zaehler" +1 
+
   if(h >= maxLuftfeuchte || t > maxTemperatur && h >= minLuftfeuchte)
   {
   air_zaehler++;
@@ -35,4 +36,23 @@ void aircontrol()
   }
 
 }  
+
+//TESTING
+void air_refresh()
+{
+  if (minute_global == 15 && h >= minLuftfeuchte)
+  {
+    air_ausgabe();
+    digitalWrite(relaitPin4, HIGH);
+    relait4check = 1;
+      
+    air_refresh_ausgabe();
+    
+    air_ausgabe2();        
+    digitalWrite(relaitPin4, LOW);
+    relait4check = 0;
+    
+  }
+}
+  
 
