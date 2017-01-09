@@ -33,8 +33,8 @@
 
 //*************************************
 // Set pins:  CE(Reset), IO(DAT),CLK
-//DS1302RTC RTC(10, 11, 12); //old version
-DS1302RTC RTC(8, 9, 10); //new version
+DS1302RTC RTC(10, 11, 12); //old version
+//DS1302RTC RTC(8, 9, 10); //new version
 
 // Optional connection for RTC module
 #define DS1302_VCC_PIN 9  //old version
