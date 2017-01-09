@@ -392,7 +392,7 @@ led_cycle_check();
   if(Abluft_regulieren == 1)
   {
   aircontrol();
-  air_refresh(); //TESTING
+  //air_refresh(); //TESTING
   }
  
 //*********************************************************************************************************
