@@ -116,14 +116,14 @@ DHT dht(DHTPIN, DHTTYPE);
 //*********************************************************************************************************
 #define relaitPin1 5 //Definiere den Namen und Pin für das 1. Relait
 #define relaitPin2 6 //Definiere den Namen und Pin für das 2. Relait
-//#define relaitPin3 7 //Definiere den Namen und Pin für das 3. Relait
-//#define relaitPin4 3 //Definiere den Namen und Pin für das 3. Relait
+#define relaitPin3 7 //Definiere den Namen und Pin für das 3. Relait
+#define relaitPin4 3 //Definiere den Namen und Pin für das 3. Relait
 
 //alternate Testing
 
 //*********************************************************************************************************
-#define relaitPin3 3 //Definiere den Namen und Pin für das 3. Relait
-#define relaitPin4 7 //Definiere den Namen und Pin für das 3. Relait
+//#define relaitPin3 3 //Definiere den Namen und Pin für das 3. Relait
+//#define relaitPin4 7 //Definiere den Namen und Pin für das 3. Relait
 
 //*********************************************************************************************************
 //EEPROM
