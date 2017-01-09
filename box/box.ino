@@ -5,7 +5,7 @@
 //   \/_/ \/_/   \/_____/   \/_____/    &    \/_____/   \/_____/   \/___/_/   \/_____/   \/_/ 
                                                                                            
 
-//LEQEDIT
+//NOCEDIT
 //*********************************************************************************************************
 
 //*********************************************************************************************************
@@ -33,14 +33,14 @@
 
 //*************************************
 // Set pins:  CE(Reset), IO(DAT),CLK
-DS1302RTC RTC(10, 11, 12); //old version
-//DS1302RTC RTC(8, 9, 10); //new version
+//DS1302RTC RTC(10, 11, 12); //old version
+DS1302RTC RTC(8, 9, 10); //new version
 
 // Optional connection for RTC module
-#define DS1302_VCC_PIN 9  //old version
-#define DS1302_GND_PIN 31 //old version
-//#define DS1302_VCC_PIN 12 //zum deaktivieren einfach Pin 99 angeben
-//#define DS1302_GND_PIN 11 //zum deaktivieren einfach Pin 98 angeben
+//#define DS1302_VCC_PIN 9  //old version
+//#define DS1302_GND_PIN 31 //old version
+#define DS1302_VCC_PIN 12 //zum deaktivieren einfach Pin 99 angeben
+#define DS1302_GND_PIN 11 //zum deaktivieren einfach Pin 98 angeben
 //*************************************
 //*********************************************************************************************************
 
@@ -73,8 +73,8 @@ DS1302RTC RTC(10, 11, 12); //old version
 //#define DHT_powerPin 3 //Powerpin für den dht
 
 // Uncomment whatever type you're using!
-//#define DHTTYPE DHT11   // DHT 11
-#define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
+#define DHTTYPE DHT11   // DHT 11
+//#define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
 //#define DHTTYPE DHT21   // DHT 21 (AM2301)
 
 // Connect pin 1 (on the left) of the sensor to +5V
@@ -116,10 +116,14 @@ DHT dht(DHTPIN, DHTTYPE);
 //*********************************************************************************************************
 #define relaitPin1 5 //Definiere den Namen und Pin für das 1. Relait
 #define relaitPin2 6 //Definiere den Namen und Pin für das 2. Relait
-#define relaitPin3 7 //Definiere den Namen und Pin für das 3. Relait
-#define relaitPin4 3 //Definiere den Namen und Pin für das 3. Relait
-//*********************************************************************************************************
+//#define relaitPin3 7 //Definiere den Namen und Pin für das 3. Relait
+//#define relaitPin4 3 //Definiere den Namen und Pin für das 3. Relait
 
+//alternate Testing
+
+//*********************************************************************************************************
+#define relaitPin3 3 //Definiere den Namen und Pin für das 3. Relait
+#define relaitPin4 7 //Definiere den Namen und Pin für das 3. Relait
 
 //*********************************************************************************************************
 //EEPROM
@@ -133,19 +137,41 @@ int eeprom_address_watered = 0;
 //Globale Variablen (Bitte nicht ändern) -> Gewünschte Werte sind in mode_settings.ino anpassbar
 //*********************************************************************************************************
 int zaehler = 0;
-int zaehler2 = 0;
+//int zaehler2 = 0;
+int air_zaehler = 0;
+
 int feuchtewert = 0;
 int temperaturwert = 0;
 
+
 int maxTemperatur = 0;
 int minTemperatur = 0;
+int optimaleTemperatur = 0;
+
 int maxLuftfeuchte = 0;
 int minLuftfeuchte = 0;
 int optimaleLuftfeuchte = 0;
+
+int Messpause = 0;
+
+int air_refresh_secound = 0;
+
+float h = 0; //Variable für aktuelle Luftfeuchte in %
+float t = 0; //Variable für aktuelle Temperatur in Celsius
+float f = 0; //Variable für aktuelle Temperatur in Fahrenheit
+float hif = 0;
+float hic = 0;
+
+int minute_global = 0;
+int hour_global = 0;
+
 boolean relait1check = 0;
 boolean relait2check = 0;
 boolean relait3check = 0;
+boolean relait4check = 0;
+
 boolean errorcheck = 0;
+
 int water_hour_01 = 99;
 int water_hour_02 = 99;
 int water_hour_03 = 99;
@@ -156,15 +182,37 @@ int water_hour_07 = 99;
 int water_hour_08 = 99;
 int water_hour_09 = 99;
 int water_hour_10 = 99;
+
 boolean water_applied = 1;
+boolean water_check = 1;
+
 long flush_time_secounds = 90;  //Dauer der Wasserzufuhr bei dem Bewässern
 long flush_timer_secounds = 60; //Dauer der Pause bis zur nächsten Spülung
-int optimaleTemperatur = 20;
-float h = 0;
-float t = 0;
-//float f = 0;
-//float hif = 0;
-//float hic = 0;
+
+byte Mode = 0; 
+
+//Box Funktionen 
+boolean Luftfeuchte_regulieren = 1; 
+boolean Temperatur_regulieren = 1;
+boolean Abluft_regulieren = 1;
+boolean Bewaesserung_regulieren = 1;
+
+boolean Temperatur_anzeigen = 1;        //Gibt die aktuelle Temperatur am Serial Monitor aus.
+boolean Luftfeuchte_anzeigen = 1;       //Gibt die aktuelle Luftfeuchte am Serial Monitor aus
+boolean Wasserstand_anzeigen = 1;
+boolean Relaticheck_anzeigen = 1;
+boolean Messdurchgang_anzeigen = 1;
+boolean TemperaturStatus_anzeigen = 1;
+boolean Schaltvorgang_anzeigen = 1;
+boolean Schaltzyklus_anzeigen = 1;
+boolean Modeschalter_anzeigen = 1;
+
+boolean Uhrzeit_anzeigen = 1;
+boolean Wochentag_anzeigen = 1;
+boolean Datum_anzeigen = 1;
+
+boolean excel_output = 1;
+
 //*********************************************************************************************************
 //*********************************************************************************************************
 
@@ -188,6 +236,7 @@ void setup()
   pinMode(relaitPin1, OUTPUT); //Setze den Steuerpin für Relait 1 als Ausgang
   pinMode(relaitPin2, OUTPUT); //Setze den Steuerpin für Relait 2 als Ausgang
   pinMode(relaitPin3, OUTPUT); //Setze den Steuerpin für Relait 3 als Ausgang
+  pinMode(relaitPin4, OUTPUT); //Setze den Steuerpin für Relait 4 als Ausgang
   
   pinMode(Modeschalter, INPUT);  //Setze den Steuerpin für den gewünschten Modus als Eingang
 //  pinMode(DHT_powerPin, OUTPUT); //Setze den PowerPin für den DHT Sensor als Ausgang
@@ -231,63 +280,54 @@ void setup()
   delay(5000);
 
   water_applied = EEPROM.read(eeprom_address_watered);
-  Serial.print("Bewaesserungsstatus ausgelesen = ");
+  Serial.print("Bewaesserungsstatus = ");
   Serial.println(water_applied);
 //*********************************************************************************************************
-    
+
+//*********************************************************************************************************
+//Boxfunktionen aktivieren oder deaktivieren
+//*********************************************************************************************************
+Box_functions();    
+//*********************************************************************************************************
+
 }
+//*********************************************************************************************************
+//*********************************************************************************************************
+
 
 //*********************************************************************************************************
 //MAINLOOP
 //*********************************************************************************************************
 void loop()
 {
-  
-  digitalWrite(LedPin1, LOW);
-  delay(100);
-  digitalWrite(LedPin1, HIGH); 
-  delay(100);
-  digitalWrite(LedPin1, LOW);
-  delay(100);
-  //*********************************************************************************************************
-  //CLOCK
-  //*********************************************************************************************************
-   tmElements_t tm;
-  
-  Serial.print("UNIX Time: ");
-  Serial.print(RTC.get());
+//************
+//Cyclezähler
+//************
+zaehler++;
+//************
+//Einmal kurz blinken um den Start eines neuen Zyklus darzustellen 
+//************ 
+led_cycle_check();
+//*********************************************************************************************************
+//*********************************************************************************************************
 
-  if (! RTC.read(tm)) {
-    Serial.print("  Time = ");
-    print2digits(tm.Hour);
-    Serial.write(':');
-    print2digits(tm.Minute);
-    Serial.write(':');
-    print2digits(tm.Second);
-    Serial.print(", Date (D/M/Y) = ");
-    Serial.print(tm.Day);
-    Serial.write('/');
-    Serial.print(tm.Month);
-    Serial.write('/');
-    Serial.print(tmYearToCalendar(tm.Year));
-    Serial.print(", DoW = ");
-    Serial.print(tm.Wday);
-    Serial.println();
-  } else {
-    Serial.println("DS1302 read error!  Please check the circuitry.");
-    Serial.println();
-    delay(9000);
-  }
+
+//*********************************************************************************************************
+//CLOCK
+//*********************************************************************************************************
+  tmElements_t tm;
   
-  //*********************************************************************************************************
-  //*********************************************************************************************************
+//Serial.print("UNIX Time: ");
+//Serial.print(RTC.get());
+  RTC.get();
+  Zeitausgabe();
+//*********************************************************************************************************
+//*********************************************************************************************************
   
   
-  //************
-  //cyclezähler
-  //************
-  zaehler++;
-  zaehler2++;
+
+
+  
   //*********************************************************************************************************
 
 //*********************************************************************
@@ -296,124 +336,222 @@ void loop()
 // Reading temperature or humidity takes about 250 milliseconds!
 // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
 //*********************************************************************  
- DHT_check_input();
+  h = dht.readHumidity();
+  // Read temperature as Celsius (the default)
+  t = dht.readTemperature();
+  // Read temperature as Fahrenheit (isFahrenheit = true)
+  f = dht.readTemperature(true);
+
+  // Check if any reads failed and exit early (to try again).
+  if (isnan(h) || isnan(t) || isnan(f)) 
+  {
+  Serial.println("Failed to read from DHT sensor!");
+  //  return;
+  }
+
+  // Compute heat index in Fahrenheit (the default)
+  hif = dht.computeHeatIndex(f, h);
+  // Compute heat index in Celsius (isFahreheit = false)
+  hic = dht.computeHeatIndex(t, h, false);
 //********************************************************************* 
 
-//*********************************************************************************************************  
-//Wassersensor auslesen
-//*********************************************************************************************************
- water_level();  //Auskommentieren falls keine Wasserstandsüberprüfung notwendig
-//*********************************************************************************************************
 
 //*********************************************************************************************************  
 //Modeschalter
 //*********************************************************************************************************
-  byte Mode = 0;                               //Mode im Code manuell setzen, dann muss die nächste Zeile auskommentiert werden
-  //byte Mode = digitalRead(Modeschalter);       //Lese den Status des Modeschalters
-  Serial.println("*********");
-  Serial.print("Modus:"); 
-  Serial.println(Mode,2); 
-  Serial.println("*********");
-//*********************************************************************************************************   
-
+  Modeswitch();           //Legt den ausgewählten Mode fest
+  
+  
 //*********************************************************************************************************
-//Messzähler
-//Gibt den aktuellen Messdurchgang an
+//Lesen der Modekonfiguration und Aktivieren der gewünschten Einstellungen
 //*********************************************************************************************************
-  Serial.print("Messdurchgang ");
-  Serial.print(zaehler);
-  Serial.println(" von 15");
-  Serial.println("*********");
-//*********************************************************************************************************
-
-
-//*********************************************************************************************************
-//Relaitcheck 
-//Gibt den aktuellen Status des Relaits aus
-//*********************************************************************************************************
-  Serial.println("*********");
-  Serial.print("*Relait 1 Power: ");
-  Serial.print(relait1check);
-  Serial.print("* *Relait 2 Power: ");
-  Serial.print(relait2check);
-  Serial.print("* *Relait 3 Power: ");
-  Serial.println(relait3check);
-  Serial.print("*");
-  Serial.println("*********");  
-//*********************************************************************************************************
-//*********************************************************************************************************
-
-//*********************************************************************************************************
-//Lesen der Modekonfiguration
-//*********************************************************************************************************
-if(Mode == 0) //Grow
+  if(Mode == 0) //Grow
   {
   Mode0_settings_active();
   } 
 
 //*********************************************************************************************************
   
-if(Mode == 1) //Bloom
+  if(Mode == 1) //Bloom
   {
   Mode1_settings_active();
   }     
 
 //*********************************************************************************************************
   
-if(Mode == 2) //FLUSH
+  if(Mode == 2) //FLUSH
   {
   Mode2_settings_active();
   flushcontrol_active();
   }     
 //*********************************************************************************************************
+
+//*********************************************************************************************************  
+//Luftzirkulation regulieren
 //*********************************************************************************************************
+  if(Abluft_regulieren == 1)
+  {
+  aircontrol();
+  air_refresh(); //TESTING
+  }
+ 
+//*********************************************************************************************************
+//Temperatur regulieren und ausgeben
+//*********************************************************************************************************
+  if(Temperatur_regulieren == 1)
+  {
+  heat_control();
+  }
+
 
 //*********************************************************************************************************
-//Temperatur regulieren
+//Luftfeuchte regulieren und ausgeben
 //*********************************************************************************************************
-heat_control(); //Auskommentieren falls keine Temperaturregulierung notwendig
+  if(Luftfeuchte_regulieren == 1)
+  {
+  humidity_balancer(); //Schaltvorgang und Feedback
+  }
 
 //*********************************************************************************************************
 //Bewässerung
 //*********************************************************************************************************
 //Der Schaltvorgang für die Bewässerung falls eine für die Bewässerung gewählte Stunde eintritt.
 //*********************************************************************************************************
+if(Bewaesserung_regulieren == 1)
+{
 if(Mode == 1 || Mode == 0)
-  {
-   water_applied = EEPROM.read(eeprom_address_watered); 
-   
-    //Überprüfe ob die Bewässerung zur aktuellen Stunde ausgeführt wurde
-    if ( tm.Minute == 59 && water_applied == 1 )
+    {
+    water_applied = EEPROM.read(eeprom_address_watered);
+    bewaesserung_status_ausgabe();
+
+      if (hour_global == water_hour_01 && water_applied == 0 || hour_global == water_hour_02 && water_applied == 0 || hour_global == water_hour_03 && water_applied == 0 || hour_global == water_hour_04 && water_applied == 0 || hour_global == water_hour_05 && water_applied == 0 || hour_global == water_hour_06 && water_applied == 0 || hour_global == water_hour_07 && water_applied == 0 || hour_global == water_hour_08 && water_applied == 0 || hour_global == water_hour_09 && water_applied == 0 || hour_global == water_hour_10 && water_applied == 0 )
       {
-      watercontrol_reset(); //Auskommentieren falls keine Bewässerung notwendig
-      }
-   
-   if (tm.Hour == water_hour_01 && water_applied == 0 || tm.Hour == water_hour_02 && water_applied == 0 || tm.Hour == water_hour_03 && water_applied == 0 || tm.Hour == water_hour_04 && water_applied == 0 || tm.Hour == water_hour_05 && water_applied == 0 || tm.Hour == water_hour_06 && water_applied == 0 || tm.Hour == water_hour_07 && water_applied == 0 || tm.Hour == water_hour_08 && water_applied == 0 || tm.Hour == water_hour_09 && water_applied == 0 || tm.Hour == water_hour_10 && water_applied == 0 )
-      {
+      //Stars();     
+      
       watercontrol_active(); //Auskommentieren falls keine Bewässerung notwendig
+      
+      //Stars();
       }
-  }    
+  
+      //Überprüfe ob die Bewässerung zur aktuellen Stunde ausgeführt wurde
+      if ( minute_global == 59 && water_applied == 1 )
+      {
+      //Stars();
+        
+      watercontrol_reset(); //Auskommentieren falls keine Bewässerung notwendig
+      
+      //Stars();   
+      }
+   
+
+    }
+  }
+
+//*********************************************************************************************************
+//*********************************************************************************************************
+
+//*********************************************************************************************************  
+//Ausgabe am Serial Monitor (Serial print)
+//*********************************************************************************************************
+
+//*********************************************************************************************************
+//Mode Auswahl ausgeben
+//*********************************************************************************************************
+  Modeswitch_ausgabe();   //Gibt den aktuellen Status am Serial Monitor aus
+//*********************************************************************************************************  
+
+//*********************************************************************************************************
+//Messzähler
+//Gibt den aktuellen Messdurchgang am Serial Monitor aus
+//*********************************************************************************************************
+  Messzaehler_ausgabe();
+//*********************************************************************************************************
+
+//*********************************************************************************************************
+//Gibt den aktuelle Temperatur und Luftfeuchte am Serial Monitor aus
+//*********************************************************************************************************
+  Temperatur_Luftfeuchte_ausgabe();
+
+//*********************************************************************************************************
+//Relaitcheck 
+//Gibt den aktuellen Status der Relaits am Serial Monitor aus
+//*********************************************************************************************************
+  Relaitcheck_ausgabe();
+//*********************************************************************************************************
+
+//*********************************************************************************************************
+//Schaltwerte für Lufteuchte, Temperatur, Abluft ausgeben
+//*********************************************************************************************************
+Schaltwerte_ausgabe();
+//*********************************************************************************************************
+
+//*********************************************************************************************************
+//Ausgabe des Luftfeuchte Status an die LED und den Serial Monitior
+//*********************************************************************************************************
+LuftfeuchteStatus_ausgabe(); 
+
+//*********************************************************************************************************
+//Ausgabe des Temperatur Status an die LED und den Serial Monitior
+//*********************************************************************************************************
+TemperaturStatus_ausgabe();
+//*********************************************************************************************************
 //*********************************************************************************************************
 
 
-//*********************************************************************************************************
-//Schaltvorgang optimieren Feuchte
-//*********************************************************************************************************
-huimdity_check_optimizer(); //Auskommentieren falls keine Luftfeuchtenregulierung notwendig
-//*************************************************  
 
-heat_check(); //Temperatur überprüfen
-
+//*********************************************************************************************************  
+//Wassersensor auslesen und Wasserstand ausgeben
 //*********************************************************************************************************
-//Schaltvorgang und Feedback für Luftfeuchteregler
-//*********************************************************************************************************
-humidity_balancer(); //Auskommentieren falls keine Luftfeuchtenregulierung notwendig
-//***************************************************  
-
-
-//*********************************************************************************************************
+if (Wasserstand_anzeigen == 1)
+{
+water_level();  
 }
+//*********************************************************************************************************
 
+
+
+
+//*********************************************************************************************************  
+//CSV Ausgabe am Serial Monitor (Serial print)
+//*********************************************************************************************************
+  
+  CSVausgabe();  
+ 
+
+
+
+
+//*********************************************************************************************************
+//Zähler Reset
+//*********************************************************************************************************
+  if(zaehler >= 15)
+  {
+  zaehler = 0;
+  }
+
+//*********************************************************************************************************
+//Verzögerung bis zur nächsten Messung
+//*********************************************************************************************************  
+  int delayer = 0;
+  while(delayer <= 10)
+    {
+    delayer++;  
+    delay(Messpause*100);
+     if(excel_output == 0)
+      {
+      Serial.print("*");
+      }
+    }
+
+
+
+
+//*********************************************************************************************************
+
+ } //close Mainloop
+
+//*********************************************************************************************************//*********************************************************************************************************
+//*********************************************************************************************************//*********************************************************************************************************
 //CLOCK
 void print2digits(int number) {
   if (number >= 0 && number < 10)
@@ -425,4 +563,9 @@ void print2digits(int number) {
 // END OF FILE
 //
 
+//vorgefertigte Textsegmente
+void Stars()
+{
+  Serial.println("*********");
+}
 
