@@ -285,7 +285,7 @@ void Mode3_settings_active()
   
   int  i = 0;
     
-  while(i<4)
+  while(i<2)
     {
     i++;
     delay(2000);
@@ -295,7 +295,7 @@ void Mode3_settings_active()
     digitalWrite(relaitPin1, LOW);
     }
     
-      while(i<7)
+      while(i<4)
     {
     i++;
     delay(2000);
@@ -306,7 +306,7 @@ void Mode3_settings_active()
     digitalWrite(relaitPin2, LOW);
     }
     
-          while(i<11)
+          while(i<6)
     {
     i++;
     delay(2000);
@@ -318,7 +318,7 @@ void Mode3_settings_active()
     digitalWrite(relaitPin3, LOW);
     }
     
-          while(i<14)
+          while(i<8)
     {
     i++;
     delay(2000);
