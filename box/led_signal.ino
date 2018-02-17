@@ -54,3 +54,11 @@
   digitalWrite(LedPin1, LOW);
   delay(100);
   }
+  
+  void led_blinker()
+  {
+    digitalWrite(LedPin1, HIGH);
+    delay(1500);
+    digitalWrite(LedPin1, LOW);
+    delay(500);
+  }
