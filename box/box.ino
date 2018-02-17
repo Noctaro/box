@@ -791,13 +791,13 @@ Serial.flush();
 //*********************************************************************************************************
 //Lese vom serial port//
 
-if(Serial.available() > 0)
-    {
-        inData = Serial.readStringUntil('\n');
-       Serial.println("*data: "+inData);
-       delay(2000);
-       inData="";
-     }
+//if(Serial.available() > 0)
+//    {
+//        inData = Serial.readStringUntil('\n');
+//       Serial.println("*data: "+inData);
+//       delay(2000);
+//       inData="";
+//     }
 //************************************     
 } //close Mainloop
 
