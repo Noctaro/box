@@ -23,8 +23,9 @@
 // DS1302:  CE pin   (RST)  -> Arduino Digital 8
 //          I/O pin  (DAT)  -> Arduino Digital 9
 //          SCLK pin (CLK)  -> Arduino Digital 10
-//          VCC pin         -> Arduino VCC oder Digital 12
 //          GND pin         -> Arduino GND oder Digital 11
+//          VCC pin         -> Arduino VCC oder Digital 12
+
 
 
 #include <Time.h>
@@ -33,14 +34,11 @@
 
 //*************************************
 // Set pins:  CE(Reset), IO(DAT),CLK
-//DS1302RTC RTC(10, 11, 12); //old version
 DS1302RTC RTC(8, 9, 10); //new version
 
 // Optional connection for RTC module
-//#define DS1302_VCC_PIN 9  //old version
-//#define DS1302_GND_PIN 31 //old version
-#define DS1302_VCC_PIN 12 //zum deaktivieren einfach Pin 99 angeben
 #define DS1302_GND_PIN 11 //zum deaktivieren einfach Pin 98 angeben
+#define DS1302_VCC_PIN 12 //zum deaktivieren einfach Pin 99 angeben
 //*************************************
 //*********************************************************************************************************
 
@@ -69,8 +67,8 @@ DS1302RTC RTC(8, 9, 10); //new version
 #include "DHT.h"
 #include "Adafruit_Sensor.h"
 
-#define DHTPIN 4     // what digital pin we're connected to
-//#define DHT_powerPin 3 //Powerpin für den dht
+#define DHTPIN 3     // what digital pin we're connected to
+//#define DHT_powerPin 3 //Powerpin fÃ¼r den dht
 
 // Uncomment whatever type you're using!
 #define DHTTYPE DHT11   // DHT 11
@@ -92,38 +90,39 @@ DHT dht(DHTPIN, DHTTYPE);
 //*********************************************************************************************************
 
 //*********************************************************************************************************
-//PIN für den Wassersensor
+//PIN fÃ¼r den Wassersensor
 //*********************************************************************************************************
-#define Water_Sensor 1 //Definiere den Wassersensor Pin
-//*********************************************************************************************************
-
-//*********************************************************************************************************
-//PIN für den Schalter der Modeauswahlfunktion
-//*********************************************************************************************************
-#define Modeschalter 2 //Definiere den Pin für den Schalter zwischen Mode 0, 1 und 2
+//BenÃ¶tigt Remapping - Pin 1 == Serial TX
+#define Water_Sensor A2 //Definiere den Wassersensor Pin
 //*********************************************************************************************************
 
+//*********************************************************************************************************
+//PIN fÃ¼r den Schalter der Modeauswahlfunktion
+//*********************************************************************************************************
+//BenÃ¶tigt Remapping - Pin 2 == Serial TX
+#define Modeschalter A1 //Definiere den Pin fÃ¼r den Schalter zwischen Mode 0, 1 und 2
+//*********************************************************************************************************
+
 
 //*********************************************************************************************************
-//PIN für die Statusled
+//PIN fÃ¼r die Statusled
 //*********************************************************************************************************
-#define LedPin1 13     //Namen für den Ledpin
+#define LedPin1 13     //Namen fÃ¼r den Ledpin
 //*********************************************************************************************************
 
 
 //*********************************************************************************************************
 //RELAIT PINS
 //*********************************************************************************************************
-#define relaitPin1 5 //Definiere den Namen und Pin für das 1. Relait
-#define relaitPin2 6 //Definiere den Namen und Pin für das 2. Relait
-#define relaitPin3 7 //Definiere den Namen und Pin für das 3. Relait
-#define relaitPin4 3 //Definiere den Namen und Pin für das 3. Relait
+#define relaitPin1 5 //Definiere den Namen und Pin fÃ¼r das 1. Relait - Feuchte
+#define relaitPin2 6 //Definiere den Namen und Pin fÃ¼r das 2. Relait - Wasser  
+#define relaitPin3 7 //Definiere den Namen und Pin fÃ¼r das 3. Relait - Heizung 
+#define relaitPin4 4 //Definiere den Namen und Pin fÃ¼r das 4. Relait - Abluft
 
 //alternate Testing
 
 //*********************************************************************************************************
-//#define relaitPin3 3 //Definiere den Namen und Pin für das 3. Relait
-//#define relaitPin4 7 //Definiere den Namen und Pin für das 3. Relait
+
 
 //*********************************************************************************************************
 //EEPROM
@@ -134,7 +133,7 @@ int eeprom_address_watered = 0;
 
 
 //*********************************************************************************************************
-//Globale Variablen (Bitte nicht ändern) -> Gewünschte Werte sind in mode_settings.ino anpassbar
+//Globale Variablen (Bitte nicht Ã¤ndern) -> GewÃ¼nschte Werte sind in mode_settings.ino anpassbar
 //*********************************************************************************************************
 int zaehler = 0;
 //int zaehler2 = 0;
@@ -151,19 +150,31 @@ int optimaleTemperatur = 0;
 int maxLuftfeuchte = 0;
 int minLuftfeuchte = 0;
 int optimaleLuftfeuchte = 0;
+//int dht_adjust = 10; //Sollte der DHT Sensor die Luftfeuchte falsch anzeigen, kann hier eine Anpassung vorgenommen werden.
 
 int Messpause = 0;
+int Messdurchgaenge = 0;
+int Messdurchgaenge_negativ = 0;
+
+int Absaugung_aktiv = 0;
+
+int water_with_air = 0;
 
 int air_refresh_secound = 0;
 
-float h = 0; //Variable für aktuelle Luftfeuchte in %
-float t = 0; //Variable für aktuelle Temperatur in Celsius
-float f = 0; //Variable für aktuelle Temperatur in Fahrenheit
+int dht_adjustment_h = 0;
+int dht_adjustment_t = 0;
+
+float h = 0; //Variable fÃ¼r aktuelle Luftfeuchte in %
+float t = 0; //Variable fÃ¼r aktuelle Temperatur in Celsius
+float f = 0; //Variable fÃ¼r aktuelle Temperatur in Fahrenheit
 float hif = 0;
 float hic = 0;
 
 int minute_global = 0;
 int hour_global = 0;
+long unix_secounds = 0;
+long air_refresh_time = 0;
 
 boolean relait1check = 0;
 boolean relait2check = 0;
@@ -183,11 +194,36 @@ int water_hour_08 = 99;
 int water_hour_09 = 99;
 int water_hour_10 = 99;
 
+int water_hour_cycles_01 = 1;
+int water_hour_cycles_02 = 1;
+int water_hour_cycles_03 = 1;
+int water_hour_cycles_04 = 1;
+int water_hour_cycles_05 = 1;
+int water_hour_cycles_06 = 1;
+int water_hour_cycles_07 = 1;
+int water_hour_cycles_08 = 1;
+int water_hour_cycles_09 = 1;
+int water_hour_cycles_10 = 1;
+
+int air_refresh_minute_01 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+int air_refresh_minute_02 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+int air_refresh_minute_03 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+int air_refresh_minute_04 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+
+int air_refresh_times = 0;
+
+int print_delay = 0;
+
+String inData = 0;
+
 boolean water_applied = 1;
+int water_cycles_done = 0;
 boolean water_check = 1;
 
-long flush_time_secounds = 90;  //Dauer der Wasserzufuhr bei dem Bewässern
-long flush_timer_secounds = 60; //Dauer der Pause bis zur nächsten Spülung
+boolean hourly_air_active = 0;
+
+long flush_time_secounds = 90;  //Dauer der Wasserzufuhr bei dem BewÃ¤ssern
+long flush_timer_secounds = 60; //Dauer der Pause bis zur nÃ¤chsten SpÃ¼lung
 
 byte Mode = 0; 
 
@@ -218,7 +254,7 @@ boolean excel_output = 1;
 
 
 //*********************************************************************************************************
-//Setup Loop wird einmal ausgeführt
+//Setup Loop wird einmal ausgefÃ¼hrt
 //*********************************************************************************************************
 void setup()
 {
@@ -232,21 +268,24 @@ void setup()
   dht.begin();
   //************
   
-  //PIN Modus festlegen  
-  pinMode(relaitPin1, OUTPUT); //Setze den Steuerpin für Relait 1 als Ausgang
-  pinMode(relaitPin2, OUTPUT); //Setze den Steuerpin für Relait 2 als Ausgang
-  pinMode(relaitPin3, OUTPUT); //Setze den Steuerpin für Relait 3 als Ausgang
-  pinMode(relaitPin4, OUTPUT); //Setze den Steuerpin für Relait 4 als Ausgang
+  digitalWrite(relaitPin1, LOW);         //Schalte relaitPin1 aus 
+  digitalWrite(relaitPin2, LOW);         //Schalte relaitPin2 aus
+  digitalWrite(relaitPin3, LOW);         //Schalte relaitPin3 aus - umgekehrte schaltlogik
+  digitalWrite(relaitPin4, LOW); 
   
-  pinMode(Modeschalter, INPUT);  //Setze den Steuerpin für den gewünschten Modus als Eingang
-//  pinMode(DHT_powerPin, OUTPUT); //Setze den PowerPin für den DHT Sensor als Ausgang
-  pinMode(LedPin1, OUTPUT); //Setze den Steuerpin für Led1 als Ausgang
+  //PIN Modus festlegen  
+  pinMode(relaitPin1, OUTPUT); //Setze den Steuerpin fÃ¼r Relait 1 als Ausgang
+  pinMode(relaitPin2, OUTPUT); //Setze den Steuerpin fÃ¼r Relait 2 als Ausgang
+  pinMode(relaitPin3, OUTPUT); //Setze den Steuerpin fÃ¼r Relait 3 als Ausgang
+  pinMode(relaitPin4, OUTPUT); //Setze den Steuerpin fÃ¼r Relait 4 als Ausgang
+  
+  pinMode(Modeschalter, INPUT);  //Setze den Steuerpin fÃ¼r den gewÃ¼nschten Modus als Eingang
+//  pinMode(DHT_powerPin, OUTPUT); //Setze den PowerPin fÃ¼r den DHT Sensor als Ausgang
+  pinMode(LedPin1, OUTPUT); //Setze den Steuerpin fÃ¼r Led1 als Ausgang
   pinMode(Water_Sensor, INPUT);     //The Water Sensor is an Input
   //*****************
  
-  digitalWrite(relaitPin1, LOW);         //Schalte relaitPin1 aus 
-  digitalWrite(relaitPin2, LOW);         //Schalte relaitPin2 aus 
-  digitalWrite(relaitPin3, LOW);         //Schalte relaitPin3 aus   
+ 
   
 // digitalWrite(DHT_powerPin, HIGH);      //Schalte DHT Powerpin ein 
   digitalWrite(LedPin1, LOW);            //Schalte LedPin 1 aus
@@ -263,6 +302,8 @@ void setup()
 
   digitalWrite(DS1302_VCC_PIN, HIGH);
   pinMode(DS1302_VCC_PIN, OUTPUT);
+  
+  RTC.writeEN(1);
   
   Serial.println("RTC module activated");
   Serial.println();
@@ -301,7 +342,7 @@ Box_functions();
 void loop()
 {
 //************
-//Cyclezähler
+//CyclezÃ¤hler
 //************
 zaehler++;
 //************
@@ -321,6 +362,9 @@ led_cycle_check();
 //Serial.print(RTC.get());
   RTC.get();
   Zeitausgabe();
+  unix_secounds = (RTC.get());
+  Serial.print("Unix Zeit: ");
+  Serial.println(unix_secounds);
 //*********************************************************************************************************
 //*********************************************************************************************************
   
@@ -336,11 +380,13 @@ led_cycle_check();
 // Reading temperature or humidity takes about 250 milliseconds!
 // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
 //*********************************************************************  
-  h = dht.readHumidity();
+  h = dht.readHumidity();//+dht_adjust;
   // Read temperature as Celsius (the default)
   t = dht.readTemperature();
+  
+  h = h+dht_adjustment_h;
   // Read temperature as Fahrenheit (isFahrenheit = true)
-  f = dht.readTemperature(true);
+  //f = dht.readTemperature(true);
 
   // Check if any reads failed and exit early (to try again).
   if (isnan(h) || isnan(t) || isnan(f)) 
@@ -359,11 +405,11 @@ led_cycle_check();
 //*********************************************************************************************************  
 //Modeschalter
 //*********************************************************************************************************
-  Modeswitch();           //Legt den ausgewählten Mode fest
+  Modeswitch();           //Legt den ausgewÃ¤hlten Mode fest
   
   
 //*********************************************************************************************************
-//Lesen der Modekonfiguration und Aktivieren der gewünschten Einstellungen
+//Lesen der Modekonfiguration und Aktivieren der gewÃ¼nschten Einstellungen
 //*********************************************************************************************************
   if(Mode == 0) //Grow
   {
@@ -383,7 +429,16 @@ led_cycle_check();
   {
   Mode2_settings_active();
   flushcontrol_active();
-  }     
+  }   
+
+  if(Mode == 3) //Relait testmode (endlos loop)
+  {
+    int s=0;
+    while(s==0)
+    {
+    Mode3_settings_active();
+    }
+  }  
 //*********************************************************************************************************
 
 //*********************************************************************************************************  
@@ -392,6 +447,8 @@ led_cycle_check();
   if(Abluft_regulieren == 1)
   {
   aircontrol();
+  
+  
   air_refresh(); //TESTING
   }
  
@@ -413,9 +470,9 @@ led_cycle_check();
   }
 
 //*********************************************************************************************************
-//Bewässerung
+//BewÃ¤sserung
 //*********************************************************************************************************
-//Der Schaltvorgang für die Bewässerung falls eine für die Bewässerung gewählte Stunde eintritt.
+//Der Schaltvorgang fÃ¼r die BewÃ¤sserung falls eine fÃ¼r die BewÃ¤sserung gewÃ¤hlte Stunde eintritt.
 //*********************************************************************************************************
 if(Bewaesserung_regulieren == 1)
 {
@@ -423,22 +480,206 @@ if(Mode == 1 || Mode == 0)
     {
     water_applied = EEPROM.read(eeprom_address_watered);
     bewaesserung_status_ausgabe();
+    water_cycles_done = 0;
 
-      if (hour_global == water_hour_01 && water_applied == 0 || hour_global == water_hour_02 && water_applied == 0 || hour_global == water_hour_03 && water_applied == 0 || hour_global == water_hour_04 && water_applied == 0 || hour_global == water_hour_05 && water_applied == 0 || hour_global == water_hour_06 && water_applied == 0 || hour_global == water_hour_07 && water_applied == 0 || hour_global == water_hour_08 && water_applied == 0 || hour_global == water_hour_09 && water_applied == 0 || hour_global == water_hour_10 && water_applied == 0 )
+      if (hour_global == water_hour_01 && water_applied == 0)
       {
-      //Stars();     
-      
-      watercontrol_active(); //Auskommentieren falls keine Bewässerung notwendig
-      
-      //Stars();
+      Stars();     
+      while (water_cycles_done < water_hour_cycles_01)
+       {
+        water_cycles_done++;
+        water_cycles_ausgabe();
+        Serial.println(water_hour_cycles_01);
+
+        watercontrol_active(); //Auskommentieren falls keine BewÃ¤sserung notwendig
+        delay(3000); //Schaltpause  
+       }
+      water_applied = 1;
+      EEPROM.write(eeprom_address_watered, water_applied); 
+      watercontrol_active_ausgabe2();
+      Stars();
       }
+      //****
+      
+      if (hour_global == water_hour_02 && water_applied == 0)
+          {
+      Stars();     
+      while (water_cycles_done < water_hour_cycles_02)
+       {
+        water_cycles_done++;
+        water_cycles_ausgabe();
+        Serial.println(water_hour_cycles_02);
+
+        watercontrol_active(); //Auskommentieren falls keine BewÃ¤sserung notwendig
+        delay(3000); //Schaltpause  
+       }
+      water_applied = 1;
+      EEPROM.write(eeprom_address_watered, water_applied); 
+      watercontrol_active_ausgabe2();
+      Stars();
+      }
+      //****
+      
+      if (hour_global == water_hour_03 && water_applied == 0)
+      {
+      Stars();     
+      while (water_cycles_done < water_hour_cycles_03)
+       {
+        water_cycles_done++;
+        water_cycles_ausgabe();
+        Serial.println(water_hour_cycles_03);
+
+        watercontrol_active(); //Auskommentieren falls keine BewÃ¤sserung notwendig
+        delay(3000); //Schaltpause  
+       }
+      water_applied = 1;
+      EEPROM.write(eeprom_address_watered, water_applied); 
+      watercontrol_active_ausgabe2();
+      Stars();
+      }
+      //****
+      
+      if (hour_global == water_hour_04 && water_applied == 0)
+      {
+      Stars();     
+      while (water_cycles_done < water_hour_cycles_04)
+       {
+        water_cycles_done++;
+        water_cycles_ausgabe();
+        Serial.println(water_hour_cycles_04);
+
+        watercontrol_active(); //Auskommentieren falls keine BewÃ¤sserung notwendig
+        delay(3000); //Schaltpause  
+       }
+      water_applied = 1;
+      EEPROM.write(eeprom_address_watered, water_applied); 
+      watercontrol_active_ausgabe2();
+      Stars();
+      }
+      //****
+      
+      if (hour_global == water_hour_05 && water_applied == 0) 
+      {
+      Stars();     
+      while (water_cycles_done < water_hour_cycles_05)
+       {
+        water_cycles_done++;
+        water_cycles_ausgabe();
+        Serial.println(water_hour_cycles_05);
+
+        watercontrol_active(); //Auskommentieren falls keine BewÃ¤sserung notwendig
+        delay(3000); //Schaltpause  
+       }
+      water_applied = 1;
+      EEPROM.write(eeprom_address_watered, water_applied); 
+      watercontrol_active_ausgabe2();
+      Stars();
+      }
+      //****
+      
+      if (hour_global == water_hour_06 && water_applied == 0 )
+      {
+      Stars();     
+      while (water_cycles_done < water_hour_cycles_06)
+       {
+        water_cycles_done++;
+        water_cycles_ausgabe();
+        Serial.println(water_hour_cycles_06);
+
+        watercontrol_active(); //Auskommentieren falls keine BewÃ¤sserung notwendig
+        delay(3000); //Schaltpause  
+       }
+      water_applied = 1;
+      EEPROM.write(eeprom_address_watered, water_applied); 
+      watercontrol_active_ausgabe2();
+      Stars();
+      }
+      //****
+      
+      if (hour_global == water_hour_07 && water_applied == 0 )
+                {
+      Stars();     
+      while (water_cycles_done < water_hour_cycles_07)
+       {
+        water_cycles_done++;
+        water_cycles_ausgabe();
+        Serial.println(water_hour_cycles_07);
+
+        watercontrol_active(); //Auskommentieren falls keine BewÃ¤sserung notwendig
+        delay(3000); //Schaltpause  
+       }
+      water_applied = 1;
+      EEPROM.write(eeprom_address_watered, water_applied); 
+      watercontrol_active_ausgabe2();
+      Stars();
+      }
+      //****
+      
+      if (hour_global == water_hour_08 && water_applied == 0 ) 
+      {
+      Stars();     
+      while (water_cycles_done < water_hour_cycles_08)
+       {
+        water_cycles_done++;
+        water_cycles_ausgabe();
+        Serial.println(water_hour_cycles_08);
+
+        watercontrol_active(); //Auskommentieren falls keine BewÃ¤sserung notwendig
+        delay(3000); //Schaltpause  
+       }
+      water_applied = 1;
+      EEPROM.write(eeprom_address_watered, water_applied); 
+      watercontrol_active_ausgabe2();
+      Stars();
+      }
+      //****
+      
+      if (hour_global == water_hour_09 && water_applied == 0 )
+                {
+      Stars();     
+      while (water_cycles_done < water_hour_cycles_09)
+       {
+        water_cycles_done++;
+        water_cycles_ausgabe();
+        Serial.println(water_hour_cycles_09);
+
+        watercontrol_active(); //Auskommentieren falls keine BewÃ¤sserung notwendig
+        delay(3000); //Schaltpause  
+       }
+      water_applied = 1;
+      EEPROM.write(eeprom_address_watered, water_applied); 
+      watercontrol_active_ausgabe2();
+      Stars();
+      }
+      //****
+      
+      if (hour_global == water_hour_10 && water_applied == 0 )
+      {
+      Stars();     
+      while (water_cycles_done < water_hour_cycles_10)
+       {
+        water_cycles_done++;
+        water_cycles_ausgabe();
+        Serial.println(water_hour_cycles_10);
+
+        watercontrol_active(); //Auskommentieren falls keine BewÃ¤sserung notwendig
+        delay(3000); //Schaltpause  
+       }
+      water_applied = 1;
+      EEPROM.write(eeprom_address_watered, water_applied); 
+      watercontrol_active_ausgabe2();
+      Stars();
+      }
+      //****
+      //****
+      
   
-      //Überprüfe ob die Bewässerung zur aktuellen Stunde ausgeführt wurde
+      //ÃœberprÃ¼fe ob die BewÃ¤sserung zur aktuellen Stunde ausgefÃ¼hrt wurde
       if ( minute_global == 59 && water_applied == 1 )
       {
       //Stars();
         
-      watercontrol_reset(); //Auskommentieren falls keine Bewässerung notwendig
+      watercontrol_reset(); //Auskommentieren falls keine BewÃ¤sserung notwendig
       
       //Stars();   
       }
@@ -461,7 +702,7 @@ if(Mode == 1 || Mode == 0)
 //*********************************************************************************************************  
 
 //*********************************************************************************************************
-//Messzähler
+//MesszÃ¤hler
 //Gibt den aktuellen Messdurchgang am Serial Monitor aus
 //*********************************************************************************************************
   Messzaehler_ausgabe();
@@ -480,7 +721,7 @@ if(Mode == 1 || Mode == 0)
 //*********************************************************************************************************
 
 //*********************************************************************************************************
-//Schaltwerte für Lufteuchte, Temperatur, Abluft ausgeben
+//Schaltwerte fÃ¼r Lufteuchte, Temperatur, Abluft ausgeben
 //*********************************************************************************************************
 Schaltwerte_ausgabe();
 //*********************************************************************************************************
@@ -517,20 +758,20 @@ water_level();
   
   CSVausgabe();  
  
-
+  
 
 
 
 //*********************************************************************************************************
-//Zähler Reset
+//ZÃ¤hler Reset
 //*********************************************************************************************************
-  if(zaehler >= 15)
+  if(zaehler >= Messdurchgaenge)
   {
   zaehler = 0;
   }
 
 //*********************************************************************************************************
-//Verzögerung bis zur nächsten Messung
+//VerzÃ¶gerung bis zur nÃ¤chsten Messung
 //*********************************************************************************************************  
   int delayer = 0;
   while(delayer <= 10)
@@ -541,14 +782,24 @@ water_level();
       {
       Serial.print("*");
       }
+      Serial.println("^^");
     }
 
-
+Serial.flush();
 
 
 //*********************************************************************************************************
+//Lese vom serial port//
 
- } //close Mainloop
+if(Serial.available() > 0)
+    {
+        inData = Serial.readStringUntil('\n');
+       Serial.println("*data: "+inData);
+       delay(2000);
+       inData="";
+     }
+//************************************     
+} //close Mainloop
 
 //*********************************************************************************************************//*********************************************************************************************************
 //*********************************************************************************************************//*********************************************************************************************************
@@ -566,6 +817,5 @@ void print2digits(int number) {
 //vorgefertigte Textsegmente
 void Stars()
 {
-  Serial.println("*********");
+  //Serial.println("*********");
 }
-
