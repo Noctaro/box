@@ -17,8 +17,11 @@
     print2digits(tm.Second);
     Serial.println(" ");
     Stars();
+    delay(print_delay);  
     }
-
+    
+    
+    
     if(Datum_anzeigen == 1 && excel_output == 0)
     {
     Serial.print("Datum (T/M/J):  ");
@@ -28,7 +31,10 @@
     Serial.write('/');
     Serial.println(tmYearToCalendar(tm.Year));
     Stars();
+    delay(print_delay);
     }
+
+
 
     if(Wochentag_anzeigen == 1 && excel_output == 0)
     {
@@ -36,6 +42,7 @@
     Serial.print(tm.Wday);
     Serial.println();
     Stars();
+    delay(print_delay);
     }
     
   } 
@@ -58,6 +65,7 @@ void Modeswitch_ausgabe()
   Serial.print("Modus:"); 
   Serial.println(Mode,2); 
   Stars();
+  delay(print_delay);
   }
 }
 //**********************************
@@ -70,8 +78,10 @@ if (Messdurchgang_anzeigen == 1 && excel_output == 0)
   {
   Serial.print("Messdurchgang ");
   Serial.print(zaehler);
-  Serial.println(" von 15");
+  Serial.print(" von ");
+  Serial.println(Messdurchgaenge);
   Stars();
+  delay(print_delay);
   }
 }
 //**********************************
@@ -83,15 +93,16 @@ void Relaitcheck_ausgabe()
 {
   if(Relaticheck_anzeigen == 1 && excel_output == 0)
   { 
-  Serial.print("Relait 1 Power: ");
+  Serial.print("Befeuchtung  -> Relait 1 Power: ");
   Serial.println(relait1check);
-  Serial.print("Relait 2 Power: ");
+  Serial.print("Bewaesserung -> Relait 2 Power: ");
   Serial.println(relait2check);
-  Serial.print("Relait 3 Power: ");
+  Serial.print("Heizung      -> Relait 3 Power: ");
   Serial.println(relait3check);
-  Serial.print("Relait 4 Power: ");
+  Serial.print("Abluft       -> Relait 4 Power: ");
   Serial.println(relait4check);
   Stars();
+  delay(print_delay);
   }
 }  
 //**********************************
@@ -121,8 +132,10 @@ void Relaitcheck_ausgabe()
     Serial.println(air_zaehler);
     }
     
-   Serial.println("(Schaltvorgang bei +-15)"); 
+   Serial.print("Schaltvorgang bei +-"); 
+   Serial.println(Messdurchgaenge);
    Stars();
+   delay(print_delay);
    }
   } 
 //**********************************
@@ -132,14 +145,14 @@ void Relaitcheck_ausgabe()
 //**********************************
 void LuftfeuchteStatus_ausgabe()
 {
-  if (h <= minLuftfeuchte || h >= maxLuftfeuchte) //Wenn die Luftfeuchte unter minLuftfeuchte oder über maxLuftfeuchte
+  if (h <= minLuftfeuchte || h >= maxLuftfeuchte) //Wenn die Luftfeuchte unter minLuftfeuchte oder Ã¼ber maxLuftfeuchte
   {
     led_hum_critical();            //Schalte LedPin 1 ein
     
     if(Luftfeuchte_anzeigen ==1 && excel_output == 0)
     {
     Serial.println("Luftfeuchtigkeit KRITISCH! -.-        ");
-    delay(1000);                            //Verzögerung 1000cycles - ca. 0,5 Sekunden
+    delay(print_delay);                            //VerzÃ¶gerung 1000cycles - ca. 0,5 Sekunden
     }
     
   }
@@ -149,6 +162,7 @@ void LuftfeuchteStatus_ausgabe()
       if(Luftfeuchte_anzeigen ==1 && excel_output == 0)
       {  
       Serial.println("Luftfeuchtigkeit OK ^^        ");
+      delay(print_delay);
       }
     }
  }
@@ -167,6 +181,7 @@ void TemperaturStatus_ausgabe()
     if(excel_output == 0)
     {
     Serial.println("Temperatur KRITISCH! -.-"); 
+    delay(print_delay);
     }
   } 
  
@@ -175,6 +190,7 @@ void TemperaturStatus_ausgabe()
      if(excel_output == 0)
      { 
      Serial.println("Temperatur OK ^^"); 
+     delay(print_delay);
      }
     } 
 }
@@ -191,6 +207,7 @@ void TemperaturStatus_ausgabe()
   Serial.print(h);
   Serial.println(" %\t");
   Stars();
+  delay(print_delay);
   }
   
   if(Temperatur_anzeigen == 1 && excel_output == 0)
@@ -199,14 +216,16 @@ void TemperaturStatus_ausgabe()
   Serial.print(t);
   Serial.println(" *C ");
   Stars();
+  delay(print_delay);
   
   //Serial.print(f);
   //Serial.print(" *F\t");
   //float hic = dht.computeHeatIndex(t, h, false);
-  Serial.print("Gefuehlte Temperatur: ");
+  Serial.print("Gefuehlte Temp: ");
   Serial.print(hic);
   Serial.println(" *C");
   Stars();
+  delay(print_delay);
   //Serial.print(hif);
   //Serial.println(" *F");
   }
@@ -262,14 +281,14 @@ void watercontrol_active_ausgabe()
       count_watercontrol_time++;  
         if(excel_output == 0)
         {
-        delay(flush_time_secounds*100); //Verzögerung für ein 10tel der angegebenen Zeit in Sekunden   
+        delay(flush_time_secounds*100); //VerzÃ¶gerung fÃ¼r ein 10tel der angegebenen Zeit in Sekunden   
         Serial.print("*");
         }
       }
 
       if(Wasserstand_anzeigen == 1 && excel_output == 0)
       {
-        Serial.println("☺");
+        Serial.println("^^");
       }
 }
 
@@ -287,7 +306,7 @@ void watercontrol_active_ausgabe2()
 void bewaesserung_status_ausgabe()
   {
     
-    Serial.print("Bewaesserung ausgeführt: "); 
+    Serial.print("Bewaesserung ausgefuehrt: "); 
     Serial.println(water_applied); 
     Stars();
   }
@@ -301,6 +320,7 @@ void water_level_ausgabe()
      
     Serial.println("Wasserstand Bewaesserung kritisch -.- ");
     Stars();
+    delay(print_delay);
     }
 }
 
@@ -309,8 +329,9 @@ void water_level_ausgabe2()
       if(Wasserstand_anzeigen == 1 && excel_output == 0)
       {
           
-      Serial.println("Wasserstand Bewaesserung OK ☺");
+      Serial.println("Wasserstand Bewaesserung OK ^^");
       Stars(); 
+      delay(print_delay);
       }
 }
 //**********************************
@@ -336,7 +357,7 @@ void flushcontrol_active_ausgabe()
  {
  flush_time_counter++; 
  Serial.print("*");
- delay(flush_time_secounds*1000);
+ delay(flush_time_secounds*100);
  }
  Serial.println("^^");
 }
@@ -358,8 +379,9 @@ void Heizung_ausgabe()
   if(Schaltvorgang_anzeigen == 1 && excel_output == 0)
   {
   Stars();
-  Serial.println("    -> Heizung aktiv");
+  Serial.println("Heizung aktiv");
   Stars();
+  delay(print_delay);
   }
 }
 
@@ -368,8 +390,9 @@ void Heizung_ausgabe2()
   if(Schaltvorgang_anzeigen == 1 && excel_output == 0)
   {
   Stars();
-  Serial.println("    -> Heizung inaktiv");
+  Serial.println("Heizung inaktiv");
   Stars();
+  delay(print_delay);
   }
 }
 //**********************************
@@ -382,8 +405,8 @@ void humidity_balancer_ausgabe()
     if(Schaltvorgang_anzeigen == 1 && excel_output == 0)
     {
     Serial.println("Bin am befeuchten!");
-    delay(5000);     //Verzögerung 
     Stars();
+    delay(print_delay);
     }
 }
 
@@ -391,9 +414,9 @@ void humidity_balancer_ausgabe2()
 {
     if(Schaltvorgang_anzeigen == 1 && excel_output == 0)
     { 
-    Serial.println("Bin am rasten...keine Befeuchtung");
-    delay(5000);                            //Verzögerung ca 30 Sekunden
+    Serial.println("Bin am rasten...keine Befeuchtung");                              
     Stars();
+    delay(print_delay);
     }
 }
 //**********************************
@@ -408,6 +431,7 @@ void air_ausgabe()
       Stars();  
       Serial.println("Luftzirkulation aktiviert" );
       Stars();
+      delay(print_delay);
      }
 }
 
@@ -418,6 +442,7 @@ void air_ausgabe2()
     Stars();  
     Serial.println("Luftzirkulation deaktiviert" );  
     Stars();
+    delay(print_delay);
     }
 }
 
@@ -428,7 +453,7 @@ void air_refresh_ausgabe()
  {
  air_refresh_counter++; 
  Serial.print("*");
- delay(air_refresh_secound*1000);
+ delay(air_refresh_secound*100);
  } 
 }
 //**********************************
@@ -438,7 +463,12 @@ void air_refresh_ausgabe()
 //**********************************
 
 //**********************************
-
+void water_cycles_ausgabe()
+{
+ Serial.print("Durchgang ");
+ Serial.print(water_cycles_done);
+ Serial.print(" von "); 
+}
 
 
 //**********************************
