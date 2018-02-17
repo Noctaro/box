@@ -274,13 +274,13 @@ void Mode2_settings_active() //Flush Mode
 //*********************************************************************************************************
 
 //*********************************************************************************************************
-//Relait test - relait 1 -> 1 blink then switch, relait 2 - 2 blink then switch,..... , restart
+//Mode 3 - Relait test - relait 1 -> 1 blink then switch, relait 2 - 2 blink then switch,..... , restart
 //*********************************************************************************************************
 void Mode3_settings_active() 
   {
   digitalWrite(relaitPin1, LOW);         //Schalte relaitPin1 aus 
   digitalWrite(relaitPin2, LOW);         //Schalte relaitPin2 aus
-  digitalWrite(relaitPin3, LOW);         //Schalte relaitPin3 aus - umgekehrte schaltlogik
+  digitalWrite(relaitPin3, LOW);         //Schalte relaitPin3 aus 
   digitalWrite(relaitPin4, LOW);         //Schalte relaitPin4 aus
   
   int  i = 0;
