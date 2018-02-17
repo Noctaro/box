@@ -1,3 +1,4 @@
+
 //  __   __     ______     ______           __         ______     ______     __  __     __    
 // /\ "-.\ \   /\  __ \   /\  ___\         /\ \       /\  ___\   /\  __ \   /\ \/\ \   /\ \   
 // \ \ \-.  \  \ \ \/\ \  \ \ \____        \ \ \____  \ \  __\   \ \ \/\_\  \ \ \_\ \  \ \ \  
@@ -64,14 +65,14 @@ DS1302RTC RTC(8, 9, 10); //new version
 // Example testing sketch for various DHT humidity/temperature sensors
 // Written by ladyada, public domain
 
-#include "DHT.h"
-#include "Adafruit_Sensor.h"
+//#include "DHT.h"
+//#include "Adafruit_Sensor.h"
 
-#define DHTPIN 3     // what digital pin we're connected to
+//#define DHTPIN 3     // what digital pin we're connected to
 //#define DHT_powerPin 3 //Powerpin fÃ¼r den dht
 
 // Uncomment whatever type you're using!
-#define DHTTYPE DHT11   // DHT 11
+//#define DHTTYPE DHT11   // DHT 11
 //#define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
 //#define DHTTYPE DHT21   // DHT 21 (AM2301)
 
@@ -86,8 +87,13 @@ DS1302RTC RTC(8, 9, 10); //new version
 // Note that older versions of this library took an optional third parameter to
 // tweak the timings for faster processors.  This parameter is no longer needed
 // as the current DHT reading algorithm adjusts itself to work on faster procs.
-DHT dht(DHTPIN, DHTTYPE);
+//DHT dht(DHTPIN, DHTTYPE);
 //*********************************************************************************************************
+
+//SHT 31 init (alle DHT Zeilen auskommentieren)
+#include <Wire.h>
+#include "Adafruit_SHT31.h"
+Adafruit_SHT31 sht31 = Adafruit_SHT31();
 
 //*********************************************************************************************************
 //PIN fÃ¼r den Wassersensor
@@ -99,7 +105,7 @@ DHT dht(DHTPIN, DHTTYPE);
 //*********************************************************************************************************
 //PIN fÃ¼r den Schalter der Modeauswahlfunktion
 //*********************************************************************************************************
-//BenÃ¶tigt Remapping - Pin 2 == Serial TX
+//BenÃ¶tigt Remapping - Pin 2 == Serial TX*--*
 #define Modeschalter A1 //Definiere den Pin fÃ¼r den Schalter zwischen Mode 0, 1 und 2
 //*********************************************************************************************************
 
@@ -150,7 +156,6 @@ int optimaleTemperatur = 0;
 int maxLuftfeuchte = 0;
 int minLuftfeuchte = 0;
 int optimaleLuftfeuchte = 0;
-//int dht_adjust = 10; //Sollte der DHT Sensor die Luftfeuchte falsch anzeigen, kann hier eine Anpassung vorgenommen werden.
 
 int Messpause = 0;
 int Messdurchgaenge = 0;
@@ -214,7 +219,7 @@ int air_refresh_times = 0;
 
 int print_delay = 0;
 
-String inData = 0;
+//String inData = 0;
 
 boolean water_applied = 1;
 int water_cycles_done = 0;
@@ -264,9 +269,21 @@ void setup()
   //*********************************************************************************************************
   //DHT Initialisierung
   //*********************************************************************************************************
-  Serial.println("Hydrobalancer ist online.");
-  dht.begin();
+  //Serial.println("Hydrobalancer ist online.");
+  //dht.begin();
   //************
+
+  //*********************************************************************************************************
+  //SHT 31 Initialisierung
+  //*********************************************************************************************************
+  while (!Serial)
+    delay(10);     // will pause Zero, Leonardo, etc until serial console opens
+  Serial.println("SHT31 test");
+  if (! sht31.begin(0x44)) 
+  {   // Set to 0x45 for alternate i2c addr
+   Serial.println("Couldn't find SHT31");
+   while (1) delay(1);
+  }
   
   digitalWrite(relaitPin1, LOW);         //Schalte relaitPin1 aus 
   digitalWrite(relaitPin2, LOW);         //Schalte relaitPin2 aus
@@ -380,26 +397,34 @@ led_cycle_check();
 // Reading temperature or humidity takes about 250 milliseconds!
 // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
 //*********************************************************************  
-  h = dht.readHumidity();//+dht_adjust;
+//  h = dht.readHumidity();//+dht_adjust;
   // Read temperature as Celsius (the default)
-  t = dht.readTemperature();
+//  t = dht.readTemperature();
   
-  h = h+dht_adjustment_h;
+//  h = h+dht_adjustment_h;
   // Read temperature as Fahrenheit (isFahrenheit = true)
   //f = dht.readTemperature(true);
 
   // Check if any reads failed and exit early (to try again).
-  if (isnan(h) || isnan(t) || isnan(f)) 
-  {
-  Serial.println("Failed to read from DHT sensor!");
+//  if (isnan(h) || isnan(t) || isnan(f)) 
+//  {
+//  Serial.println("Failed to read from DHT sensor!");
   //  return;
-  }
+//  }
 
   // Compute heat index in Fahrenheit (the default)
-  hif = dht.computeHeatIndex(f, h);
+  //hif = dht.computeHeatIndex(f, h);
   // Compute heat index in Celsius (isFahreheit = false)
-  hic = dht.computeHeatIndex(t, h, false);
+//  hic = dht.computeHeatIndex(t, h, false);
 //********************************************************************* 
+
+
+//*********************************************************************
+//SHT31
+//********************************************************************* 
+ t = sht31.readTemperature();
+ h = sht31.readHumidity();
+
 
 
 //*********************************************************************************************************  
@@ -789,7 +814,7 @@ Serial.flush();
 
 
 //*********************************************************************************************************
-//Lese vom serial port//
+//Lese vom serial port diesen string -> { gui_opt_temp: 24, gui_min_temp: 22, gui_max_temp: 25 }//
 
 //if(Serial.available() > 0)
 //    {
@@ -798,8 +823,11 @@ Serial.flush();
 //       delay(2000);
 //       inData="";
 //     }
+//************************************   
+
 //************************************     
 } //close Mainloop
+//************************************   
 
 //*********************************************************************************************************//*********************************************************************************************************
 //*********************************************************************************************************//*********************************************************************************************************
