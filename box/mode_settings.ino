@@ -122,7 +122,7 @@ Mode = 0;                               //Den gewÃ¼nschten Modus im Code manue
     
   maxLuftfeuchte = 68; 
   optimaleLuftfeuchte = 65;
-  minLuftfeuchte = 64
+  minLuftfeuchte = 64;
   
   air_refresh_secound = 240; //Dauer der BelÃ¼ftung in Sekunden (muss mehr als 60 Sekunden sein)
   
@@ -241,7 +241,7 @@ void Mode1_settings_active()
     
   maxLuftfeuchte = 68; 
   optimaleLuftfeuchte = 65;
-  minLuftfeuchte = 64
+  minLuftfeuchte = 64;
   
   air_refresh_secound = 380; //Dauer der BelÃ¼ftung in Sekunden (muss mehr als 60 Sekunden sein)
   
