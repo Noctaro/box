@@ -771,7 +771,7 @@ water_level();
 //CSV Ausgabe am Serial Monitor (Serial print)
 //*********************************************************************************************************
   
-  CSVausgabe();  
+  //CSVausgabe();  
  
   
 
