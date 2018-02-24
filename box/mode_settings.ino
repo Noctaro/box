@@ -177,18 +177,64 @@ water_with_air = 1; //Befeuchtung aktivieren wenn abgesaugt wird.
   //************************************************** 
 void Mode1_settings_active()
   {
+  //maxTemperatur = 27;
+  //optimaleTemperatur = 26;
+  //minTemperatur = 25;
+  //maxLuftfeuchte = 52;
+  //optimaleLuftfeuchte = 45;
+  //minLuftfeuchte = 43;
+  //air_refresh_secound = 65;  //Dauer der BelÃ¼ftung in Sekunden (muss mindestens 65 Sekunden sein)
+  //air_refresh_minute_01 = 15; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+  //air_refresh_minute_02 = 45; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+  //air_refresh_minute_03 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+  //air_refresh_minute_04 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+  
+  //Zeiten für Zeitsteuerung
+  int tagbeginn_stunde = 7;       //Sonnenaufgang 
+  int nachtbeginn_stunde = 23;    //Sonnenuntergang
+  
+ 
+  //Zeitgesteuert -Bei Tag
+  //*******************************************//
+  if (hour_global < nachtbeginn_stunde || hour_global > tagbeginn_stunde) //Bei Tag
+  {
   maxTemperatur = 27;
   optimaleTemperatur = 26;
   minTemperatur = 25;
-  maxLuftfeuchte = 52;
+    
+  maxLuftfeuchte = 68; 
   optimaleLuftfeuchte = 45;
-  minLuftfeuchte = 43;
+  minLuftfeuchte = 64;
   
-  air_refresh_secound = 65;  //Dauer der BelÃ¼ftung in Sekunden (muss mindestens 65 Sekunden sein)
-  air_refresh_minute_01 = 15; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+  air_refresh_secound = 240; //Dauer der BelÃ¼ftung in Sekunden (muss mehr als 60 Sekunden sein)
+  
+  air_refresh_minute_01 = 15;
   air_refresh_minute_02 = 45; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
   air_refresh_minute_03 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
   air_refresh_minute_04 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+  }
+  
+  //Zeitgesteuert - Bei Nacht
+  //*******************************************//
+  if (hour_global >= nachtbeginn_stunde || hour_global <= tagbeginn_stunde) //Bei Nacht
+  {
+  maxTemperatur = 27;
+  optimaleTemperatur = 26;
+  minTemperatur = 25;
+    
+  maxLuftfeuchte = 68; 
+  optimaleLuftfeuchte = 45;
+  minLuftfeuchte = 64
+  
+  air_refresh_secound = 380; //Dauer der BelÃ¼ftung in Sekunden (muss mehr als 60 Sekunden sein)
+  
+  air_refresh_minute_01 = 99;
+  air_refresh_minute_02 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+  air_refresh_minute_03 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+  air_refresh_minute_04 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+}
+  
+
 
   
  //*********************************************************************************************************
