@@ -213,7 +213,7 @@ void Mode1_settings_active()
  
   //Zeitgesteuert -Bei Tag
   //*******************************************//
-  if (hour_global < nachtbeginn_stunde || hour_global > tagbeginn_stunde) //Bei Tag
+  if (hour_global < nachtbeginn_stunde || hour_global >= tagbeginn_stunde) //Bei Tag
   {
   maxTemperatur = 27;
   optimaleTemperatur = 26;
@@ -233,7 +233,7 @@ void Mode1_settings_active()
   
   //Zeitgesteuert - Bei Nacht
   //*******************************************//
-  if (hour_global >= nachtbeginn_stunde || hour_global <= tagbeginn_stunde) //Bei Nacht
+  if (hour_global >= nachtbeginn_stunde || hour_global < tagbeginn_stunde) //Bei Nacht
   {
   maxTemperatur = 27;
   optimaleTemperatur = 26;
