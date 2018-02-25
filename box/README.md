@@ -8,7 +8,9 @@ You will need these libraries:
 Adafruit_Sensor-master https://codeload.github.com/adafruit/Adafruit_Sensor/zip/master
 
 DHT-sensor-library-master https://codeload.github.com/adafruit/DHT-sensor-library/zip/master
+
 and
+
 SHT 31 library https://github.com/adafruit/Adafruit_SHT31 
 (for now you will need both of them installed)
 
