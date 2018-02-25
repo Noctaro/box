@@ -33,4 +33,36 @@ DS1302RTC RTC(8, 9, 10); //new version
 #define DS1302_VCC_PIN 12 //zum deaktivieren einfach Pin 99 angeben
 //*************************************
 //*********************************************************************************************************
+
+
+//*********************************************************************************************************
+//Clock Module Initialisierung
+//*********************************************************************************************************
+void clock_init()
+{
+  //Serial.println("DS1302RTC Read Test");
+  //*****************
+  // RTC Modul aktivieren
+  //*****************
+  digitalWrite(DS1302_GND_PIN, LOW);
+  pinMode(DS1302_GND_PIN, OUTPUT);
+
+  digitalWrite(DS1302_VCC_PIN, HIGH);
+  pinMode(DS1302_VCC_PIN, OUTPUT);
+  
+  RTC.writeEN(1);
+  
+  //Serial.println("RTC module activated");
+  //Serial.println();
+  delay(500);
+  
+  if (RTC.haltRTC()) {
+    Serial.println("The DS1302 is stopped.  Please run the SetTime");
+    //Serial.println();
+  }
+  if (!RTC.writeEN()) {
+    Serial.println("The DS1302 is write protected. This normal.");
+    //Serial.println();
+  }
+}
 #endif
