@@ -279,7 +279,7 @@ void setup()
     //Serial.println();
   }
   if (!RTC.writeEN()) {
-    Serial.println("The DS1302 is write protected. This normal.");
+    Serial.println("Clock OK");
     //Serial.println();
   }
   
