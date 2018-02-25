@@ -208,10 +208,27 @@ void setup()
   //*********************************************************************************************************
   //DHT Initialisierung
   //*********************************************************************************************************
-  
+  if(DHT_used == 1)
+  { 
   Serial.println("Hydrobalancer ist online.");
   dht.begin();
+  }
+  //************
   
+  //*********************************************************************************************************
+  //SHT Initialisierung
+  //*********************************************************************************************************
+  if(SHT_used == 1)
+  { 
+    while (!Serial)
+    delay(10);     // will pause Zero, Leonardo, etc until serial console opens
+    Serial.println("SHT31 test");
+    if (! sht31.begin(0x44)) 
+    { // Set to 0x45 for alternate i2c addr
+    Serial.println("Couldn't find SHT31");
+    while (1) delay(1);
+    }
+  }
   //************
 
   //PIN Modus festlegen  
@@ -396,14 +413,14 @@ if(SHT_used == 1)
   flushcontrol_active();
   }   
 
-  if(Mode == 3) //Relait testmode (endlos loop)
-  {
-    int s=0;
-    while(s==0)
-    {
-    Mode3_settings_active();
-    }
-  }  
+  //if(Mode == 3) //Relait testmode (endlos loop)
+  //{
+    //int s=0;
+    //while(s==0)
+    //{
+    //Mode3_settings_active();
+    //}
+  //}  
 //*********************************************************************************************************
 
 //*********************************************************************************************************  
