@@ -251,7 +251,7 @@ void watercontrol_reset_ausgabe()
    //*********************************************************************************************************  
    //Watchdog Timer reset - avoid biting  
    //*********************************************************************************************************  
-        //wdt_reset();
+        wdt_reset();
    //*********************************************************************************************************
     count_reset_time++;   
     delay(6500);
@@ -281,13 +281,18 @@ void watercontrol_active_ausgabe()
       }
       
       int count_watercontrol_time = 0;
-      while (count_watercontrol_time <= 10)
+      while (count_watercontrol_time <= 100)
       {
       count_watercontrol_time++;  
         if(excel_output == 0)
         {
-        delay(flush_time_secounds*100); //VerzÃ¶gerung fÃ¼r ein 10tel der angegebenen Zeit in Sekunden   
+        delay(flush_time_secounds*10); //VerzÃ¶gerung fÃ¼r ein 100tel der angegebenen Zeit in Sekunden   
         Serial.print("*");
+        //*********************************************************************************************************  
+        //Watchdog Timer reset - avoid biting  
+        //*********************************************************************************************************  
+        wdt_reset();
+        //*********************************************************************************************************
         }
       }
 

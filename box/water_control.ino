@@ -28,6 +28,8 @@ void watercontrol_active()
       digitalWrite(relaitPin2, LOW);           //Schalte Relait Pin 2 aus
       relait2check = 0;
       Serial.println(relait2check);
+
+
       
       delay(1000);
 }
