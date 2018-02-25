@@ -54,7 +54,7 @@ void Box_functions()
 
 void Modeswitch()
 {
-Mode = 0;                               //Den gewÃ¼nschten Modus im Code manuell setzen 0/1/2 - HierfÃ¼r muss die nÃ¤chste Zeile auskommentiert werden
+Mode = 1;                               //Den gewÃ¼nschten Modus im Code manuell setzen 0/1/2 - HierfÃ¼r muss die nÃ¤chste Zeile auskommentiert werden
 //Mode = digitalRead(Modeschalter);     //Lese den Status des physichen Modeschalters fÃ¼r die Wahl des gewÃ¼nschten Modus - HiefÃ¼r muss die vorherige Zeile auskommentiert werden
 }
 //*********************************************************************************************************
@@ -257,16 +257,16 @@ void Mode1_settings_active()
  //*********************************************************************************************************
  //UHRZEITEN fÃ¼r BewÃ¤sserung in MODE 1 hier eintragen! (10 verschiedeme Stunden stehen zur VerfÃ¼gung)(Zum deaktivieren einer Zeit einfach 99 eintragen)
  //*********************************************************************************************************
-  water_hour_01 = 99;
+  water_hour_01 = 2;
   water_hour_cycles_01 = 2; //Anzahl der PumpvorgÃ¤nge - sinvoll bei Pumpen mit eingebautem Timer, 
  //**********************
-  water_hour_02 = 99;
+  water_hour_02 = 6;
   water_hour_cycles_02 = 1;  //sinvoll bei Pumpen mit eingebautem Timer
  //**********************  
-  water_hour_03 = 99;
+  water_hour_03 = 8;
   water_hour_cycles_03 = 1;  //sinvoll bei Pumpen mit eingebautem Timer
  //**********************
-  water_hour_04 = 99;
+  water_hour_04 = 10;
   water_hour_cycles_04 = 1;  
  //**********************
   water_hour_05 = 99;
@@ -397,3 +397,4 @@ void Mode3_settings_active()
 //*********************************************************************************************************   
 }//end of void MODE 3   
 //*********************************************************************************************************
+

@@ -210,7 +210,7 @@ void setup()
   //*********************************************************************************************************
   if(DHT_used == 1)
   { 
-  Serial.println("Hydrobalancer ist online.");
+  //Serial.println("Hydrobalancer ist online.");
   dht.begin();
   }
   //************
@@ -222,10 +222,10 @@ void setup()
   { 
     while (!Serial)
     delay(10);     // will pause Zero, Leonardo, etc until serial console opens
-    Serial.println("SHT31 test");
+    //Serial.println("SHT31 test");
     if (! sht31.begin(0x44)) 
     { // Set to 0x45 for alternate i2c addr
-    Serial.println("Couldn't find SHT31");
+    //Serial.println("Couldn't find SHT31");
     while (1) delay(1);
     }
   }
@@ -279,7 +279,7 @@ void setup()
     //Serial.println();
   }
   if (!RTC.writeEN()) {
-    Serial.println("Clock OK");
+    Serial.println("The DS1302 is write protected. This normal.");
     //Serial.println();
   }
   
