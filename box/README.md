@@ -7,7 +7,7 @@ You will need these libraries:
 
 Adafruit_Sensor-master https://codeload.github.com/adafruit/Adafruit_Sensor/zip/master
 
-SHT 31 library https://github.com/adafruit/Adafruit_SHT31
+SHT 31 library https://github.com/Risele/SHT3x
 
 Streaming library http://arduiniana.org/Streaming/Streaming5.zip
 
