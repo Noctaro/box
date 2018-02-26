@@ -151,7 +151,7 @@ void LuftfeuchteStatus_ausgabe()
     
     if(Luftfeuchte_anzeigen ==1 && excel_output == 0)
     {
-    Serial.println("Luftfeuchtigkeit KRITISCH!");
+    Serial.println("H KRITISCH!");
     delay(print_delay);                            //Verzögerung 1000cycles - ca. 0,5 Sekunden
     }
     
@@ -161,7 +161,7 @@ void LuftfeuchteStatus_ausgabe()
     {
       if(Luftfeuchte_anzeigen ==1 && excel_output == 0)
       {  
-      Serial.println("Luftfeuchtigkeit OK ^^");
+      Serial.println("H OK ^^");
       delay(print_delay);
       }
     }
@@ -180,7 +180,7 @@ void TemperaturStatus_ausgabe()
     
     if(excel_output == 0)
     {
-    Serial.println("Temperatur KRITISCH! -.-"); 
+    Serial.println("T KRITISCH!"); 
     delay(print_delay);
     }
   } 
@@ -189,7 +189,7 @@ void TemperaturStatus_ausgabe()
     {
      if(excel_output == 0)
      { 
-     Serial.println("Temperatur OK ^^"); 
+     Serial.println("T OK ^^"); 
      delay(print_delay);
      }
     } 
@@ -221,11 +221,11 @@ void TemperaturStatus_ausgabe()
   //Serial.print(f);
   //Serial.print(" *F\t");
   //float hic = dht.computeHeatIndex(t, h, false);
-  Serial.print("Gefuehlte Temp: ");
-  Serial.print(hic);
-  Serial.println(" *C");
-  Stars();
-  delay(print_delay);
+  //Serial.print("Gefuehlte Temp: ");
+  //Serial.print(hic);
+  //Serial.println(" *C");
+  //Stars();
+  //delay(print_delay);
   //Serial.print(hif);
   //Serial.println(" *F");
   }
@@ -296,7 +296,7 @@ void watercontrol_active_ausgabe2()
 {
       if(Wasserstand_anzeigen == 1 && excel_output == 0)
       {
-      Serial.println("Bewaesserung abgeschlossen.");
+      Serial.println("BW abgeschlossen.");
       Serial.print(water_applied);
       Serial.println(" ins EEPROM geschrieben");
       }
@@ -318,7 +318,7 @@ void water_level_ausgabe()
   if(Wasserstand_anzeigen == 1 && excel_output == 0)
     {
      
-    Serial.println("Wasserstand Bewaesserung kritisch -.- ");
+    Serial.println("Wasserstand krit");
     Stars();
     delay(print_delay);
     }
@@ -329,7 +329,7 @@ void water_level_ausgabe2()
       if(Wasserstand_anzeigen == 1 && excel_output == 0)
       {
           
-      Serial.println("Wasserstand Bewaesserung OK ^^");
+      Serial.println("Wasserstand OK");
       Stars(); 
       delay(print_delay);
       }
@@ -346,7 +346,7 @@ void flushcontrol_active_ausgabe()
       {
       Serial.print("Relait 2 Power: ");
       Serial.println(relait2check);
-      Serial.print("Bewaesserung laeuft fuer ");
+      Serial.print("Bewaesserung laeuft");
       Serial.print(flush_time_secounds);
       Serial.println(" Sekunden");
       }
@@ -414,7 +414,7 @@ void humidity_balancer_ausgabe2()
 {
     if(Schaltvorgang_anzeigen == 1 && excel_output == 0)
     { 
-    Serial.println("Bin am rasten...keine Befeuchtung");                              
+    Serial.println("keine Befeuchtung");                              
     Stars();
     delay(print_delay);
     }
