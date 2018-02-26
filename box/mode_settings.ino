@@ -15,29 +15,29 @@ void Box_functions()
   
   Wasserstand_anzeigen = 1;       //Gibt bei kritischem Wasserstand eine Meldung per Serial Monitor aus.
   Relaticheck_anzeigen = 1;       //Gibt den aktuellen Schaltzustand der Relaits am Serial Monitor aus.
-  Schaltzyklus_anzeigen = 1;      //Gibt Meldungen Ã¼ber den Schaltzyklus der Relaits aus am Serial Monitor aus.
+  Schaltzyklus_anzeigen = 1;      //Gibt Meldungen über den Schaltzyklus der Relaits aus am Serial Monitor aus.
   Schaltvorgang_anzeigen = 1;     //Gibt Meldungen beim Schalten eines Relaits am Serial Monitor aus.
   Messdurchgang_anzeigen = 1;     //Gibt den aktuellen Messdurchlauf am Serial Monitor aus.
-  TemperaturStatus_anzeigen = 1;  //Gibt bei kritischen TemperaturzustÃ¤nden eine Meldung per Serial Monitor aus.
-  Modeschalter_anzeigen = 1;      //Gibt den aktuell gewÃ¤hlten Modus am Serial Monitor aus.
+  TemperaturStatus_anzeigen = 1;  //Gibt bei kritischen Temperaturzuständen eine Meldung per Serial Monitor aus.
+  Modeschalter_anzeigen = 1;      //Gibt den aktuell gewählten Modus am Serial Monitor aus.
   
   Uhrzeit_anzeigen = 1;           //Gibt die aktuelle Zeit am Serial Monitor aus
   Wochentag_anzeigen = 1;         //Gibt den aktuellen Wochentag am Serial Monitor aus
   Datum_anzeigen = 1;             //Gibt das aktuelle Datum am Serial Monitor aus
   
-  excel_output = 0;               //Spezielle Ausgabe der Daten im CSV Format (alle anderen Anzeigen werden hierfÃ¼r automatisch deaktiviert.)
+  excel_output = 0;               //Spezielle Ausgabe der Daten im CSV Format (alle anderen Anzeigen werden hierfür automatisch deaktiviert.)
 
   ////*********************************************************************************************************
-  //Dauer bis zum nÃ¤chsten Messdurchgang in Sekunden (WICHTIG: Mindestens 2 Sekunden um den DHT Sensor nicht zu Ã¼berfordern!)
+  //Dauer bis zum nächsten Messdurchgang in Sekunden (WICHTIG: Mindestens 2 Sekunden um den DHT Sensor nicht zu überfordern!)
   //*********************************************************************************************************
    Messpause = 2;
    
-   print_delay = 100; //VerzÃ¶gerung bei der Ausgabe einer Zeile in ms. Sollte mindestens 50 sein
+   print_delay = 100; //Verzögerung bei der Ausgabe einer Zeile in ms. Sollte mindestens 50 sein
    
    
 
    
-   Messdurchgaenge = 5; //Anzahl der MessdurchgÃ¤nge bevor ein Relait geschalten wird
+   Messdurchgaenge = 5; //Anzahl der Messdurchgänge bevor ein Relait geschalten wird
    Messdurchgaenge_negativ = 0 - Messdurchgaenge ;
 
 }
@@ -48,95 +48,78 @@ void Box_functions()
 //**************************************************
 //MODEAUSWAHL
 //**************************************************
-//Hier die die gewÃ¼nschte Modeauswahlmethode festlegen. Der gewÃ¼nschte kann Mode nach belieben per Schalter oder Quellcode gweÃ¤hlt werden.
+//Hier die die gewünschte Modeauswahlmethode festlegen. Der gewünschte kann Mode nach belieben per Schalter oder Quellcode gweählt werden.
 //Mode
 //**************************************************
 
 void Modeswitch()
 {
-Mode = 0;                               //Den gewÃ¼nschten Modus im Code manuell setzen 0/1/2 - HierfÃ¼r muss die nÃ¤chste Zeile auskommentiert werden
-//Mode = digitalRead(Modeschalter);     //Lese den Status des physichen Modeschalters fÃ¼r die Wahl des gewÃ¼nschten Modus - HiefÃ¼r muss die vorherige Zeile auskommentiert werden
+Mode = 1;                               //Den gewünschten Modus im Code manuell setzen 0/1/2 - Hierfür muss die nächste Zeile auskommentiert werden
+//Mode = digitalRead(Modeschalter);     //Lese den Status des physichen Modeschalters für die Wahl des gewünschten Modus - Hiefür muss die vorherige Zeile auskommentiert werden
 }
 //*********************************************************************************************************
 
 
 //*********************************************************************************************************
 //*********************************************************************************************************
-//Hier die geÃ¼nschten Werte fÃ¼r die 3 Modi eintragen
+//Hier die geünschten Werte für die 3 Modi eintragen
 //*********************************************************************************************************
 //*********************************************************************************************************
 
 //**************************************************
 //MODE 0 - CLIMATE I
 //**************************************************
-//Hier die Werte fÃ¼r !Mode 0! nach belieben eintragen
-//Festlegen der gewÃ¼nschten Temperaturen
+//Hier die Werte für !Mode 0! nach belieben eintragen
+//Festlegen der gewünschten Temperaturen
 //**************************************************
   
   void Mode0_settings_active()
   {
-  //maxTemperatur = 27;
-  //optimaleTemperatur = 26;
-  //minTemperatur = 25;
-  //maxLuftfeuchte = 52;
-  //optimaleLuftfeuchte = 45;
-  //minLuftfeuchte = 43;
-  //air_refresh_secound = 65;  //Dauer der BelÃ¼ftung in Sekunden (muss mindestens 65 Sekunden sein)
-  //air_refresh_minute_01 = 15; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-  //air_refresh_minute_02 = 45; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-  //air_refresh_minute_03 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-  //air_refresh_minute_04 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-  
-  //Zeiten für Zeitsteuerung
-  int tagbeginn_stunde = 7;       //Sonnenaufgang 
-  int nachtbeginn_stunde = 23;    //Sonnenuntergang
-  
- 
-  //Zeitgesteuert -Bei Tag
-  //*******************************************//
-  if (hour_global < nachtbeginn_stunde || hour_global > tagbeginn_stunde) //Bei Tag
-  {
-  maxTemperatur = 27;
-  optimaleTemperatur = 26;
-  minTemperatur = 25;
-    
-  maxLuftfeuchte = 68; 
+  maxTemperatur = 25;
+  optimaleTemperatur = 24;
+  minTemperatur = 22;
+  //maxLuftfeuchte = 70;
   optimaleLuftfeuchte = 65;
+  //minLuftfeuchte = 50; 
+  
+//  air_refresh_secound = 120; //Dauer der Belüftung in Sekunden (muss mehr als 60 Sekunden sein)
+//  air_refresh_minute_01 = 15; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+//  air_refresh_minute_02 = 45; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+//  air_refresh_minute_03 = 00; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+//  air_refresh_minute_04 = 30; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+  
+//testing Zeitgesteuert
+  if (hour_global < 20 || hour_global > 8) //Bei Tag
+  {
+  maxLuftfeuchte = 68; 
   minLuftfeuchte = 64;
   
-  air_refresh_secound = 240; //Dauer der BelÃ¼ftung in Sekunden (muss mehr als 60 Sekunden sein)
+  air_refresh_secound = 240; //Dauer der Belüftung in Sekunden (muss mehr als 60 Sekunden sein)
   
   air_refresh_minute_01 = 15;
-  air_refresh_minute_02 = 45; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-  air_refresh_minute_03 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-  air_refresh_minute_04 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+  air_refresh_minute_02 = 45; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+  air_refresh_minute_03 = 99; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+  air_refresh_minute_04 = 99; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
   }
   
-  //Zeitgesteuert - Bei Nacht
-  //*******************************************//
-  if (hour_global >= nachtbeginn_stunde || hour_global <= tagbeginn_stunde) //Bei Nacht
+  if (hour_global >= 23 || hour_global <= 7) //Bei Nacht
   {
-  maxTemperatur = 27;
-  optimaleTemperatur = 26;
-  minTemperatur = 25;
-    
-  maxLuftfeuchte = 68; 
-  optimaleLuftfeuchte = 65;
-  minLuftfeuchte = 64
+  maxLuftfeuchte = 70;
+  minLuftfeuchte = 60;
   
-  air_refresh_secound = 240; //Dauer der BelÃ¼ftung in Sekunden (muss mehr als 60 Sekunden sein)
+  air_refresh_secound = 380; //Dauer der Belüftung in Sekunden (muss mehr als 60 Sekunden sein)
   
-  air_refresh_minute_01 = 15;
-  air_refresh_minute_02 = 45; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-  air_refresh_minute_03 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-  air_refresh_minute_04 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+  air_refresh_minute_01 = 99;
+  air_refresh_minute_02 = 99; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+  air_refresh_minute_03 = 99; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+  air_refresh_minute_04 = 99; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
   }
  
  //*********************************************************************************************************
- //UHRZEITEN fÃ¼r BewÃ¤sserung in MODE 0 hier eintragen! (10 verschiedeme Stunden stehen zur VerfÃ¼gung 0-23 Uhr) (Zum deaktivieren einer Zeit einfach 99 eintragen)
+ //UHRZEITEN für Bewässerung in MODE 0 hier eintragen! (10 verschiedeme Stunden stehen zur Verfügung 0-23 Uhr) (Zum deaktivieren einer Zeit einfach 99 eintragen)
  //*********************************************************************************************************
   water_hour_01 = 99;
-  water_hour_cycles_01 = 1;  //Anzahl der PumpvorgÃ¤nge - sinvoll bei Pumpen mit eingebautem Timer, 
+  water_hour_cycles_01 = 1;  //Anzahl der Pumpvorgänge - sinvoll bei Pumpen mit eingebautem Timer, 
  //**********************
   water_hour_02 = 99;
   water_hour_cycles_02 = 1;  //sinvoll bei Pumpen mit eingebautem Timer
@@ -167,7 +150,7 @@ Mode = 0;                               //Den gewÃ¼nschten Modus im Code manue
  //**********************
   
 //*******************************************************************************************
-//Dauer der Wasserzufuhr bei dem BewÃ¤ssern
+//Dauer der Wasserzufuhr bei dem Bewässern
 //*******************************************************************************************
 long flush_time_secounds = 65;  
 //*********************************************************************************************************
@@ -189,76 +172,30 @@ water_with_air = 1; //Befeuchtung aktivieren wenn abgesaugt wird.
 //**************************************************
 //MODE 1 - CLIMATE II
 //**************************************************
-  //Hier die Werte fÃ¼r MODE 1 nach belieben eintragen
-  //Festlegen der gewÃ¼nschten Temperaturen
+  //Hier die Werte für MODE 1 nach belieben eintragen
+  //Festlegen der gewünschten Temperaturen
   //************************************************** 
 void Mode1_settings_active()
   {
-  //maxTemperatur = 27;
-  //optimaleTemperatur = 26;
-  //minTemperatur = 25;
-  //maxLuftfeuchte = 52;
-  //optimaleLuftfeuchte = 45;
-  //minLuftfeuchte = 43;
-  //air_refresh_secound = 65;  //Dauer der BelÃ¼ftung in Sekunden (muss mindestens 65 Sekunden sein)
-  //air_refresh_minute_01 = 15; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-  //air_refresh_minute_02 = 45; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-  //air_refresh_minute_03 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-  //air_refresh_minute_04 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+  maxTemperatur = 26;
+  optimaleTemperatur = 25;
+  minTemperatur = 24;
+  maxLuftfeuchte = 62;
+  optimaleLuftfeuchte = 58;
+  minLuftfeuchte = 57;
   
-  //Zeiten für Zeitsteuerung
-  int tagbeginn_stunde = 7;       //Sonnenaufgang 
-  int nachtbeginn_stunde = 23;    //Sonnenuntergang
-  
- 
-  //Zeitgesteuert -Bei Tag
-  //*******************************************//
-  if (hour_global < nachtbeginn_stunde || hour_global > tagbeginn_stunde) //Bei Tag
-  {
-  maxTemperatur = 27;
-  optimaleTemperatur = 26;
-  minTemperatur = 25;
-    
-  maxLuftfeuchte = 68; 
-  optimaleLuftfeuchte = 65;
-  minLuftfeuchte = 64;
-  
-  air_refresh_secound = 240; //Dauer der BelÃ¼ftung in Sekunden (muss mehr als 60 Sekunden sein)
-  
-  air_refresh_minute_01 = 15;
-  air_refresh_minute_02 = 45; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-  air_refresh_minute_03 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-  air_refresh_minute_04 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-  }
-  
-  //Zeitgesteuert - Bei Nacht
-  //*******************************************//
-  if (hour_global >= nachtbeginn_stunde || hour_global <= tagbeginn_stunde) //Bei Nacht
-  {
-  maxTemperatur = 27;
-  optimaleTemperatur = 26;
-  minTemperatur = 25;
-    
-  maxLuftfeuchte = 68; 
-  optimaleLuftfeuchte = 65;
-  minLuftfeuchte = 64
-  
-  air_refresh_secound = 380; //Dauer der BelÃ¼ftung in Sekunden (muss mehr als 60 Sekunden sein)
-  
-  air_refresh_minute_01 = 99;
-  air_refresh_minute_02 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-  air_refresh_minute_03 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-  air_refresh_minute_04 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-}
-  
-
+  air_refresh_secound = 300;  //Dauer der Belüftung in Sekunden (muss mindestens 65 Sekunden sein)
+  air_refresh_minute_01 = 15; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+  air_refresh_minute_02 = 45; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+  air_refresh_minute_03 = 30; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+  air_refresh_minute_04 = 00; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
 
   
  //*********************************************************************************************************
- //UHRZEITEN fÃ¼r BewÃ¤sserung in MODE 1 hier eintragen! (10 verschiedeme Stunden stehen zur VerfÃ¼gung)(Zum deaktivieren einer Zeit einfach 99 eintragen)
+ //UHRZEITEN für Bewässerung in MODE 1 hier eintragen! (10 verschiedeme Stunden stehen zur Verfügung)(Zum deaktivieren einer Zeit einfach 99 eintragen)
  //*********************************************************************************************************
   water_hour_01 = 99;
-  water_hour_cycles_01 = 2; //Anzahl der PumpvorgÃ¤nge - sinvoll bei Pumpen mit eingebautem Timer, 
+  water_hour_cycles_01 = 2; //Anzahl der Pumpvorgänge - sinvoll bei Pumpen mit eingebautem Timer, 
  //**********************
   water_hour_02 = 99;
   water_hour_cycles_02 = 1;  //sinvoll bei Pumpen mit eingebautem Timer
@@ -289,11 +226,11 @@ void Mode1_settings_active()
  //**********************
 
 //*******************************************************************************************
- flush_time_secounds = 90;  //Dauer der Wasserzufuhr bei dem BewÃ¤ssern
+ flush_time_secounds = 90;  //Dauer der Wasserzufuhr bei dem Bewässern
 //*********************************************************************************************************
 
 //***********************
-water_with_air = 1; //Befeuchtung aktivieren wenn abgesaugt wird.
+water_with_air = 0; //Befeuchtung aktivieren wenn abgesaugt wird.
 //***********************
 
 //*********************************************************************************************************   
@@ -308,8 +245,8 @@ water_with_air = 1; //Befeuchtung aktivieren wenn abgesaugt wird.
 //**************************************************
 //MODE 2 - FLUSH
 //**************************************************
-  //Hier die Werte fÃ¼r MODE 2 nach belieben eintragen
-  //Festlegen der gewÃ¼nschten Temperaturen
+  //Hier die Werte für MODE 2 nach belieben eintragen
+  //Festlegen der gewünschten Temperaturen
   //************************************************** 
 
 void Mode2_settings_active() //Flush Mode
@@ -323,11 +260,11 @@ void Mode2_settings_active() //Flush Mode
 
  
  //*********************************************************************************************************
- //Zeitintervall fÃ¼r BewÃ¤sserung in MODE 2 hier eintragen! (10 verschiedeme Stunden stehen zur VerfÃ¼gung)(Zum deaktivieren einer Zeit einfach 99 eintragen)
+ //Zeitintervall für Bewässerung in MODE 2 hier eintragen! (10 verschiedeme Stunden stehen zur Verfügung)(Zum deaktivieren einer Zeit einfach 99 eintragen)
  //*********************************************************************************************************
- flush_time_secounds = 120;  //Dauer der Wasserzufuhr bei dem BewÃ¤ssern
+ flush_time_secounds = 120;  //Dauer der Wasserzufuhr bei dem Bewässern
  //*******************************************************************************************
- flush_timer_secounds = 60;  //Zeit fÃ¼r Pause nach der Wasserzufuhr
+ flush_timer_secounds = 60;  //Zeit für Pause nach der Wasserzufuhr
  //*********************************************************************************************************
 
 
@@ -337,18 +274,18 @@ void Mode2_settings_active() //Flush Mode
 //*********************************************************************************************************
 
 //*********************************************************************************************************
-//Mode 3 - Relait test - relait 1 -> 1 blink then switch, relait 2 - 2 blink then switch,..... , restart
+//Relait test - relait 1 -> 1 blink then switch, relait 2 - 2 blink then switch,..... , restart
 //*********************************************************************************************************
 void Mode3_settings_active() 
   {
   digitalWrite(relaitPin1, LOW);         //Schalte relaitPin1 aus 
   digitalWrite(relaitPin2, LOW);         //Schalte relaitPin2 aus
-  digitalWrite(relaitPin3, LOW);         //Schalte relaitPin3 aus 
+  digitalWrite(relaitPin3, LOW);         //Schalte relaitPin3 aus - umgekehrte schaltlogik
   digitalWrite(relaitPin4, LOW);         //Schalte relaitPin4 aus
   
   int  i = 0;
     
-  while(i<2)
+  while(i<4)
     {
     i++;
     delay(2000);
@@ -358,7 +295,7 @@ void Mode3_settings_active()
     digitalWrite(relaitPin1, LOW);
     }
     
-      while(i<4)
+      while(i<7)
     {
     i++;
     delay(2000);
@@ -369,7 +306,7 @@ void Mode3_settings_active()
     digitalWrite(relaitPin2, LOW);
     }
     
-          while(i<6)
+          while(i<11)
     {
     i++;
     delay(2000);
@@ -381,7 +318,7 @@ void Mode3_settings_active()
     digitalWrite(relaitPin3, LOW);
     }
     
-          while(i<8)
+          while(i<14)
     {
     i++;
     delay(2000);

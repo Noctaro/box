@@ -1,7 +1,7 @@
 void aircontrol()
 {
 
-  //Wenn Luftfeuchte zu niederig ODER Temperatur zo hoch UND Luftefeuchte hÃ¶her als der Minimalwert ist addieren wir zur Variable "air_zaehler" +1 
+  //Wenn Luftfeuchte zu niederig ODER Temperatur zo hoch UND Luftefeuchte höher als der Minimalwert ist addieren wir zur Variable "air_zaehler" +1 
 
   // disabled for testing 
   //if(h > maxLuftfeuchte || t >= maxTemperatur && h > minLuftfeuchte || hourly_air_active == 1)
@@ -19,7 +19,7 @@ void aircontrol()
   
 if (zaehler == Messdurchgaenge)
 {
-  //Der Schaltert fÃ¼r die Abluft/Zuluft wird bei dem Zyklus Messdurchgaenge ausgefÃ¼hrt
+  //Der Schaltert für die Abluft/Zuluft wird bei dem Zyklus Messdurchgaenge ausgeführt
     if(air_zaehler >= Messdurchgaenge)
     {           
     //Testing new ->  
@@ -39,7 +39,7 @@ if (zaehler == Messdurchgaenge)
     digitalWrite(relaitPin4, HIGH);
     relait4check = 1;
     
-    //TESTING BEFEUCHTUNG BEIM LÃœFTEN
+    //TESTING BEFEUCHTUNG BEIM LÜFTEN
     if(water_with_air == 1 && t >= minTemperatur && h < optimaleLuftfeuchte)
       {
       digitalWrite(relaitPin1, HIGH);
@@ -63,7 +63,7 @@ if (zaehler == Messdurchgaenge)
     }
     // <-
  
-  air_zaehler = 0; //Wird nach dem . Zyklus zurÃ¼ckgesetzt
+  air_zaehler = 0; //Wird nach dem . Zyklus zurückgesetzt
  }
  //TESTING
  //if(h <= optimaleLuftfeuchte && t <= maxTemperatur )
@@ -106,3 +106,4 @@ void air_refresh()
  
 }
   
+

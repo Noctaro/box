@@ -1,30 +1,30 @@
 
 //*********************************************************************************************************
-//BewÃ¤sserung
+//Bewässerung
 //*********************************************************************************************************
 
 //*********************************************************************************************************
-//BewÃ¤sserung fÃ¼r die kommende Stunde wieder aktivieren
+//Bewässerung für die kommende Stunde wieder aktivieren
 //*********************************************************************************************************
 void watercontrol_reset() 
 {      
-       //BewÃ¤sserung ab Minute 59 wieder ermÃ¶glichen.
+       //Bewässerung ab Minute 59 wieder ermöglichen.
        water_applied = 0;    
        EEPROM.write(eeprom_address_watered, water_applied);
        watercontrol_reset_ausgabe();
 }
 
 //*********************************************************************************************************
-//Der Schaltvorgang fÃ¼r die BewÃ¤sserung falls eine fÃ¼r die BewÃ¤sserung gewÃ¤hlte Stunde eintritt.
+//Der Schaltvorgang für die Bewässerung falls eine für die Bewässerung gewählte Stunde eintritt.
 //*********************************************************************************************************
 void watercontrol_active() 
 {
-      //BewÃ¤sserung aktivieren  
+      //Bewässerung aktivieren  
       relait2check = 1;      
       digitalWrite(relaitPin2, HIGH);           //Schalte Relait Pin 2 ein
       watercontrol_active_ausgabe();
       
-      //BewÃ¤sserung deaktivieren
+      //Bewässerung deaktivieren
       digitalWrite(relaitPin2, LOW);           //Schalte Relait Pin 2 aus
       relait2check = 0;
       Serial.println(relait2check);
@@ -62,13 +62,13 @@ void water_level()
 //*********************************************************************************************************
 void flushcontrol_active() 
 {
-      //BewÃ¤sserung aktivieren  
+      //Bewässerung aktivieren  
       relait2check = 1;
       digitalWrite(relaitPin2, HIGH);           //Schalte Relait Pin 2 ein
       flushcontrol_active_ausgabe();
       
 
-      //BewÃ¤sserung deaktivieren
+      //Bewässerung deaktivieren
       
       digitalWrite(relaitPin2, LOW);           //Schalte Relait Pin 2 aus
       relait2check = 0;

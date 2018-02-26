@@ -145,14 +145,14 @@ void Relaitcheck_ausgabe()
 //**********************************
 void LuftfeuchteStatus_ausgabe()
 {
-  if (h <= minLuftfeuchte || h >= maxLuftfeuchte) //Wenn die Luftfeuchte unter minLuftfeuchte oder Ã¼ber maxLuftfeuchte
+  if (h <= minLuftfeuchte || h >= maxLuftfeuchte) //Wenn die Luftfeuchte unter minLuftfeuchte oder über maxLuftfeuchte
   {
     led_hum_critical();            //Schalte LedPin 1 ein
     
     if(Luftfeuchte_anzeigen ==1 && excel_output == 0)
     {
-    Serial.println("Luftfeuchtigkeit KRITISCH! -.-        ");
-    delay(print_delay);                            //VerzÃ¶gerung 1000cycles - ca. 0,5 Sekunden
+    Serial.println("Luftfeuchtigkeit KRITISCH!");
+    delay(print_delay);                            //Verzögerung 1000cycles - ca. 0,5 Sekunden
     }
     
   }
@@ -161,7 +161,7 @@ void LuftfeuchteStatus_ausgabe()
     {
       if(Luftfeuchte_anzeigen ==1 && excel_output == 0)
       {  
-      Serial.println("Luftfeuchtigkeit OK ^^        ");
+      Serial.println("Luftfeuchtigkeit OK ^^");
       delay(print_delay);
       }
     }
@@ -281,7 +281,7 @@ void watercontrol_active_ausgabe()
       count_watercontrol_time++;  
         if(excel_output == 0)
         {
-        delay(flush_time_secounds*100); //VerzÃ¶gerung fÃ¼r ein 10tel der angegebenen Zeit in Sekunden   
+        delay(flush_time_secounds*100); //Verzögerung für ein 10tel der angegebenen Zeit in Sekunden   
         Serial.print("*");
         }
       }
