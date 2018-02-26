@@ -145,14 +145,14 @@ void Relaitcheck_ausgabe()
 //**********************************
 void LuftfeuchteStatus_ausgabe()
 {
-  if (h <= minLuftfeuchte || h >= maxLuftfeuchte) //Wenn die Luftfeuchte unter minLuftfeuchte oder Ã¼ber maxLuftfeuchte
+  if (h <= minLuftfeuchte || h >= maxLuftfeuchte) //Wenn die Luftfeuchte unter minLuftfeuchte oder über maxLuftfeuchte
   {
     led_hum_critical();            //Schalte LedPin 1 ein
     
     if(Luftfeuchte_anzeigen ==1 && excel_output == 0)
     {
-    Serial.println("H critical");
-    delay(print_delay);                            //VerzÃ¶gerung 1000cycles - ca. 0,5 Sekunden
+    Serial.println("Luftfeuchtigkeit KRITISCH!");
+    delay(print_delay);                            //Verzögerung 1000cycles - ca. 0,5 Sekunden
     }
     
   }
@@ -161,7 +161,7 @@ void LuftfeuchteStatus_ausgabe()
     {
       if(Luftfeuchte_anzeigen ==1 && excel_output == 0)
       {  
-      Serial.println("H OK");
+      Serial.println("Luftfeuchtigkeit OK ^^");
       delay(print_delay);
       }
     }
@@ -180,7 +180,7 @@ void TemperaturStatus_ausgabe()
     
     if(excel_output == 0)
     {
-    Serial.println("T critical"); 
+    Serial.println("Temperatur KRITISCH! -.-"); 
     delay(print_delay);
     }
   } 
@@ -189,7 +189,7 @@ void TemperaturStatus_ausgabe()
     {
      if(excel_output == 0)
      { 
-     Serial.println("T OK"); 
+     Serial.println("Temperatur OK ^^"); 
      delay(print_delay);
      }
     } 
@@ -221,9 +221,9 @@ void TemperaturStatus_ausgabe()
   //Serial.print(f);
   //Serial.print(" *F\t");
   //float hic = dht.computeHeatIndex(t, h, false);
-  //Serial.print("Gefuehlte Temp: ");
-  //Serial.print(hic);
-  //Serial.println(" *C");
+  Serial.print("Gefuehlte Temp: ");
+  Serial.print(hic);
+  Serial.println(" *C");
   Stars();
   delay(print_delay);
   //Serial.print(hif);
@@ -248,11 +248,6 @@ void watercontrol_reset_ausgabe()
   int count_reset_time = 0;
   while (count_reset_time <= 10)
   {
-   //*********************************************************************************************************  
-   //Watchdog Timer reset - avoid biting  
-   //*********************************************************************************************************  
-        wdt_reset();
-   //*********************************************************************************************************
     count_reset_time++;   
     delay(6500);
     if(excel_output == 0)
@@ -275,24 +270,19 @@ void watercontrol_active_ausgabe()
       {
       Serial.print("Relait 2 Power: ");
       Serial.println(relait2check);
-      Serial.print("Bewaesserung laeuft ");
+      Serial.print("Bewaesserung laeuft fuer ");
       Serial.print(flush_time_secounds);
       Serial.println(" Sekunden");
       }
       
       int count_watercontrol_time = 0;
-      while (count_watercontrol_time <= 100)
+      while (count_watercontrol_time <= 10)
       {
       count_watercontrol_time++;  
         if(excel_output == 0)
         {
-        delay(flush_time_secounds*10); //VerzÃ¶gerung fÃ¼r ein 100tel der angegebenen Zeit in Sekunden   
+        delay(flush_time_secounds*100); //Verzögerung für ein 10tel der angegebenen Zeit in Sekunden   
         Serial.print("*");
-        //*********************************************************************************************************  
-        //Watchdog Timer reset - avoid biting  
-        //*********************************************************************************************************  
-        wdt_reset();
-        //*********************************************************************************************************
         }
       }
 
@@ -306,7 +296,7 @@ void watercontrol_active_ausgabe2()
 {
       if(Wasserstand_anzeigen == 1 && excel_output == 0)
       {
-      Serial.println("BW abgeschlossen.");
+      Serial.println("Bewaesserung abgeschlossen.");
       Serial.print(water_applied);
       Serial.println(" ins EEPROM geschrieben");
       }
@@ -316,7 +306,7 @@ void watercontrol_active_ausgabe2()
 void bewaesserung_status_ausgabe()
   {
     
-    Serial.print("BW ausgefuehrt: "); 
+    Serial.print("Bewaesserung ausgefuehrt: "); 
     Serial.println(water_applied); 
     Stars();
   }
@@ -328,7 +318,7 @@ void water_level_ausgabe()
   if(Wasserstand_anzeigen == 1 && excel_output == 0)
     {
      
-    Serial.println("Wasserstand kritisch");
+    Serial.println("Wasserstand Bewaesserung kritisch -.- ");
     Stars();
     delay(print_delay);
     }
@@ -339,7 +329,7 @@ void water_level_ausgabe2()
       if(Wasserstand_anzeigen == 1 && excel_output == 0)
       {
           
-      Serial.println("Wasserstand OK");
+      Serial.println("Wasserstand Bewaesserung OK ^^");
       Stars(); 
       delay(print_delay);
       }
@@ -356,7 +346,7 @@ void flushcontrol_active_ausgabe()
       {
       Serial.print("Relait 2 Power: ");
       Serial.println(relait2check);
-      Serial.print("Bewaesserung ");
+      Serial.print("Bewaesserung laeuft fuer ");
       Serial.print(flush_time_secounds);
       Serial.println(" Sekunden");
       }
@@ -424,7 +414,7 @@ void humidity_balancer_ausgabe2()
 {
     if(Schaltvorgang_anzeigen == 1 && excel_output == 0)
     { 
-    Serial.println("Bin am rasten");                              
+    Serial.println("Bin am rasten...keine Befeuchtung");                              
     Stars();
     delay(print_delay);
     }
