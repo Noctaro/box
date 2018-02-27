@@ -6,6 +6,7 @@
   {
     hour_global = tm.Hour;
     minute_global = tm.Minute;
+    second_global = tm.Second;
     if(Uhrzeit_anzeigen == 1 && excel_output == 0)
     {
     Stars();  
@@ -49,8 +50,8 @@
   
   else 
     {
-    Serial.println("DS1302 read error!  Please check the circuitry.");
-    Serial.println();
+    //Serial.println("DS1302 read error!  Please check the circuitry.");
+   // Serial.println();
     delay(9000);
     }
  }   
@@ -94,13 +95,13 @@ void Relaitcheck_ausgabe()
   if(Relaticheck_anzeigen == 1 && excel_output == 0)
   { 
   Serial.print("Befeuchtung  -> Relait 1 Power: ");
-  Serial.println(relait1check);
+  Serial.println(relais1check);
   Serial.print("Bewaesserung -> Relait 2 Power: ");
-  Serial.println(relait2check);
+  Serial.println(relais2check);
   Serial.print("Heizung      -> Relait 3 Power: ");
-  Serial.println(relait3check);
+  Serial.println(relais3check);
   Serial.print("Abluft       -> Relait 4 Power: ");
-  Serial.println(relait4check);
+  Serial.println(relais4check);
   Stars();
   delay(print_delay);
   }
@@ -242,14 +243,14 @@ void watercontrol_reset_ausgabe()
   Serial.println("Bewaesserung wird zur gewaehlten Stunde aktiviert.");
   Serial.print(water_applied);
   Serial.println(" ins EEPROM geschrieben, Bewaesserung moeglich");
-  Serial.println("Warte 1 Minute");
+  Serial.println("Warte 25 Sekunden");
   }
   
   int count_reset_time = 0;
   while (count_reset_time <= 10)
   {
     count_reset_time++;   
-    delay(6500);
+    delay(2500);
     if(excel_output == 0)
     {
     Serial.print("*");
@@ -269,22 +270,13 @@ void watercontrol_active_ausgabe()
       if(Wasserstand_anzeigen == 1 && excel_output == 0)
       {
       Serial.print("Relait 2 Power: ");
-      Serial.println(relait2check);
+      Serial.println(relais2check);
       Serial.print("Bewaesserung laeuft fuer ");
       Serial.print(flush_time_secounds);
       Serial.println(" Sekunden");
       }
       
-      int count_watercontrol_time = 0;
-      while (count_watercontrol_time <= 10)
-      {
-      count_watercontrol_time++;  
-        if(excel_output == 0)
-        {
-        delay(flush_time_secounds*100); //Verzögerung für ein 10tel der angegebenen Zeit in Sekunden   
-        Serial.print("*");
-        }
-      }
+
 
       if(Wasserstand_anzeigen == 1 && excel_output == 0)
       {
@@ -345,7 +337,7 @@ void flushcontrol_active_ausgabe()
       if(excel_output == 0)
       {
       Serial.print("Relait 2 Power: ");
-      Serial.println(relait2check);
+      Serial.println(relais2check);
       Serial.print("Bewaesserung laeuft");
       Serial.print(flush_time_secounds);
       Serial.println(" Sekunden");
@@ -507,16 +499,16 @@ void CSVausgabe()
    Serial.print(water_check);
    Serial.print(",");
    Serial.print("Relait 1 Power: ");
-   Serial.print(relait1check);
+   Serial.print(relais1check);
    Serial.print(",");
    Serial.print("Relait 2 Power: ");
-   Serial.print(relait2check);
+   Serial.print(relais2check);
    Serial.print(",");
    Serial.print("Relait 3 Power: ");
-   Serial.print(relait3check);
+   Serial.print(relais3check);
    Serial.print(",");
    Serial.print("Relait 4 Power: ");
-   Serial.print(relait4check);
+   Serial.print(relais4check);
    Serial.print(",");
 
    tmElements_t tm; 

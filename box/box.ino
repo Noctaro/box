@@ -123,13 +123,10 @@ SHT3x Sensor;
 //*********************************************************************************************************
 
 
-//*********************************************************************************************************
-//RELAIT PINS
-//*********************************************************************************************************
-#define relaitPin1 5 //Definiere den Namen und Pin für das 1. Relait - Feuchte
-#define relaitPin2 6 //Definiere den Namen und Pin für das 2. Relait - Wasser  
-#define relaitPin3 7 //Definiere den Namen und Pin für das 3. Relait - Heizung 
-#define relaitPin4 4 //Definiere den Namen und Pin für das 4. Relait - Abluft
+//RELAIS
+//*********************************
+#include "relais.h"
+//*********************************
 
 //alternate Testing
 
@@ -185,13 +182,11 @@ float hic = 0;
 
 int minute_global = 0;
 int hour_global = 0;
+int second_global = 0;
 long unix_secounds = 0;
 long air_refresh_time = 0;
 
-boolean relait1check = 0;
-boolean relait2check = 0;
-boolean relait3check = 0;
-boolean relait4check = 0;
+
 
 boolean errorcheck = 0;
 
@@ -278,6 +273,7 @@ void setup()
   //*********************************************************************************************************
   //Serial.println("Hydrobalancer ist online.");
   //dht.begin();
+  //  pinMode(DHT_powerPin, OUTPUT); //Setze den PowerPin für den DHT Sensor als Ausgang
   //************
 
   //*********************************************************************************************************
@@ -286,20 +282,13 @@ void setup()
   Sensor.Begin();  
   //************
 
+  //*********************************************************************************************************
+  //relais Initialisierung
+  //*********************************************************************************************************  
+  relaisinit();
   
-  digitalWrite(relaitPin1, LOW);         //Schalte relaitPin1 aus 
-  digitalWrite(relaitPin2, LOW);         //Schalte relaitPin2 aus
-  digitalWrite(relaitPin3, LOW);         //Schalte relaitPin3 aus - umgekehrte schaltlogik
-  digitalWrite(relaitPin4, LOW); 
-  
-  //PIN Modus festlegen  
-  pinMode(relaitPin1, OUTPUT); //Setze den Steuerpin für Relait 1 als Ausgang
-  pinMode(relaitPin2, OUTPUT); //Setze den Steuerpin für Relait 2 als Ausgang
-  pinMode(relaitPin3, OUTPUT); //Setze den Steuerpin für Relait 3 als Ausgang
-  pinMode(relaitPin4, OUTPUT); //Setze den Steuerpin für Relait 4 als Ausgang
-  
+  //Restliche Pin initialisierung
   pinMode(Modeschalter, INPUT);  //Setze den Steuerpin für den gewünschten Modus als Eingang
-//  pinMode(DHT_powerPin, OUTPUT); //Setze den PowerPin für den DHT Sensor als Ausgang
   pinMode(LedPin1, OUTPUT); //Setze den Steuerpin für Led1 als Ausgang
   pinMode(Water_Sensor, INPUT);     //The Water Sensor is an Input
   //*****************
@@ -329,12 +318,12 @@ void setup()
   delay(500);
   
   if (RTC.haltRTC()) {
-    Serial.println("The DS1302 is stopped.  Please run the SetTime");
+    Serial.println("The DS1302 is stopped. SetTime");
     Serial.println();
   }
   if (!RTC.writeEN()) {
-    Serial.println("The DS1302 is write protected. This normal.");
-    Serial.println();
+    //Serial.println("The DS1302 is write protected. This normal.");
+    //Serial.println();
   }
   
   delay(5000);
@@ -424,6 +413,8 @@ led_cycle_check();
 //********************************************************************* 
 //SHT READ
 //********************************************************************* 
+Sensor.UpdateData();
+
 t = Sensor.GetTemperature();
 delay(100);
 h = Sensor.GetRelHumidity();
@@ -503,11 +494,24 @@ h = Sensor.GetRelHumidity();
 //*********************************************************************************************************
 if(Bewaesserung_regulieren == 1)
 {
+
+/*
+switch(hour_global)
+  case water_hour_01:
+    if(water_applied == 0)
+    {
+    
+    }
+break;  
+ */
+  
 if(Mode == 1 || Mode == 0)
     {
     water_applied = EEPROM.read(eeprom_address_watered);
     bewaesserung_status_ausgabe();
     water_cycles_done = 0;
+
+//---> switch
 
       if (hour_global == water_hour_01 && water_applied == 0)
       {
@@ -702,7 +706,7 @@ if(Mode == 1 || Mode == 0)
       
   
       //Überprüfe ob die Bewässerung zur aktuellen Stunde ausgeführt wurde
-      if ( minute_global == 59 && water_applied == 1 )
+      if ( minute_global == 59 && second_global >= 40 && water_applied == 1 )
       {
       //Stars();
         
@@ -756,12 +760,12 @@ Schaltwerte_ausgabe();
 //*********************************************************************************************************
 //Ausgabe des Luftfeuchte Status an die LED und den Serial Monitior
 //*********************************************************************************************************
-LuftfeuchteStatus_ausgabe(); 
+//LuftfeuchteStatus_ausgabe(); 
 
 //*********************************************************************************************************
 //Ausgabe des Temperatur Status an die LED und den Serial Monitior
 //*********************************************************************************************************
-TemperaturStatus_ausgabe();
+//TemperaturStatus_ausgabe();
 //*********************************************************************************************************
 //*********************************************************************************************************
 
