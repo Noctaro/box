@@ -27,8 +27,12 @@ void Box_functions()
   
   excel_output = 0;               //Spezielle Ausgabe der Daten im CSV Format (alle anderen Anzeigen werden hierfür automatisch deaktiviert.)
 
+  ////*********************************************************************************************************
+  //Zeit die ziwschen Schaltvorgängen am relais 1 vergegen muss in Sekunden
+  ////*********************************************************************************************************
+  relais_1_guard_time = 180;
+  ////*********************************************************************************************************
   
-
   ////*********************************************************************************************************
   //Dauer bis zum nächsten Messdurchgang in Sekunden (WICHTIG: Mindestens 2 Sekunden um den DHT Sensor nicht zu überfordern!)
   //*********************************************************************************************************
