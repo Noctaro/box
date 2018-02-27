@@ -50,8 +50,8 @@
   
   else 
     {
-    //Serial.println("DS1302 read error!  Please check the circuitry.");
-   // Serial.println();
+    Serial.println(F("DS1302 read error!  Please check the circuitry."));
+    Serial.println();
     delay(9000);
     }
  }   
@@ -94,13 +94,13 @@ void Relaitcheck_ausgabe()
 {
   if(Relaticheck_anzeigen == 1 && excel_output == 0)
   { 
-  Serial.print("Befeuchtung  -> Relait 1 Power: ");
+  Serial.print(F("Befeuchtung  -> Relait 1 Power: "));
   Serial.println(relais1check);
-  Serial.print("Bewaesserung -> Relait 2 Power: ");
+  Serial.print(F("Bewaesserung -> Relait 2 Power: "));
   Serial.println(relais2check);
-  Serial.print("Heizung      -> Relait 3 Power: ");
+  Serial.print(F("Heizung      -> Relait 3 Power: "));
   Serial.println(relais3check);
-  Serial.print("Abluft       -> Relait 4 Power: ");
+  Serial.print(F("Abluft       -> Relait 4 Power: "));
   Serial.println(relais4check);
   Stars();
   delay(print_delay);
@@ -117,23 +117,23 @@ void Relaitcheck_ausgabe()
    {
     if(Luftfeuchte_regulieren == 1)
     {
-    Serial.print("Luftfeuchtewert: ");
+    Serial.print(F("Luftfeuchtewert: "));
     Serial.println(feuchtewert);
     }
   
     if(Temperatur_regulieren == 1)
     {
-    Serial.print("Temperaturwert: ");
+    Serial.print(F("Temperaturwert: "));
     Serial.println(temperaturwert);
     }
 
     if(Abluft_regulieren == 1)
     {
-    Serial.print("Abluftwert: ");
+    Serial.print(F("Abluftwert: "));
     Serial.println(air_zaehler);
     }
     
-   Serial.print("Schaltvorgang bei +-"); 
+   Serial.print(F("Schaltvorgang bei +-")); 
    Serial.println(Messdurchgaenge);
    Stars();
    delay(print_delay);
@@ -152,7 +152,7 @@ void LuftfeuchteStatus_ausgabe()
     
     if(Luftfeuchte_anzeigen ==1 && excel_output == 0)
     {
-    Serial.println("H KRITISCH!");
+    Serial.println(F("Lufteuchte KRITISCH! -.-"));
     delay(print_delay);                            //Verzögerung 1000cycles - ca. 0,5 Sekunden
     }
     
@@ -162,7 +162,7 @@ void LuftfeuchteStatus_ausgabe()
     {
       if(Luftfeuchte_anzeigen ==1 && excel_output == 0)
       {  
-      Serial.println("H OK ^^");
+      Serial.println(F("Lufteuchte OK! ^^´"));
       delay(print_delay);
       }
     }
@@ -181,7 +181,7 @@ void TemperaturStatus_ausgabe()
     
     if(excel_output == 0)
     {
-    Serial.println("T KRITISCH!"); 
+    Serial.println(F("Temperatur KRITISCH! -.-")); 
     delay(print_delay);
     }
   } 
@@ -190,7 +190,7 @@ void TemperaturStatus_ausgabe()
     {
      if(excel_output == 0)
      { 
-     Serial.println("T OK ^^"); 
+     Serial.println(F("Temperatur OK ^^")); 
      delay(print_delay);
      }
     } 
@@ -240,10 +240,10 @@ void watercontrol_reset_ausgabe()
 {
   if(excel_output == 0)
   { 
-  Serial.println("Bewaesserung wird zur gewaehlten Stunde aktiviert.");
+  Serial.println(F("Bewaesserung wird zur gewaehlten Stunde aktiviert."));
   Serial.print(water_applied);
-  Serial.println(" ins EEPROM geschrieben, Bewaesserung moeglich");
-  Serial.println("Warte 25 Sekunden");
+  Serial.println(F(" ins EEPROM geschrieben, Bewaesserung moeglich"));
+  Serial.println(F("Warte 25 Sekunden"));
   }
   
   int count_reset_time = 0;
@@ -269,11 +269,11 @@ void watercontrol_active_ausgabe()
 {
       if(Wasserstand_anzeigen == 1 && excel_output == 0)
       {
-      Serial.print("Relait 2 Power: ");
+      Serial.print(F("Relait 2 Power: "));
       Serial.println(relais2check);
-      Serial.print("Bewaesserung laeuft fuer ");
+      Serial.print(F("Bewaesserung laeuft fuer "));
       Serial.print(flush_time_secounds);
-      Serial.println(" Sekunden");
+      Serial.println(F(" Sekunden"));
       }
       
 
@@ -288,9 +288,9 @@ void watercontrol_active_ausgabe2()
 {
       if(Wasserstand_anzeigen == 1 && excel_output == 0)
       {
-      Serial.println("BW abgeschlossen.");
+      Serial.println(F("BW abgeschlossen."));
       Serial.print(water_applied);
-      Serial.println(" ins EEPROM geschrieben");
+      Serial.println(F(" ins EEPROM geschrieben"));
       }
 }
 
@@ -298,7 +298,7 @@ void watercontrol_active_ausgabe2()
 void bewaesserung_status_ausgabe()
   {
     
-    Serial.print("Bewaesserung ausgefuehrt: "); 
+    Serial.print(F("Bewaesserung ausgefuehrt: ")); 
     Serial.println(water_applied); 
     Stars();
   }
@@ -310,7 +310,7 @@ void water_level_ausgabe()
   if(Wasserstand_anzeigen == 1 && excel_output == 0)
     {
      
-    Serial.println("Wasserstand krit");
+    Serial.println(F("Wasserstand KRITISCH -.-"));
     Stars();
     delay(print_delay);
     }
@@ -321,7 +321,7 @@ void water_level_ausgabe2()
       if(Wasserstand_anzeigen == 1 && excel_output == 0)
       {
           
-      Serial.println("Wasserstand OK");
+      Serial.println(F("Wasserstand OK"));
       Stars(); 
       delay(print_delay);
       }
@@ -358,7 +358,7 @@ void flushcontrol_active_ausgabe2()
 {
       if(excel_output == 0)
       {
-      Serial.println("Bewaesserung abgeschlossen.");          
+      Serial.println(F("Bewaesserung abgeschlossen."));          
       }
 }
 //**********************************
@@ -371,7 +371,7 @@ void Heizung_ausgabe()
   if(Schaltvorgang_anzeigen == 1 && excel_output == 0)
   {
   Stars();
-  Serial.println("Heizung aktiv");
+  Serial.println(F("Heizung aktiv"));
   Stars();
   delay(print_delay);
   }
@@ -382,7 +382,7 @@ void Heizung_ausgabe2()
   if(Schaltvorgang_anzeigen == 1 && excel_output == 0)
   {
   Stars();
-  Serial.println("Heizung inaktiv");
+  Serial.println(F("Heizung inaktiv"));
   Stars();
   delay(print_delay);
   }
@@ -396,7 +396,7 @@ void humidity_balancer_ausgabe()
 {
     if(Schaltvorgang_anzeigen == 1 && excel_output == 0)
     {
-    Serial.println("Bin am befeuchten!");
+    Serial.println(F("Bin am befeuchten!"));
     Stars();
     delay(print_delay);
     }
@@ -406,7 +406,7 @@ void humidity_balancer_ausgabe2()
 {
     if(Schaltvorgang_anzeigen == 1 && excel_output == 0)
     { 
-    Serial.println("keine Befeuchtung");                              
+    Serial.println(F("keine Befeuchtung"));                              
     Stars();
     delay(print_delay);
     }
@@ -421,7 +421,7 @@ void air_ausgabe()
     if(Schaltvorgang_anzeigen == 1 && excel_output == 0)
     {
       Stars();  
-      Serial.println("Luftzirkulation aktiviert" );
+      Serial.println(F("Luftzirkulation aktiviert" ));
       Stars();
       delay(print_delay);
      }
@@ -432,13 +432,13 @@ void air_ausgabe2()
   if(Schaltvorgang_anzeigen == 1 && excel_output == 0)
     {
     Stars();  
-    Serial.println("Luftzirkulation deaktiviert" );  
+    Serial.println(F("Luftzirkulation deaktiviert" ));  
     Stars();
     delay(print_delay);
     }
 }
 
-void air_refresh_ausgabe()
+/*void air_refresh_ausgabe()
 {
  int air_refresh_counter = 0;
  while(air_refresh_counter <= 10)
@@ -448,6 +448,7 @@ void air_refresh_ausgabe()
  delay(air_refresh_secound*100);
  } 
 }
+*/
 //**********************************
 
 
@@ -457,9 +458,9 @@ void air_refresh_ausgabe()
 //**********************************
 void water_cycles_ausgabe()
 {
- Serial.print("Durchgang ");
+ Serial.print(F("Durchgang "));
  Serial.print(water_cycles_done);
- Serial.print(" von "); 
+ Serial.print(F(" von ")); 
 }
 
 

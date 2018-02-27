@@ -313,28 +313,28 @@ void setup()
   
   RTC.writeEN(1);
   
-  Serial.println("RTC module activated");
+  Serial.println(F("RTC module activated"));
   Serial.println();
   delay(500);
   
   if (RTC.haltRTC()) {
-    Serial.println("The DS1302 is stopped. SetTime");
+    Serial.println(F("The DS1302 is stopped. SetTime"));
     Serial.println();
   }
   if (!RTC.writeEN()) {
-    //Serial.println("The DS1302 is write protected. This normal.");
-    //Serial.println();
+    Serial.println(F("The DS1302 is write protected. This normal."));
+    Serial.println();
   }
   
   delay(5000);
 
   water_applied = EEPROM.read(eeprom_address_watered);
-  Serial.print("Bewaesserungsstatus = ");
+  Serial.print(F("Bewaesserungsstatus = "));
   Serial.println(water_applied);
 //*********************************************************************************************************
 
 //*********************************************************************************************************
-//Boxfunktionen aktivieren oder deaktivieren
+//Boxfunktionen aktivieren oder deaktivieren - anpassbar in mode_settings
 //*********************************************************************************************************
 Box_functions();    
 //*********************************************************************************************************
@@ -416,8 +416,9 @@ led_cycle_check();
 Sensor.UpdateData();
 
 t = Sensor.GetTemperature();
-delay(100);
+delay(200);
 h = Sensor.GetRelHumidity();
+delay(200);
 //********************************************************************* 
 
 //*********************************************************************************************************  
@@ -760,12 +761,12 @@ Schaltwerte_ausgabe();
 //*********************************************************************************************************
 //Ausgabe des Luftfeuchte Status an die LED und den Serial Monitior
 //*********************************************************************************************************
-//LuftfeuchteStatus_ausgabe(); 
+LuftfeuchteStatus_ausgabe(); 
 
 //*********************************************************************************************************
 //Ausgabe des Temperatur Status an die LED und den Serial Monitior
 //*********************************************************************************************************
-//TemperaturStatus_ausgabe();
+TemperaturStatus_ausgabe();
 //*********************************************************************************************************
 //*********************************************************************************************************
 
@@ -848,6 +849,6 @@ void print2digits(int number) {
 //vorgefertigte Textsegmente
 void Stars()
 {
-  //Serial.println("*********");
+  Serial.println(F("*********"));
 }
 
