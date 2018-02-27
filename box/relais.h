@@ -17,7 +17,7 @@ boolean relais2check = 0;
 boolean relais3check = 0;
 boolean relais4check = 0;
 
-int relais_1_guard_time = 180;
+int relais_1_guard_time = 40; //Zeit die ziwschen Schaltvorgängen am relais 1 vergegen muss
 
 void relaisinit()
 {
