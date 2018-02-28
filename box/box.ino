@@ -97,6 +97,7 @@ DS1302RTC RTC(8, 9, 10); //new version
 //SHT 31 init (alle DHT Zeilen auskommentieren)
 //*********************************************************************************************************
 #include <SHT3x.h>
+Wire.setClock(10000); //TESING - I2C lowspeed mode for rigid communication - uncomment to set 100khz default 
 SHT3x Sensor;
 //*********************************************************************************************************
 
