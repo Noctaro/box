@@ -33,7 +33,10 @@ void Box_functions()
   ////*********************************************************************************************************
   //Zeit die ziwschen Schaltvorgängen am relais 1 vergegen muss in Sekunden
   ////*********************************************************************************************************
-  relais_1_guard_time = 180;      //Zeit die ziwschen Schaltvorgängen am relais 1 vergegen muss
+  relais_1_guard_time = 180;      // Feuchte
+  relais_2_guard_time = 20;       // Bewässerung 
+  relais_3_guard_time = 300;      // Heizung
+  relais_4_guard_time = 20;       // Abluft
   ////*********************************************************************************************************
 
   ////*********************************************************************************************************
@@ -190,9 +193,9 @@ void Mode1_settings_active()
   maxTemperatur = 26;
   optimaleTemperatur = 25;
   minTemperatur = 24;
-  maxLuftfeuchte = 62;
-  optimaleLuftfeuchte = 58;
-  minLuftfeuchte = 57;
+  maxLuftfeuchte = 59;
+  optimaleLuftfeuchte = 56;
+  minLuftfeuchte = 54;
   
   air_refresh_secound = 300;  //Dauer der Belüftung in Sekunden (muss mindestens 65 Sekunden sein)
   air_refresh_minute_01 = 15; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
@@ -291,7 +294,7 @@ void Mode3_settings_active()
   {
   digitalWrite(relaisPin1, LOW);         //Schalte relaitPin1 aus 
   digitalWrite(relaisPin2, LOW);         //Schalte relaitPin2 aus
-  digitalWrite(relaisPin3, LOW);         //Schalte relaitPin3 aus - umgekehrte schaltlogik
+  digitalWrite(relaisPin3, LOW);         //Schalte relaitPin3 aus 
   digitalWrite(relaisPin4, LOW);         //Schalte relaitPin4 aus
   
   int  i = 0;
