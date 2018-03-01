@@ -28,6 +28,12 @@ void Box_functions()
   excel_output = 0;               //Spezielle Ausgabe der Daten im CSV Format (alle anderen Anzeigen werden hierfür automatisch deaktiviert.)
 
   ////*********************************************************************************************************
+  //Zeit die ziwschen Schaltvorgängen am relais 1 vergegen muss in Sekunden
+  ////*********************************************************************************************************
+  relais_1_guard_time = 180;      //Zeit die ziwschen Schaltvorgängen am relais 1 vergegen muss
+  ////*********************************************************************************************************
+
+  ////*********************************************************************************************************
   //Dauer bis zum nächsten Messdurchgang in Sekunden (WICHTIG: Mindestens 2 Sekunden um den DHT Sensor nicht zu überfordern!)
   //*********************************************************************************************************
    Messpause = 2;
@@ -278,10 +284,10 @@ void Mode2_settings_active() //Flush Mode
 //*********************************************************************************************************
 void Mode3_settings_active() 
   {
-  digitalWrite(relaitPin1, LOW);         //Schalte relaitPin1 aus 
-  digitalWrite(relaitPin2, LOW);         //Schalte relaitPin2 aus
-  digitalWrite(relaitPin3, LOW);         //Schalte relaitPin3 aus - umgekehrte schaltlogik
-  digitalWrite(relaitPin4, LOW);         //Schalte relaitPin4 aus
+  digitalWrite(relaisPin1, LOW);         //Schalte relaitPin1 aus 
+  digitalWrite(relaisPin2, LOW);         //Schalte relaitPin2 aus
+  digitalWrite(relaisPin3, LOW);         //Schalte relaitPin3 aus - umgekehrte schaltlogik
+  digitalWrite(relaisPin4, LOW);         //Schalte relaitPin4 aus
   
   int  i = 0;
     
@@ -290,9 +296,9 @@ void Mode3_settings_active()
     i++;
     delay(2000);
     led_blinker();
-    digitalWrite(relaitPin1, HIGH);
+    digitalWrite(relaisPin1, HIGH);
     delay(5000);
-    digitalWrite(relaitPin1, LOW);
+    digitalWrite(relaisPin1, LOW);
     }
     
       while(i<7)
@@ -301,9 +307,9 @@ void Mode3_settings_active()
     delay(2000);
     led_blinker();
     led_blinker();
-    digitalWrite(relaitPin2, HIGH);
+    digitalWrite(relaisPin2, HIGH);
     delay(5000);
-    digitalWrite(relaitPin2, LOW);
+    digitalWrite(relaisPin2, LOW);
     }
     
           while(i<11)
@@ -313,9 +319,9 @@ void Mode3_settings_active()
     led_blinker();
     led_blinker();
     led_blinker();    
-    digitalWrite(relaitPin3, HIGH);
+    digitalWrite(relaisPin3, HIGH);
     delay(5000);
-    digitalWrite(relaitPin3, LOW);
+    digitalWrite(relaisPin3, LOW);
     }
     
           while(i<14)
@@ -326,9 +332,9 @@ void Mode3_settings_active()
     led_blinker();
     led_blinker();
     led_blinker();    
-    digitalWrite(relaitPin4, HIGH);
+    digitalWrite(relaisPin4, HIGH);
     delay(5000);
-    digitalWrite(relaitPin4, LOW);
+    digitalWrite(relaisPin4, LOW);
     }
   
 //*********************************************************************************************************   
