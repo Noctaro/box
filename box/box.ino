@@ -3,10 +3,12 @@
 // \ \ \-.  \  \ \ \/\ \  \ \ \____        \ \ \____  \ \  __\   \ \ \/\_\  \ \ \_\ \  \ \ \  
 //  \ \_\\"\_\  \ \_____\  \ \_____\        \ \_____\  \ \_____\  \ \___\_\  \ \_____\  \ \_\ 
 //   \/_/ \/_/   \/_____/   \/_____/    &    \/_____/   \/_____/   \/___/_/   \/_____/   \/_/ 
-                                                                                           
-
-//NOCEDIT
+                                                                                       
+//
 //*********************************************************************************************************
+
+//Globale Variablen
+#include "global_var.h"
 
 //*********************************************************************************************************
 ///CLOCK_MODULE
@@ -42,6 +44,7 @@ DS1302RTC RTC(8, 9, 10); //new version
 //*************************************
 //*********************************************************************************************************
 
+/*
 //*********************************************************************************************************
 //Hydro DHT
 //*********************************************************************************************************
@@ -63,21 +66,22 @@ DS1302RTC RTC(8, 9, 10); //new version
 //*********************************************************************************************************
 // Example testing sketch for various DHT humidity/temperature sensors
 // Written by ladyada, public domain
-
-//#include "DHT.h"
-//#include "Adafruit_Sensor.h"
-
+#include "DHT.h"
+#include "Adafruit_Sensor.h"
 
 
 
 
-//#define DHTPIN 3     // what digital pin we're connected to
+
+#define DHTPIN 3     // what digital pin we're connected to
 //#define DHT_powerPin 3 //Powerpin für den dht
 
 // Uncomment whatever type you're using!
-//#define DHTTYPE DHT11   // DHT 11
+#define DHTTYPE DHT11   // DHT 11
 //#define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
 //#define DHTTYPE DHT21   // DHT 21 (AM2301)
+
+DHT dht(DHTPIN, DHTTYPE);
 
 // Connect pin 1 (on the left) of the sensor to +5V
 // NOTE: If using a board with 3.3V logic like an Arduino Due connect pin 1
@@ -90,8 +94,10 @@ DS1302RTC RTC(8, 9, 10); //new version
 // Note that older versions of this library took an optional third parameter to
 // tweak the timings for faster processors.  This parameter is no longer needed
 // as the current DHT reading algorithm adjusts itself to work on faster procs.
-//DHT dht(DHTPIN, DHTTYPE);
+
 //*********************************************************************************************************
+*/
+
 
 //*********************************************************************************************************
 //SHT 31 init (alle DHT Zeilen auskommentieren)
@@ -112,7 +118,7 @@ SHT3x Sensor;
 //PIN für den Schalter der Modeauswahlfunktion
 //*********************************************************************************************************
 //Benötigt Remapping - Pin 2 == Serial TX
-#define Modeschalter A1 //Definiere den Pin für den Schalter zwischen Mode 0, 1 und 2
+#define Modeschalter A1 //Definiere den Pin für den Schalter zwischen Mode 0, 1 ,2 und 3
 //*********************************************************************************************************
 
 
@@ -141,120 +147,7 @@ int eeprom_address_watered = 0;
 //*********************************************************************************************************
 
 
-//*********************************************************************************************************
-//Globale Variablen (Bitte nicht ändern) -> Gewünschte Werte sind in mode_settings.ino anpassbar
-//*********************************************************************************************************
-int zaehler = 0;
-//int zaehler2 = 0;
-int air_zaehler = 0;
 
-int feuchtewert = 0;
-int temperaturwert = 0;
-
-
-int maxTemperatur = 0;
-int minTemperatur = 0;
-int optimaleTemperatur = 0;
-
-int maxLuftfeuchte = 0;
-int minLuftfeuchte = 0;
-int optimaleLuftfeuchte = 0;
-//int dht_adjust = 10; //Sollte der DHT Sensor die Luftfeuchte falsch anzeigen, kann hier eine Anpassung vorgenommen werden.
-
-int Messpause = 0;
-int Messdurchgaenge = 0;
-int Messdurchgaenge_negativ = 0;
-
-int Absaugung_aktiv = 0;
-
-int water_with_air = 0;
-
-int air_refresh_secound = 0;
-
-int dht_adjustment_h = 0;
-int dht_adjustment_t = 0;
-
-float h = 0; //Variable für aktuelle Luftfeuchte in %
-float t = 0; //Variable für aktuelle Temperatur in Celsius
-float f = 0; //Variable für aktuelle Temperatur in Fahrenheit
-float hif = 0;
-float hic = 0;
-
-int minute_global = 0;
-int hour_global = 0;
-int second_global = 0;
-long unix_secounds = 0;
-long air_refresh_time = 0;
-
-
-
-boolean errorcheck = 0;
-
-int water_hour_01 = 99;
-int water_hour_02 = 99;
-int water_hour_03 = 99;
-int water_hour_04 = 99;
-int water_hour_05 = 99;
-int water_hour_06 = 99;
-int water_hour_07 = 99;
-int water_hour_08 = 99;
-int water_hour_09 = 99;
-int water_hour_10 = 99;
-
-int water_hour_cycles_01 = 1;
-int water_hour_cycles_02 = 1;
-int water_hour_cycles_03 = 1;
-int water_hour_cycles_04 = 1;
-int water_hour_cycles_05 = 1;
-int water_hour_cycles_06 = 1;
-int water_hour_cycles_07 = 1;
-int water_hour_cycles_08 = 1;
-int water_hour_cycles_09 = 1;
-int water_hour_cycles_10 = 1;
-
-int air_refresh_minute_01 = 99; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-int air_refresh_minute_02 = 99; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-int air_refresh_minute_03 = 99; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-int air_refresh_minute_04 = 99; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-
-int air_refresh_times = 0;
-
-int print_delay = 0;
-
-//String inData = 0;
-
-boolean water_applied = 1;
-int water_cycles_done = 0;
-boolean water_check = 1;
-
-boolean hourly_air_active = 0;
-
-long flush_time_secounds = 90;  //Dauer der Wasserzufuhr bei dem Bewässern
-long flush_timer_secounds = 60; //Dauer der Pause bis zur nächsten Spülung
-
-byte Mode = 0; 
-
-//Box Funktionen 
-boolean Luftfeuchte_regulieren = 1; 
-boolean Temperatur_regulieren = 1;
-boolean Abluft_regulieren = 1;
-boolean Bewaesserung_regulieren = 1;
-
-boolean Temperatur_anzeigen = 1;        //Gibt die aktuelle Temperatur am Serial Monitor aus.
-boolean Luftfeuchte_anzeigen = 1;       //Gibt die aktuelle Luftfeuchte am Serial Monitor aus
-boolean Wasserstand_anzeigen = 1;
-boolean Relaticheck_anzeigen = 1;
-boolean Messdurchgang_anzeigen = 1;
-boolean TemperaturStatus_anzeigen = 1;
-boolean Schaltvorgang_anzeigen = 1;
-boolean Schaltzyklus_anzeigen = 1;
-boolean Modeschalter_anzeigen = 1;
-
-boolean Uhrzeit_anzeigen = 1;
-boolean Wochentag_anzeigen = 1;
-boolean Datum_anzeigen = 1;
-
-boolean excel_output = 1;
 
 //*********************************************************************************************************
 //*********************************************************************************************************
@@ -267,14 +160,16 @@ void setup()
 {
   
   Serial.begin(9600);
-  
+
+  /*
   //*********************************************************************************************************
   //DHT Initialisierung
   //*********************************************************************************************************
-  //Serial.println("Hydrobalancer ist online.");
-  //dht.begin();
-  //  pinMode(DHT_powerPin, OUTPUT); //Setze den PowerPin für den DHT Sensor als Ausgang
+  Serial.println(F("Hydrobalancer ist online."));
+  dht.begin();
+  //pinMode(DHT_powerPin, OUTPUT); //Setze den PowerPin für den DHT Sensor als Ausgang
   //************
+  */
 
   //*********************************************************************************************************
   //SHT 3x Initialisierung
@@ -291,7 +186,7 @@ void setup()
   //Restliche Pin initialisierung
   pinMode(Modeschalter, INPUT);  //Setze den Steuerpin für den gewünschten Modus als Eingang
   pinMode(LedPin1, OUTPUT); //Setze den Steuerpin für Led1 als Ausgang
-  pinMode(Water_Sensor, INPUT);     //The Water Sensor is an Input
+  //pinMode(Water_Sensor, INPUT);     //The Water Sensor is an Input
   //*****************
  
  
@@ -383,13 +278,14 @@ led_cycle_check();
   
   //*********************************************************************************************************
 
+/*
 //*********************************************************************
 //DHT
 //*********************************************************************  
 // Reading temperature or humidity takes about 250 milliseconds!
 // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
 //*********************************************************************  
-/*  h = dht.readHumidity();//+dht_adjust;
+  h = dht.readHumidity();//+dht_adjust;
   // Read temperature as Celsius (the default)
   t = dht.readTemperature();
   
@@ -408,8 +304,9 @@ led_cycle_check();
   hif = dht.computeHeatIndex(f, h);
   // Compute heat index in Celsius (isFahreheit = false)
   hic = dht.computeHeatIndex(t, h, false);
-*/  
+ 
 //********************************************************************* 
+*/
 
 //********************************************************************* 
 //SHT READ
