@@ -33,10 +33,10 @@ void Box_functions()
   ////*********************************************************************************************************
   //Zeit die ziwschen Schaltvorgängen am relais 1 vergegen muss in Sekunden
   ////*********************************************************************************************************
-  relais_1_guard_time = 180;      // Feuchte
-  relais_2_guard_time = 20;       // Bewässerung 
-  relais_3_guard_time = 300;      // Heizung
-  relais_4_guard_time = 20;       // Abluft
+  relais_1_guard_time = 180;     // Feuchte
+  relais_2_guard_time = 0;       // Bewässerung - wird manuell geschalten - keine Anpassung notwendig
+  relais_3_guard_time = 300;     // Heizung
+  relais_4_guard_time = 20;      // Abluft
   ////*********************************************************************************************************
 
   ////*********************************************************************************************************
