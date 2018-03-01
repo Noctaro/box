@@ -53,7 +53,7 @@ if (zaehler == Messdurchgaenge)                                  //Wenn der Mess
     
     if(water_with_air == 1 && h >= maxLuftfeuchte && relais_1_guard <= unix_secounds+relais_1_guard_time)
       {
-      relais_2_off();
+      relais_1_off();
       }  
 
 }
