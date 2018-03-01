@@ -25,14 +25,14 @@ if (zaehler == Messdurchgaenge)                                  //Wenn der Mess
  {
   
     //Der Schaltvorgang für den Befeuchter
-    if (h <= minLuftfeuchte && feuchtewert <= Messdurchgaenge)    //Wenn die aktuelle Feuchte niedriger als die Optimale Luftfeuchte ist und feuchtewert dies Messdurchgaenge_negativ mal bestätigt hat.
+    if (h <= minLuftfeuchte && feuchtewert <= Messdurchgaenge && relais_1_guard <= unix_secounds+relais_1_guard_time)    //Wenn die aktuelle Feuchte niedriger als die Optimale Luftfeuchte ist und feuchtewert dies Messdurchgaenge_negativ mal bestätigt hat.
     {
     relais_1_on();          //Schalte Relait Pin 1 ein
     humidity_balancer_ausgabe();
     int relais_1_guard = unix_secounds;
     }
   
-    if (h >= optimaleLuftfeuchte && feuchtewert >= Messdurchgaenge && Absaugung_aktiv == 0)    //Wenn die aktuelle Feuchte höher als die Optimale Luftfeuchte ist und feuchtewert dies Messdurchgaenge mal bestätigt hat. Und die Absaugung nicht aktiv ist.
+    if (h >= optimaleLuftfeuchte && feuchtewert >= Messdurchgaenge && Absaugung_aktiv == 0 && relais_1_guard <= unix_secounds+relais_1_guard_time)    //Wenn die aktuelle Feuchte höher als die Optimale Luftfeuchte ist und feuchtewert dies Messdurchgaenge mal bestätigt hat. Und die Absaugung nicht aktiv ist.
     {
     relais_1_off();           //Schalte Relait Pin 1 aus
     humidity_balancer_ausgabe2();
