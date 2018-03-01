@@ -24,6 +24,9 @@ void Box_functions()
   Uhrzeit_anzeigen = 1;           //Gibt die aktuelle Zeit am Serial Monitor aus
   Wochentag_anzeigen = 1;         //Gibt den aktuellen Wochentag am Serial Monitor aus
   Datum_anzeigen = 1;             //Gibt das aktuelle Datum am Serial Monitor aus
+
+  water_with_air = 0;             //Wenn die Abluft aktiviert wird und die Luftfeuchte kleiner oder gleich der optimalen Feuchte ist,
+                                  //wird auch die Befeuchtung aktiviert (gilt für alle Modi, falls in einem Modus nicht eigens festgelegt)
   
   excel_output = 0;               //Spezielle Ausgabe der Daten im CSV Format (alle anderen Anzeigen werden hierfür automatisch deaktiviert.)
 
@@ -162,7 +165,8 @@ long flush_time_secounds = 65;
 //*********************************************************************************************************
   
 //***********************
-water_with_air = 1; //Befeuchtung aktivieren wenn abgesaugt wird.
+//Befeuchtung aktivieren wenn abgesaugt wird. Kann hier exklusiv für diesen Mode aktiviert werden 
+//water_with_air = 0; 
 //***********************
    
 //*********************************************************************************************************   
@@ -236,7 +240,8 @@ void Mode1_settings_active()
 //*********************************************************************************************************
 
 //***********************
-water_with_air = 0; //Befeuchtung aktivieren wenn abgesaugt wird.
+//Befeuchtung aktivieren wenn abgesaugt wird. Kann hier exklusiv für diesen Mode aktiviert werden 
+//water_with_air = 0; 
 //***********************
 
 //*********************************************************************************************************   
