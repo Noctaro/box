@@ -96,7 +96,7 @@ void relais_2_off()
 
 void relais_3_on()
 {
-  if(relais1check==0)
+  if(relais3check==0)
   {     
   digitalWrite(relaisPin3, HIGH);
   relais3check = 1;
