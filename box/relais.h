@@ -124,7 +124,7 @@ void relais_3_off()
 
 void relais_4_on()
 {
-  if(relais2check==0)
+  if(relais4check==0)
   {     
   digitalWrite(relaisPin4, HIGH);
   relais4check = 1;
@@ -136,7 +136,7 @@ void relais_4_on()
 
 void relais_4_off()
 {
-  if(relais2check==1)
+  if(relais4check==1)
   {     
   digitalWrite(relaisPin4, LOW);
   relais4check = 0;
