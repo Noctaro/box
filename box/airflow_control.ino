@@ -1,7 +1,7 @@
 void aircontrol()
 {
 
-  //Wenn Luftfeuchte zu niederig ODER Temperatur zo hoch UND Luftefeuchte höher als der Minimalwert ist addieren wir zur Variable "air_zaehler" +1 
+  //Wenn Luftfeuchte zu niederig ODER Temperatur zo hoch UND Luftefeuchte hÃ¶her als der Minimalwert ist addieren wir zur Variable "air_zaehler" +1 
 
   // disabled for testing 
   //if(h > maxLuftfeuchte || t >= maxTemperatur && h > minLuftfeuchte || hourly_air_active == 1)
@@ -19,12 +19,12 @@ void aircontrol()
   
 if (zaehler == Messdurchgaenge)
 {
-  //Der Schaltert für die Abluft/Zuluft wird bei dem Zyklus Messdurchgaenge ausgeführt
+  //Der Schaltert fÃ¼r die Abluft/Zuluft wird bei dem Zyklus Messdurchgaenge ausgefÃ¼hrt
     if(air_zaehler >= Messdurchgaenge)
     {           
     air_ausgabe();
     relais_4_on(); //Schalte relais 4 ein
-  
+    Absaugung_aktiv = 1;
     
     }  
   
@@ -39,7 +39,7 @@ if (zaehler == Messdurchgaenge)
     }
     // <-
  
-  air_zaehler = 0; //Wird nach dem . Zyklus zurückgesetzt
+  air_zaehler = 0; //Wird nach dem . Zyklus zurÃ¼ckgesetzt
  }
 
 }  
@@ -62,7 +62,7 @@ void air_refresh()
     }
     //air_refresh_ausgabe(); 
 
-  if (air_refresh_time != 0 && unix_secounds >= air_refresh_time+air_refresh_secound)
+  if (air_refresh_time != 0 && unix_secounds >= air_refresh_time+air_refresh_secound && hourly_air_active ==1 || h < optimaleLuftfeuchte && hourly_air_active ==1)
     {    
      //digitalWrite(relaisPin4, LOW);
      relais_4_off();

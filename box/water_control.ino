@@ -1,25 +1,25 @@
 
 //*********************************************************************************************************
-//Bewässerung
+//BewÃ¤sserung
 //*********************************************************************************************************
 
 //*********************************************************************************************************
-//Bewässerung für die kommende Stunde wieder aktivieren
+//BewÃ¤sserung fÃ¼r die kommende Stunde wieder aktivieren
 //*********************************************************************************************************
 void watercontrol_reset() 
 {      
-       //Bewässerung ab Minute 59 wieder ermöglichen.
+       //BewÃ¤sserung ab Minute 59 wieder ermÃ¶glichen.
        water_applied = 0;    
        EEPROM.write(eeprom_address_watered, water_applied);
        watercontrol_reset_ausgabe();
 }
 
 //*********************************************************************************************************
-//Der Schaltvorgang für die Bewässerung falls eine für die Bewässerung gewählte Stunde eintritt.
+//Der Schaltvorgang fÃ¼r die BewÃ¤sserung falls eine fÃ¼r die BewÃ¤sserung gewÃ¤hlte Stunde eintritt.
 //*********************************************************************************************************
 void watercontrol_active() 
 {
-      //Bewässerung aktivieren  
+      //BewÃ¤sserung aktivieren  
       relais_2_on();
 
       Serial.println(relais2check);
@@ -32,12 +32,12 @@ void watercontrol_active()
       count_watercontrol_time++;  
         if(excel_output == 0)
         {
-        delay(flush_time_secounds*100); //Verzögerung für ein 10tel der angegebenen Zeit in Sekunden   
+        delay(flush_time_secounds*100); //VerzÃ¶gerung fÃ¼r ein 10tel der angegebenen Zeit in Sekunden   
         Serial.print(F("*"));
         }
       }
       
-      //Bewässerung deaktivieren
+      //BewÃ¤sserung deaktivieren
       relais_2_off();
       
       Serial.println(relais2check);
@@ -75,12 +75,12 @@ void water_level()
 //*********************************************************************************************************
 void flushcontrol_active() 
 {
-      //Bewässerung aktivieren  
+      //BewÃ¤sserung aktivieren  
       relais_2_on();
       flushcontrol_active_ausgabe();
       
 
-      //Bewässerung deaktivieren
+      //BewÃ¤sserung deaktivieren
       relais_2_off();
       flushcontrol_active_ausgabe2();
 

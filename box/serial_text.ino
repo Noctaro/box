@@ -1,4 +1,5 @@
 //**********************************
+  
  void Zeitausgabe()
  {
  tmElements_t tm; 
@@ -17,8 +18,9 @@
     Serial.write('-');
     print2digits(tm.Second);
     Serial.println(" ");
+    delay(print_delay);
     Stars();
-    delay(print_delay);  
+      
     }
     
     
@@ -31,8 +33,8 @@
     Serial.print(tm.Month);
     Serial.write('/');
     Serial.println(tmYearToCalendar(tm.Year));
-    Stars();
     delay(print_delay);
+    Stars();
     }
 
 
@@ -42,8 +44,8 @@
     Serial.print("Wochentag = ");
     Serial.print(tm.Wday);
     Serial.println();
-    Stars();
     delay(print_delay);
+    Stars();
     }
     
   } 
@@ -65,8 +67,8 @@ void Modeswitch_ausgabe()
   {
   Serial.print("Modus:"); 
   Serial.println(Mode,2); 
-  Stars();
   delay(print_delay);
+  Stars();
   }
 }
 //**********************************
@@ -102,8 +104,9 @@ void Relaitcheck_ausgabe()
   Serial.println(relais3check);
   Serial.print(F("Abluft       -> Relait 4 Power: "));
   Serial.println(relais4check);
-  Stars();
   delay(print_delay);
+  Stars();
+  
   }
 }  
 //**********************************
@@ -146,14 +149,14 @@ void Relaitcheck_ausgabe()
 //**********************************
 void LuftfeuchteStatus_ausgabe()
 {
-  if (h <= minLuftfeuchte || h >= maxLuftfeuchte) //Wenn die Luftfeuchte unter minLuftfeuchte oder über maxLuftfeuchte
+  if (h <= minLuftfeuchte || h >= maxLuftfeuchte) //Wenn die Luftfeuchte unter minLuftfeuchte oder Ã¼ber maxLuftfeuchte
   {
     led_hum_critical();            //Schalte LedPin 1 ein
     
     if(Luftfeuchte_anzeigen ==1 && excel_output == 0)
     {
     Serial.println(F("Lufteuchte KRITISCH! -.-"));
-    delay(print_delay);                            //Verzögerung 1000cycles - ca. 0,5 Sekunden
+    delay(print_delay);                            //VerzÃ¶gerung 1000cycles - ca. 0,5 Sekunden
     }
     
   }
@@ -162,7 +165,7 @@ void LuftfeuchteStatus_ausgabe()
     {
       if(Luftfeuchte_anzeigen ==1 && excel_output == 0)
       {  
-      Serial.println(F("Lufteuchte OK! ^^´"));
+      Serial.println(F("Lufteuchte OK! ^^Â´"));
       delay(print_delay);
       }
     }
@@ -300,7 +303,9 @@ void bewaesserung_status_ausgabe()
     
     Serial.print(F("Bewaesserung ausgefuehrt: ")); 
     Serial.println(water_applied); 
+    delay(print_delay);
     Stars();
+    
   }
 
 
@@ -358,7 +363,8 @@ void flushcontrol_active_ausgabe2()
 {
       if(excel_output == 0)
       {
-      Serial.println(F("Bewaesserung abgeschlossen."));          
+      Serial.println(F("Bewaesserung abgeschlossen."));
+      delay(print_delay);          
       }
 }
 //**********************************
@@ -461,14 +467,47 @@ void water_cycles_ausgabe()
  Serial.print(F("Durchgang "));
  Serial.print(water_cycles_done);
  Serial.print(F(" von ")); 
+ delay(print_delay);
 }
 
 
 //**********************************
-
+//Optimale Werte ausgeben 
 //**********************************
+void print_mode_settings()
+{
+ Serial.println(F("*Maximale Temperatur: ")); 
+ Serial.print(maxTemperatur);
 
+ Serial.println(F("*Optimale Temperatur: "));
+ Serial.print(optimaleTemperatur);
 
+ Serial.println(F("*Minimale Temperatur: "));
+ Serial.print(minTemperatur);
+
+ delay(print_delay);
+
+ 
+ 
+ Serial.println(F("*Maximale Luftfeuchte: "));
+ Serial.print(maxLuftfeuchte);
+
+ Serial.println(F("*Optimale Luftfeuchte: "));
+ Serial.print(optimaleLuftfeuchte);
+
+ Serial.println(F("*Minimale Luftfeuchte: "));
+ Serial.print(minLuftfeuchte);
+
+ delay(print_delay);
+
+ 
+
+ Serial.println(F("*Sonne aktiv: "));
+ Serial.print(tag_active);
+
+ delay(print_delay);
+ 
+}
 
 //**********************************
 
@@ -535,3 +574,4 @@ void CSVausgabe()
   } 
 }
 //**********************************  
+

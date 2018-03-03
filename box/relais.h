@@ -4,10 +4,10 @@
 //*********************************************************************************************************
 //RELAIS PINS
 //*********************************************************************************************************
-#define relaisPin1 5 //Definiere den Namen und Pin für das 1. relais - Feuchte
-#define relaisPin2 6 //Definiere den Namen und Pin für das 2. relais - Wasser  
-#define relaisPin3 7 //Definiere den Namen und Pin für das 3. relais - Heizung 
-#define relaisPin4 4 //Definiere den Namen und Pin für das 4. relais - Abluft
+#define relaisPin1 5 //Definiere den Namen und Pin fÃ¼r das 1. relais - Feuchte
+#define relaisPin2 6 //Definiere den Namen und Pin fÃ¼r das 2. relais - Wasser  
+#define relaisPin3 7 //Definiere den Namen und Pin fÃ¼r das 3. relais - Heizung 
+#define relaisPin4 4 //Definiere den Namen und Pin fÃ¼r das 4. relais - Abluft
 
 //*********************************************************************************************************
 //Relais Globale Variablen
@@ -36,10 +36,10 @@ void relaisinit()
   digitalWrite(relaisPin4, LOW); 
   
   //PIN Modus festlegen  
-  pinMode(relaisPin1, OUTPUT); //Setze den Steuerpin für relais 1 als Ausgang
-  pinMode(relaisPin2, OUTPUT); //Setze den Steuerpin für relais 2 als Ausgang
-  pinMode(relaisPin3, OUTPUT); //Setze den Steuerpin für relais 3 als Ausgang
-  pinMode(relaisPin4, OUTPUT); //Setze den Steuerpin für relais 4 als Ausgang
+  pinMode(relaisPin1, OUTPUT); //Setze den Steuerpin fÃ¼r relais 1 als Ausgang
+  pinMode(relaisPin2, OUTPUT); //Setze den Steuerpin fÃ¼r relais 2 als Ausgang
+  pinMode(relaisPin3, OUTPUT); //Setze den Steuerpin fÃ¼r relais 3 als Ausgang
+  pinMode(relaisPin4, OUTPUT); //Setze den Steuerpin fÃ¼r relais 4 als Ausgang
 }
 
 
