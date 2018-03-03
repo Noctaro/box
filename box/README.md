@@ -9,11 +9,6 @@ Adafruit_Sensor-master https://codeload.github.com/adafruit/Adafruit_Sensor/zip/
 
 DHT-sensor-library-master https://codeload.github.com/adafruit/DHT-sensor-library/zip/master
 
-and
-
-SHT 31 library https://github.com/adafruit/Adafruit_SHT31 
-(for now you will need both of them installed)
-
 Streaming library http://arduiniana.org/Streaming/Streaming5.zip
 
 Time library https://codeload.github.com/PaulStoffregen/Time/zip/v1.5
