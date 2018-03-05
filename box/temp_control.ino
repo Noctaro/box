@@ -38,8 +38,10 @@ if (zaehler == Messdurchgaenge)
   temperaturwert = 0;
  }
 
-  
 
 }
+
+
+
 
 

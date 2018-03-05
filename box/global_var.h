@@ -40,6 +40,10 @@ float f = 0; //Variable fÃ¼r aktuelle Temperatur in Fahrenheit
 float hif = 0;
 float hic = 0;
 
+boolean heat_water_compensation = 0;
+boolean h_w_compenstation_active = 0;
+
+
 int minute_global = 0;
 int hour_global = 0;
 int second_global = 0;
@@ -49,6 +53,8 @@ long air_refresh_time = 0;
 
 
 boolean errorcheck = 0;
+
+
 
 int water_hour_01 = 99;
 int water_hour_02 = 99;

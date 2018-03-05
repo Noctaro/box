@@ -27,6 +27,8 @@ void Box_functions()
 
   water_with_air = 1;             //Wenn die Abluft aktiviert wird und die Luftfeuchte kleiner oder gleich der optimalen Feuchte ist,
                                   //wird auch die Befeuchtung aktiviert (gilt fÃ¼r alle Modi, falls in einem Modus nicht eigens festgelegt)
+
+  heat_water_compensation = 1;    //Wenn die Temperatur zu hoch ist, wird bis zur maximalen Luftfeuchte befeuchtet, um dem Problem entgegen zu wirken.                                  
   
   excel_output = 0;               //Spezielle Ausgabe der Daten im CSV Format (alle anderen Anzeigen werden hierfÃ¼r automatisch deaktiviert.)
 
@@ -219,15 +221,15 @@ void Mode1_settings_active()
   maxTemperatur = 26;
   optimaleTemperatur = 25;
   minTemperatur = 24;
-  maxLuftfeuchte = 56;
-  optimaleLuftfeuchte = 53;
-  minLuftfeuchte = 52;
+  maxLuftfeuchte = 55;
+  optimaleLuftfeuchte = 52;
+  minLuftfeuchte = 50;
   
   air_refresh_secound = 180; //Dauer der BelÃ¼ftung in Sekunden (muss mehr als 60 Sekunden sein)
   
-  air_refresh_minute_01 = 15;
-  air_refresh_minute_02 = 45; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-  air_refresh_minute_03 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+  air_refresh_minute_01 = 20;
+  air_refresh_minute_02 = 40; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+  air_refresh_minute_03 = 00; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
   air_refresh_minute_04 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
 
   tag_active = 1;//<-nicht ändern
@@ -243,7 +245,7 @@ void Mode1_settings_active()
   minTemperatur = 24;
   maxLuftfeuchte = 55;
   optimaleLuftfeuchte = 50;
-  minLuftfeuchte = 47;
+  minLuftfeuchte = 46;
   
   air_refresh_secound = 240; //Dauer der BelÃ¼ftung in Sekunden (muss mehr als 60 Sekunden sein)
   
