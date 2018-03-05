@@ -476,33 +476,33 @@ void water_cycles_ausgabe()
 //**********************************
 void print_mode_settings()
 {
- Serial.println(F("*Maximale Temperatur: ")); 
- Serial.print(maxTemperatur);
+ Serial.print(F("*Maximale Temperatur= ")); 
+ Serial.println(maxTemperatur);
 
- Serial.println(F("*Optimale Temperatur: "));
- Serial.print(optimaleTemperatur);
+ Serial.print(F("*Optimale Temperatur= "));
+ Serial.println(optimaleTemperatur);
 
- Serial.println(F("*Minimale Temperatur: "));
- Serial.print(minTemperatur);
-
- delay(print_delay);
-
- 
- 
- Serial.println(F("*Maximale Luftfeuchte: "));
- Serial.print(maxLuftfeuchte);
-
- Serial.println(F("*Optimale Luftfeuchte: "));
- Serial.print(optimaleLuftfeuchte);
-
- Serial.println(F("*Minimale Luftfeuchte: "));
- Serial.print(minLuftfeuchte);
+ Serial.print(F("*Minimale Temperatur= "));
+ Serial.println(minTemperatur);
 
  delay(print_delay);
 
  
+ 
+ Serial.print(F("*Maximale Luftfeuchte= "));
+ Serial.println(maxLuftfeuchte);
 
- Serial.println(F("*Sonne aktiv: "));
+ Serial.print(F("*Optimale Luftfeuchte= "));
+ Serial.println(optimaleLuftfeuchte);
+
+ Serial.print(F("*Minimale Luftfeuchte= "));
+ Serial.println(minLuftfeuchte);
+
+ delay(print_delay);
+
+ 
+
+ Serial.println(F("*Sonne aktiv= "));
  Serial.print(tag_active);
 
  delay(print_delay);
