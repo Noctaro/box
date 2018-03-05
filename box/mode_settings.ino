@@ -215,7 +215,7 @@ void Mode1_settings_active()
   //Bei Tag
   //******************************
   
-  if (hour_global > sonnenaufgang && hour_global < sonnenuntergang ) //Bei Tag
+  if (hour_global >= sonnenaufgang && hour_global < sonnenuntergang ) //Bei Tag
   {
   
   maxTemperatur = 26;
@@ -238,7 +238,7 @@ void Mode1_settings_active()
   //******************************
   //Bei Nacht
   //******************************
-  if (hour_global >= sonnenuntergang && hour_global <= sonnenaufgang) //Bei Nacht
+  if (hour_global >= sonnenuntergang || hour_global < sonnenaufgang) //Bei Nacht
   {
   maxTemperatur = 26;
   optimaleTemperatur = 25;
