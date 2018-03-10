@@ -48,7 +48,7 @@ if (zaehler == Messdurchgaenge)
 void air_refresh()
 {
   
-  if (minute_global == air_refresh_minute_01 && h >= optimaleLuftfeuchte && hourly_air_active == 0 || minute_global == air_refresh_minute_02 && h >= optimaleLuftfeuchte && hourly_air_active == 0 || minute_global == air_refresh_minute_03 && h >= optimaleLuftfeuchte && hourly_air_active == 0 || minute_global == air_refresh_minute_04 && h >= optimaleLuftfeuchte && hourly_air_active == 0)
+  if (minute_global == air_refresh_minute_01 && h > minLuftfeuchte && hourly_air_active == 0 || minute_global == air_refresh_minute_02 && h > minLuftfeuchte && hourly_air_active == 0 || minute_global == air_refresh_minute_03 && h > minLuftfeuchte && hourly_air_active == 0 || minute_global == air_refresh_minute_04 && h > minLuftfeuchte && hourly_air_active == 0)
   {
     air_ausgabe();
     relais_4_on();
