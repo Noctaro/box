@@ -1,3 +1,5 @@
+//#ifndef serial_text_h
+//#define serial_text_h
 //**********************************
   
  void Zeitausgabe()
@@ -149,14 +151,14 @@ void Relaitcheck_ausgabe()
 //**********************************
 void LuftfeuchteStatus_ausgabe()
 {
-  if (h <= minLuftfeuchte || h >= maxLuftfeuchte) //Wenn die Luftfeuchte unter minLuftfeuchte oder Ã¼ber maxLuftfeuchte
+  if (h <= minLuftfeuchte || h >= maxLuftfeuchte) //Wenn die Luftfeuchte unter minLuftfeuchte oder ÃƒÂ¼ber maxLuftfeuchte
   {
     led_hum_critical();            //Schalte LedPin 1 ein
     
     if(Luftfeuchte_anzeigen ==1 && excel_output == 0)
     {
     Serial.println(F("Lufteuchte KRITISCH! -.-"));
-    delay(print_delay);                            //VerzÃ¶gerung 1000cycles - ca. 0,5 Sekunden
+    delay(print_delay);                            //VerzÃƒÂ¶gerung 1000cycles - ca. 0,5 Sekunden
     }
     
   }
@@ -165,7 +167,7 @@ void LuftfeuchteStatus_ausgabe()
     {
       if(Luftfeuchte_anzeigen ==1 && excel_output == 0)
       {  
-      Serial.println(F("Lufteuchte OK! ^^Â´"));
+      Serial.println(F("Lufteuchte OK! ^^Ã‚Â´"));
       delay(print_delay);
       }
     }
@@ -502,8 +504,8 @@ void print_mode_settings()
 
  
 
- Serial.println(F("*Sonne aktiv= "));
- Serial.print(tag_active);
+ Serial.print(F("*Sonne aktiv= "));
+ Serial.println(tag_active);
 
  delay(print_delay);
  
@@ -573,5 +575,5 @@ void CSVausgabe()
    Serial.println(",");
   } 
 }
+//#endif
 //**********************************  
-
