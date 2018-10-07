@@ -2,7 +2,7 @@
 #define global_var_h
 
 //*********************************************************************************************************
-//Globale Variablen (Bitte nicht Ã¤ndern) -> GewÃ¼nschte Werte sind in mode_settings.ino anpassbar
+//Globale Variablen (Bitte nicht ÃƒÂ¤ndern) -> GewÃƒÂ¼nschte Werte sind in mode_settings.ino anpassbar
 //*********************************************************************************************************
 int zaehler = 0;
 //int zaehler2 = 0;
@@ -34,9 +34,9 @@ int air_refresh_secound = 0;
 int dht_adjustment_h = 0;
 int dht_adjustment_t = 0;
 
-float h = 0; //Variable fÃ¼r aktuelle Luftfeuchte in %
-float t = 0; //Variable fÃ¼r aktuelle Temperatur in Celsius
-float f = 0; //Variable fÃ¼r aktuelle Temperatur in Fahrenheit
+float h = 0; //Variable fÃƒÂ¼r aktuelle Luftfeuchte in %
+float t = 0; //Variable fÃƒÂ¼r aktuelle Temperatur in Celsius
+float f = 0; //Variable fÃƒÂ¼r aktuelle Temperatur in Fahrenheit
 float hif = 0;
 float hic = 0;
 
@@ -78,10 +78,10 @@ int water_hour_cycles_08 = 1;
 int water_hour_cycles_09 = 1;
 int water_hour_cycles_10 = 1;
 
-int air_refresh_minute_01 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-int air_refresh_minute_02 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-int air_refresh_minute_03 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-int air_refresh_minute_04 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+int air_refresh_minute_01 = 99; //Minute zu der die BelÃƒÂ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+int air_refresh_minute_02 = 99; //Minute zu der die BelÃƒÂ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+int air_refresh_minute_03 = 99; //Minute zu der die BelÃƒÂ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+int air_refresh_minute_04 = 99; //Minute zu der die BelÃƒÂ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
 
 int air_refresh_times = 0;
 
@@ -95,8 +95,8 @@ boolean water_check = 1;
 
 boolean hourly_air_active = 0;
 
-long flush_time_secounds = 90;  //Dauer der Wasserzufuhr bei dem BewÃ¤ssern
-long flush_timer_secounds = 60; //Dauer der Pause bis zur nÃ¤chsten SpÃ¼lung
+long flush_time_secounds = 90;  //Dauer der Wasserzufuhr bei dem BewÃƒÂ¤ssern
+long flush_timer_secounds = 60; //Dauer der Pause bis zur nÃƒÂ¤chsten SpÃƒÂ¼lung
 
 byte Mode = 0; 
 
@@ -123,5 +123,14 @@ boolean Datum_anzeigen = 1;
 boolean excel_output = 1;
 
 boolean tag_active = 1;
+
+//GUI EINGABE
+int gui_opt_temp = 0;
+int gui_min_temp = 0;
+int gui_max_temp = 0;
+int gui_opt_hum = 0;
+int gui_min_hum = 0;
+int gui_max_hum = 0;
+
 
 #endif
