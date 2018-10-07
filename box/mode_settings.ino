@@ -32,13 +32,17 @@ void Box_functions()
   
   excel_output = 0;               //Spezielle Ausgabe der Daten im CSV Format (alle anderen Anzeigen werden hierfÃ¼r automatisch deaktiviert.)
 
+ //DHT Kalibrierung
+ dht_adjustment_h = 0;             //DHT Feuchte Ausgabe anpassen
+ dht_adjustment_t = 3;             //Temperatur Ausgabe anpassen
+
   ////*********************************************************************************************************
   //Zeit die ziwschen SchaltvorgÃ¤ngen am relais 1 vergegen muss in Sekunden
   ////*********************************************************************************************************
-  relais_1_guard_time = 10;      // Feuchte
-  relais_2_guard_time = 0;       // BewÃ¤sserung 
+  relais_1_guard_time = 5;      // Feuchte
+  relais_2_guard_time = 5;       // BewÃ¤sserung 
   relais_3_guard_time = 300;      // Heizung
-  relais_4_guard_time = 20;       // Abluft
+  relais_4_guard_time = 5;       // Abluft
   ////*********************************************************************************************************
 
   ////*********************************************************************************************************
@@ -209,22 +213,23 @@ void Mode1_settings_active()
 //******************************
   //testing Zeitgesteuert
 //****************************** 
-   int sonnenaufgang = 8;
-   int sonnenuntergang = 20;
+   int sonnenaufgang = 05;
+   int sonnenuntergang = 01;
   
   //******************************
   //Bei Tag
   //******************************
   
-  if (hour_global >= sonnenaufgang && hour_global < sonnenuntergang ) //Bei Tag
-  {
+  //if (hour_global >= sonnenaufgang && hour_global < sonnenuntergang ) //Bei Tag
+  //if (hour_global >= sonnenaufgang)
+  //{
   
-  maxTemperatur = 26;
-  optimaleTemperatur = 25;
-  minTemperatur = 24;
-  maxLuftfeuchte = 55;
-  optimaleLuftfeuchte = 52;
-  minLuftfeuchte = 50;
+  maxTemperatur = 24;
+  optimaleTemperatur = 23;
+  minTemperatur = 21;
+  maxLuftfeuchte = 72;
+  optimaleLuftfeuchte = 70;
+  minLuftfeuchte = 68;
   
   air_refresh_secound = 180; //Dauer der BelÃ¼ftung in Sekunden (muss mehr als 60 Sekunden sein)
   
@@ -233,30 +238,45 @@ void Mode1_settings_active()
   air_refresh_minute_03 = 00; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
   air_refresh_minute_04 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
 
-  tag_active = 1;//<-nicht ändern
-  }
+  tag_active = 1;//<-nicht ï¿½ndern
+  //}
 
   //******************************
   //Bei Nacht
   //******************************
-  if (hour_global >= sonnenuntergang || hour_global < sonnenaufgang) //Bei Nacht
+  //if (hour_global >= sonnenuntergang || hour_global < sonnenaufgang) //Bei Nacht
+  if (hour_global >= sonnenuntergang && hour_global < sonnenaufgang)
   {
-  maxTemperatur = 26;
-  optimaleTemperatur = 25;
-  minTemperatur = 24;
-  maxLuftfeuchte = 55;
-  optimaleLuftfeuchte = 50;
-  minLuftfeuchte = 46;
+  maxTemperatur = 20;
+  optimaleTemperatur = 19;
+  minTemperatur = 18;
+  maxLuftfeuchte = 70;
+  optimaleLuftfeuchte = 68;
+  minLuftfeuchte = 66;
   
-  air_refresh_secound = 240; //Dauer der BelÃ¼ftung in Sekunden (muss mehr als 60 Sekunden sein)
+  air_refresh_secound = 300; //Dauer der BelÃ¼ftung in Sekunden (muss mehr als 60 Sekunden sein)
   
   air_refresh_minute_01 = 00;
   air_refresh_minute_02 = 15; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
   air_refresh_minute_03 = 30; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
   air_refresh_minute_04 = 45; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
 
-  tag_active = 0;//<-nicht ändern
+  tag_active = 0;//<-nicht ï¿½ndern
   }
+
+  //GUI SETTINGS
+  
+  if (gui_opt_temp > 0)
+    {
+    optimaleTemperatur = gui_opt_temp;
+    minTemperatur = gui_min_temp;
+    maxTemperatur = gui_max_temp;
+    optimaleLuftfeuchte = gui_opt_hum;
+    minLuftfeuchte = gui_min_hum;
+    maxLuftfeuchte = gui_max_hum;
+    }
+    
+  
   
  //*********************************************************************************************************
  //UHRZEITEN fÃ¼r BewÃ¤sserung in MODE 1 hier eintragen! (10 verschiedeme Stunden stehen zur VerfÃ¼gung)(Zum deaktivieren einer Zeit einfach 99 eintragen)
@@ -264,7 +284,7 @@ void Mode1_settings_active()
   water_hour_01 = 16;
   water_hour_cycles_01 = 2; //Anzahl der PumpvorgÃ¤nge - sinvoll bei Pumpen mit eingebautem Timer, 
  //**********************
-  water_hour_02 = 17;
+  water_hour_02 = 99;
   water_hour_cycles_02 = 1;  //sinvoll bei Pumpen mit eingebautem Timer
  //**********************  
   water_hour_03 = 99;
