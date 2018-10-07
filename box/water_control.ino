@@ -1,35 +1,47 @@
 
 //*********************************************************************************************************
-//Bewässerung
+//BewÃƒÂ¤sserung
 //*********************************************************************************************************
 
 //*********************************************************************************************************
-//Bewässerung für die kommende Stunde wieder aktivieren
+//BewÃƒÂ¤sserung fÃƒÂ¼r die kommende Stunde wieder aktivieren
 //*********************************************************************************************************
 void watercontrol_reset() 
 {      
-       //Bewässerung ab Minute 59 wieder ermöglichen.
+       //BewÃƒÂ¤sserung ab Minute 59 wieder ermÃƒÂ¶glichen.
        water_applied = 0;    
        EEPROM.write(eeprom_address_watered, water_applied);
        watercontrol_reset_ausgabe();
 }
 
 //*********************************************************************************************************
-//Der Schaltvorgang für die Bewässerung falls eine für die Bewässerung gewählte Stunde eintritt.
+//Der Schaltvorgang fÃƒÂ¼r die BewÃƒÂ¤sserung falls eine fÃƒÂ¼r die BewÃƒÂ¤sserung gewÃƒÂ¤hlte Stunde eintritt.
 //*********************************************************************************************************
 void watercontrol_active() 
 {
-      //Bewässerung aktivieren  
-      relait2check = 1;      
-      digitalWrite(relaitPin2, HIGH);           //Schalte Relait Pin 2 ein
-      watercontrol_active_ausgabe();
+      //BewÃƒÂ¤sserung aktivieren  
+      relais_2_on();
+
+      Serial.println(relais2check);
       
-      //Bewässerung deaktivieren
-      digitalWrite(relaitPin2, LOW);           //Schalte Relait Pin 2 aus
-      relait2check = 0;
-      water_applied = 1;
-      EEPROM.write(eeprom_address_watered, water_applied); 
-      watercontrol_active_ausgabe2();
+      watercontrol_active_ausgabe();
+
+      int count_watercontrol_time = 0;
+      while (count_watercontrol_time <= 10)
+      {
+      count_watercontrol_time++;  
+        if(excel_output == 0)
+        {
+        delay(flush_time_secounds*100); //VerzÃƒÂ¶gerung fÃƒÂ¼r ein 10tel der angegebenen Zeit in Sekunden   
+        Serial.print(F("*"));
+        }
+      }
+      
+      //BewÃƒÂ¤sserung deaktivieren
+      relais_2_off();
+      
+      Serial.println(relais2check);
+      
       delay(1000);
 }
 
@@ -41,7 +53,7 @@ void watercontrol_active()
          
 void water_level()
 {
- if(digitalRead(Water_Sensor) == HIGH)
+ if(analogRead(Water_Sensor) == HIGH)
  {
   led_water_check();
   water_check = 1;
@@ -63,18 +75,13 @@ void water_level()
 //*********************************************************************************************************
 void flushcontrol_active() 
 {
-      //Bewässerung aktivieren  
-      relait2check = 1;
-      digitalWrite(relaitPin2, HIGH);           //Schalte Relait Pin 2 ein
+      //BewÃƒÂ¤sserung aktivieren  
+      relais_2_on();
       flushcontrol_active_ausgabe();
       
 
-      //Bewässerung deaktivieren
-      
-      digitalWrite(relaitPin2, LOW);           //Schalte Relait Pin 2 aus
-      relait2check = 0;
-      water_applied = 1;
-
+      //BewÃƒÂ¤sserung deaktivieren
+      relais_2_off();
       flushcontrol_active_ausgabe2();
 
 }

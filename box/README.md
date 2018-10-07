@@ -16,7 +16,7 @@ Time library https://codeload.github.com/PaulStoffregen/Time/zip/v1.5
 DS1302RTC library http://playground.arduino.cc/uploads/Main/DS1302RTC.zip
 
 Sensor:
-DHT Series (DHT11, DHT21, DHT22)
+DHT Series (DHT11, DHT21, DHT22) or SHT 31
 
 Clock Module:
 DS1302

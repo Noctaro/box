@@ -1,11 +1,7 @@
+
+
 void humidity_balancer()
 {
-//*********************************************************************************************************
-//Temperatur und Feuchte auslesen
-//*********************************************************************************************************  
-//h = dht.readHumidity();
-//t = dht.readTemperature();
-
 //*********************************************************************************************************
 //Schaltvorgang optimieren Feuchte
 //*********************************************************************************************************
@@ -19,26 +15,95 @@ if (h < optimaleLuftfeuchte)
 feuchtewert--;
 }
 
-if (zaehler == 15)                                  //Wenn der Messzähler 15 Messdurchgänge erreicht hat                                  
+if (zaehler == Messdurchgaenge)                                  //Wenn der MesszÃƒÂ¤hler Messdurchgaenge MessdurchgÃƒÂ¤nge erreicht hat                                  
  {
-  
-    //Der Schaltvorgang für den Befeuchter
-    if (h <= minLuftfeuchte && feuchtewert < -14)    //Wenn die aktuelle Feuchte niedriger als die Optimale Luftfeuchte ist und feuchtewert dies 15 mal bestätigt hat.
+
+  if (h_w_compenstation_active == 0)
     {
-    digitalWrite(relaitPin1, HIGH);          //Schalte Relait Pin 1 ein
-    relait1check = 1;
-    humidity_balancer_ausgabe();
-    }
+      //Der Schaltvorgang fÃƒÂ¼r den Befeuchter
+      if (h <= minLuftfeuchte && feuchtewert <= Messdurchgaenge)    //Wenn die aktuelle Feuchte niedriger als die Optimale Luftfeuchte ist und feuchtewert dies Messdurchgaenge_negativ mal bestÃƒÂ¤tigt hat.
+      {
+      relais_1_on();          //Schalte Relait Pin 1 ein
+      humidity_balancer_ausgabe();
+      }
   
-    if (h >= optimaleLuftfeuchte && feuchtewert > 14)    //Wenn die aktuelle Feuchte höher als die Optimale Luftfeuchte ist und feuchtewert dies 15 mal bestätigt hat.
-    {
-    digitalWrite(relaitPin1, LOW);           //Schalte Relait Pin 1 aus
-    relait1check = 0;
-    humidity_balancer_ausgabe2();
+      if (h >= optimaleLuftfeuchte && feuchtewert >= Messdurchgaenge && Absaugung_aktiv == 0)    //Wenn die aktuelle Feuchte hÃƒÂ¶her als die Optimale Luftfeuchte ist und feuchtewert dies Messdurchgaenge mal bestÃƒÂ¤tigt hat. Und die Absaugung nicht aktiv ist.
+      {
+      relais_1_off();           //Schalte Relait Pin 1 aus
+      humidity_balancer_ausgabe2();
+      }
     }
 
+  if (h_w_compenstation_active == 0)
+      {
+      air_water();  
+      }
+
+
+  if (heat_water_compensation == 1)
+      {
+      water_heat();
+      }
+      
   feuchtewert = 0;
   }
+
+
+
 }
+
+
+//************************
+//HEATCOMPENSATION TESTING
+//************************
+//Wenn die Temperatur zu hoch ist, wird bis zur maximalen Luftfeuchte befeuchtet, um dem Problem entgegen zu wirken.
+void water_heat()
+{  
+if (heat_water_compensation == 1)
+  {
+  
+  if (maxTemperatur < t && h < maxLuftfeuchte)  //Nur aktiv wenn die Temperatur Ã¼berschritten wird, aber nicht wenn die maximale Luftfeuchte Ã¼berschritten wird.
+    {
+      h_w_compenstation_active = 1;
+      relais_1_on();
+      Serial.println(F("*Befeuchtung aufgrund von Hitze aktiviert!"));
+      delay(1000);
+    }
+    
+    if(h_w_compenstation_active == 1 && maxTemperatur > t || h_w_compenstation_active == 1 && maxLuftfeuchte <= h)
+    {
+      h_w_compenstation_active = 0;
+      relais_1_off();
+      Serial.println(F("*Befeuchtung aufgrund von Hitze deaktiviert!"));
+    }
+ 
+  }
+} 
+//************************
+
+//************************
+//TESTING BEFEUCHTUNG BEIM LÃƒÅ“FTEN
+//************************  
+  void air_water()
+  {
+    if(water_with_air == 1 && t >= minTemperatur && h <= optimaleLuftfeuchte) // Wenn die temperatur grÃƒÂ¶ÃƒÅ¸er oder gleich der minimalen Temperatur ist und die Luftfeuchte kleiner als die optimale Feuchte ist 
+      {
+      relais_1_on();              //Schalte befeuchtung ein
+      Absaugung_aktiv = 1;
+      }
+    
+    if(water_with_air == 1 && h > optimaleLuftfeuchte) //Wenn die Luftfeuchte grÃƒÂ¶ÃƒÅ¸er oder gleich der maximalen Feuchte ist
+      {
+      relais_1_off();            //Schalte befeuchtung aus
+      Absaugung_aktiv = 0;
+      }
+  }     
+//************************
+
+
+
+
+
+
 //***************************************************
 //***************************************************
