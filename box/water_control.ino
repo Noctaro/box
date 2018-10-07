@@ -1,25 +1,25 @@
 
 //*********************************************************************************************************
-//BewÃ¤sserung
+//BewÃƒÂ¤sserung
 //*********************************************************************************************************
 
 //*********************************************************************************************************
-//BewÃ¤sserung fÃ¼r die kommende Stunde wieder aktivieren
+//BewÃƒÂ¤sserung fÃƒÂ¼r die kommende Stunde wieder aktivieren
 //*********************************************************************************************************
 void watercontrol_reset() 
 {      
-       //BewÃ¤sserung ab Minute 59 wieder ermÃ¶glichen.
+       //BewÃƒÂ¤sserung ab Minute 59 wieder ermÃƒÂ¶glichen.
        water_applied = 0;    
        EEPROM.write(eeprom_address_watered, water_applied);
        watercontrol_reset_ausgabe();
 }
 
 //*********************************************************************************************************
-//Der Schaltvorgang fÃ¼r die BewÃ¤sserung falls eine fÃ¼r die BewÃ¤sserung gewÃ¤hlte Stunde eintritt.
+//Der Schaltvorgang fÃƒÂ¼r die BewÃƒÂ¤sserung falls eine fÃƒÂ¼r die BewÃƒÂ¤sserung gewÃƒÂ¤hlte Stunde eintritt.
 //*********************************************************************************************************
 void watercontrol_active() 
 {
-      //BewÃ¤sserung aktivieren  
+      //BewÃƒÂ¤sserung aktivieren  
       relais_2_on();
 
       Serial.println(relais2check);
@@ -32,12 +32,12 @@ void watercontrol_active()
       count_watercontrol_time++;  
         if(excel_output == 0)
         {
-        delay(flush_time_secounds*100); //VerzÃ¶gerung fÃ¼r ein 10tel der angegebenen Zeit in Sekunden   
+        delay(flush_time_secounds*100); //VerzÃƒÂ¶gerung fÃƒÂ¼r ein 10tel der angegebenen Zeit in Sekunden   
         Serial.print(F("*"));
         }
       }
       
-      //BewÃ¤sserung deaktivieren
+      //BewÃƒÂ¤sserung deaktivieren
       relais_2_off();
       
       Serial.println(relais2check);
@@ -75,12 +75,12 @@ void water_level()
 //*********************************************************************************************************
 void flushcontrol_active() 
 {
-      //BewÃ¤sserung aktivieren  
+      //BewÃƒÂ¤sserung aktivieren  
       relais_2_on();
       flushcontrol_active_ausgabe();
       
 
-      //BewÃ¤sserung deaktivieren
+      //BewÃƒÂ¤sserung deaktivieren
       relais_2_off();
       flushcontrol_active_ausgabe2();
 
