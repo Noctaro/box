@@ -102,9 +102,10 @@ DHT dht(DHTPIN, DHTTYPE);
 //*********************************************************************************************************
 //SHT 31 init (alle DHT Zeilen auskommentieren)
 //*********************************************************************************************************
+#include <Wire.h>
 #include <ClosedCube_SHT31D.h>
 
-SHT31D_CC::ClosedCube_SHT31D sht31d;
+ClosedCube_SHT31D sht31d;
 //*********************************************************************************************************
 
 
@@ -313,13 +314,10 @@ led_cycle_check();
 //********************************************************************* 
 //SHT READ
 //********************************************************************* 
-sht31d.readTempAndHumidity(SHT31D_CC::REPEATABILITY_HIGH, SHT31D_CC::MODE_POLLING, 50);
-delay(250);
+  printResult("Pooling Mode", sht31d.readTempAndHumidity(REPEATABILITY_HIGH, MODE_POLLING, 50));
+  delay(250);
 
-t = result.t;
-delay(200);
-h = result.rh;
-delay(200);
+
 //********************************************************************* 
 
 //*********************************************************************************************************  
@@ -753,3 +751,17 @@ void Stars()
   Serial.println(F("*********"));
 }
 
+//SHT LIBRARY WERTE AUSLESEN
+void printResult(String text, SHT31D result) {
+  if (result.error == NO_ERROR) {
+    t = result.t;
+    delay(200);
+    h = result.rh;
+    delay(200);
+  }
+  else {
+    Serial.print(text);
+    Serial.print(": [ERROR] Code #");
+    Serial.println(result.error);
+  }
+}
