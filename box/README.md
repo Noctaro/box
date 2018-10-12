@@ -5,8 +5,6 @@ If you want to use the RTC Module, you have to run setserial.ino one time. Here 
 
 You will need these libraries:
 
-Adafruit_Sensor-master https://codeload.github.com/adafruit/Adafruit_Sensor/zip/master
-
 SHT 31 library https://github.com/hawesg/SHT31D_Particle_Photon_ClosedCube
 
 Streaming library http://arduiniana.org/Streaming/Streaming5.zip
