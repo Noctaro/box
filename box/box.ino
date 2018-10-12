@@ -314,6 +314,8 @@ led_cycle_check();
 //********************************************************************* 
 //SHT READ
 //********************************************************************* 
+  //Der VOID befindet sich am ende dieser .ino
+  //VOID zum auslesen der daten
   printResult("Pooling Mode", sht31d.readTempAndHumidity(REPEATABILITY_HIGH, MODE_POLLING, 50));
   delay(250);
 
