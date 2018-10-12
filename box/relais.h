@@ -54,7 +54,7 @@ void relais_1_on()
   digitalWrite(relaisPin1, HIGH);
   relais1check = 1;
   relais_1_guard = unix_secounds;
-  delay(1000);
+  delay(5000);
   }
     
 }
@@ -67,7 +67,7 @@ void relais_1_off()
   digitalWrite(relaisPin1, LOW);
   relais1check = 0;
   relais_1_guard = unix_secounds;
-  delay(1000);
+  delay(5000);
   }
     
 }
@@ -84,7 +84,7 @@ void relais_2_on()
   digitalWrite(relaisPin2, HIGH);
   relais2check = 1;
   relais_2_guard = unix_secounds;
-  delay(1000);
+  delay(5000);
   }
     
 }
@@ -97,7 +97,7 @@ void relais_2_off()
   digitalWrite(relaisPin2, LOW);
   relais2check = 0;
   relais_2_guard = unix_secounds;
-  delay(1000);
+  delay(5000);
   }
     
 }
@@ -114,7 +114,7 @@ void relais_3_on()
   digitalWrite(relaisPin3, HIGH);
   relais3check = 1;
   relais_3_guard = unix_secounds;
-  delay(1000);
+  delay(5000);
   }
     
 }
@@ -127,7 +127,7 @@ void relais_3_off()
   digitalWrite(relaisPin3, LOW);
   relais3check = 0;
   relais_3_guard = unix_secounds;
-  delay(1000);
+  delay(5000);
   }
     
 }
@@ -144,7 +144,7 @@ void relais_4_on()
   digitalWrite(relaisPin4, HIGH);
   relais4check = 1;
   relais_4_guard = unix_secounds;
-  delay(1000);
+  delay(5000);
   }
     
 }
@@ -157,7 +157,7 @@ void relais_4_off()
   digitalWrite(relaisPin4, LOW);
   relais4check = 0;
   relais_4_guard = unix_secounds;
-  delay(1000);
+  delay(5000);
   }
     
 }
