@@ -1,6 +1,6 @@
 # box
 a box for you and me because i never cooperate without my team
--------------------
+--
 If you want to use the RTC Module, you have to run setserial.ino one time. Here you can set the date via serialmonitor. Read the header information in setserial for more info ;) Btw. the pins are the same like in the main code. 
 
 You will need these libraries:
@@ -26,7 +26,6 @@ DS1302
 The interface is based on node-red. So you will need a computer, raspberry or similar to run the GUI on.
 Your Arduino must be connected via USB port to the mentioned machine.
 
--------------------
 You will need:
 
 -Node Red 
@@ -61,4 +60,4 @@ npm install node-red-node-random
 
 npm install node-red-contrib-timeout
 
-
+---------
