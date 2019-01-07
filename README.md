@@ -24,10 +24,9 @@ DS1302
 -------------------
 # GUI:
 The interface is based on node-red. So you will need a computer, raspberry or similar to run the GUI on.
--
 Your Arduino need to be connected via USB port to the mentioned machine.
--
 
+-------------------
 You will need:
 
 -Node Red 
