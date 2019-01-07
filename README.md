@@ -21,7 +21,7 @@ DHT Series (DHT11, DHT21, DHT22)
 Clock Module:
 DS1302
 
--------------------
+
 # GUI:
 The interface is based on node-red. So you will need a computer, raspberry or similar to run the GUI on.
 Your Arduino must be connected via USB port to the mentioned machine.
