@@ -22,14 +22,20 @@ Clock Module:
 DS1302
 
 -------------------
-GUI:
+# GUI:
 The interface is based on node-red. So you will need a computer, raspberry or similar to run the GUI on.
+-
 Your Arduino need to be connected via USB port to the mentioned machine.
+-
+
 You will need:
 
 -Node Red 
+
 Best to read the documentation
+
 https://nodered.org/docs/getting-started/installation
+
 
 Additional Node Red modules can be installed with these commands:
 
