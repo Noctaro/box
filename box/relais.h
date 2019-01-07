@@ -4,10 +4,10 @@
 //*********************************************************************************************************
 //RELAIS PINS
 //*********************************************************************************************************
-#define relaisPin1 4 //Definiere den Namen und Pin fÃƒÂ¼r das 1. relais - Feuchte
-#define relaisPin2 5 //Definiere den Namen und Pin fÃƒÂ¼r das 2. relais - Wasser  
-#define relaisPin3 6 //Definiere den Namen und Pin fÃƒÂ¼r das 3. relais - Heizung 
-#define relaisPin4 7 //Definiere den Namen und Pin fÃƒÂ¼r das 4. relais - Abluft
+#define relaisPin1 4 //Definiere den Namen und Pin fÃ¼r das 1. relais - Feuchte
+#define relaisPin2 5 //Definiere den Namen und Pin fÃ¼r das 2. relais - Wasser  
+#define relaisPin3 6 //Definiere den Namen und Pin fÃ¼r das 3. relais - Heizung 
+#define relaisPin4 7 //Definiere den Namen und Pin fÃ¼r das 4. relais - Abluft
 
 //*********************************************************************************************************
 //Relais Globale Variablen
@@ -36,10 +36,10 @@ void relaisinit()
   digitalWrite(relaisPin4, HIGH); 
   
   //PIN Modus festlegen  
-  pinMode(relaisPin1, OUTPUT); //Setze den Steuerpin fÃƒÂ¼r relais 1 als Ausgang
-  pinMode(relaisPin2, OUTPUT); //Setze den Steuerpin fÃƒÂ¼r relais 2 als Ausgang
-  pinMode(relaisPin3, OUTPUT); //Setze den Steuerpin fÃƒÂ¼r relais 3 als Ausgang
-  pinMode(relaisPin4, OUTPUT); //Setze den Steuerpin fÃƒÂ¼r relais 4 als Ausgang
+  pinMode(relaisPin1, OUTPUT); //Setze den Steuerpin fÃ¼r relais 1 als Ausgang
+  pinMode(relaisPin2, OUTPUT); //Setze den Steuerpin fÃ¼r relais 2 als Ausgang
+  pinMode(relaisPin3, OUTPUT); //Setze den Steuerpin fÃ¼r relais 3 als Ausgang
+  pinMode(relaisPin4, OUTPUT); //Setze den Steuerpin fÃ¼r relais 4 als Ausgang
 }
 
 
@@ -47,7 +47,7 @@ void relaisinit()
 //*********************************************************************************************************
 //RELAIS 1
 //*********************************************************************************************************
-//Umgekehrte Logik fÃ¼r SSR Relais aktiv
+//Umgekehrte Logik für SSR Relais aktiv
 //ACHTUNG RELAIS CHECK WURDE AUCH ANGEPASST
 
 void relais_1_off()

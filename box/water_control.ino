@@ -1,25 +1,25 @@
 
 //*********************************************************************************************************
-//BewÃƒÂ¤sserung
+//BewÃ¤sserung
 //*********************************************************************************************************
 
 //*********************************************************************************************************
-//BewÃƒÂ¤sserung fÃƒÂ¼r die kommende Stunde wieder aktivieren
+//BewÃ¤sserung fÃ¼r die kommende Stunde wieder aktivieren
 //*********************************************************************************************************
 void watercontrol_reset() 
 {      
-       //BewÃƒÂ¤sserung ab Minute 59 wieder ermÃƒÂ¶glichen.
+       //BewÃ¤sserung ab Minute 59 wieder ermÃ¶glichen.
        water_applied = 0;    
        EEPROM.write(eeprom_address_watered, water_applied);
        watercontrol_reset_ausgabe();
 }
 
 //*********************************************************************************************************
-//Der Schaltvorgang fÃƒÂ¼r die BewÃƒÂ¤sserung falls eine fÃƒÂ¼r die BewÃƒÂ¤sserung gewÃƒÂ¤hlte Stunde eintritt.
+//Der Schaltvorgang fÃ¼r die BewÃ¤sserung falls eine fÃ¼r die BewÃ¤sserung gewÃ¤hlte Stunde eintritt.
 //*********************************************************************************************************
 void watercontrol_active() 
 {
-      //BewÃƒÂ¤sserung aktivieren  
+      //BewÃ¤sserung aktivieren  
       relais_2_on();
 
       Serial.println(relais2check);
@@ -32,12 +32,12 @@ void watercontrol_active()
       count_watercontrol_time++;  
         if(excel_output == 0)
         {
-        delay(flush_time_secounds*100); //VerzÃƒÂ¶gerung fÃƒÂ¼r ein 10tel der angegebenen Zeit in Sekunden   
+        delay(flush_time_secounds*100); //VerzÃ¶gerung fÃ¼r ein 10tel der angegebenen Zeit in Sekunden   
         Serial.print(F("*"));
         }
       }
       
-      //BewÃƒÂ¤sserung deaktivieren
+      //BewÃ¤sserung deaktivieren
       relais_2_off();
       
       Serial.println(relais2check);
@@ -48,24 +48,12 @@ void watercontrol_active()
 //*********************************************************************************************************
 //Wasser Sensor auslesen
 //*********************************************************************************************************
-/* The water sensor will switch LOW when water is detected.
-           Get the Arduino to illuminate the LED when no water is detected, and switch off when water is present */
          
 void water_level()
-{
- if(analogRead(Water_Sensor) == HIGH)
  {
-  led_water_check();
-  water_check = 1;
-  water_level_ausgabe();
+ int water_lev_raw = analogRead(Water_Sensor); //read the sensor
+ water_lev = map(water_lev_raw, 1015, 0, 0, 100); // scale analog output from 1015-0 back into the 0-100 range
  }
-  
-  else
-    {
-    water_check = 0;
-    water_level_ausgabe2();    
-    } 
-}
 //*********************************************************************************************************
 
 
@@ -75,12 +63,12 @@ void water_level()
 //*********************************************************************************************************
 void flushcontrol_active() 
 {
-      //BewÃƒÂ¤sserung aktivieren  
+      //BewÃ¤sserung aktivieren  
       relais_2_on();
       flushcontrol_active_ausgabe();
       
 
-      //BewÃƒÂ¤sserung deaktivieren
+      //BewÃ¤sserung deaktivieren
       relais_2_off();
       flushcontrol_active_ausgabe2();
 
