@@ -26,7 +26,7 @@ DS1302
 
 # GUI:
 The interface is based on node-red. So you will need a computer, raspberry or similar to run the GUI on.
-Your Arduino must be connected via USB port to the mentioned machine.
+Your Arduino must be connected via USB port to the mentioned machine. Copy the string from node_gui into your node red admin interface.
 
 You will need:
 
