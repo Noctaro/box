@@ -3,7 +3,7 @@ a box for you and me because i never cooperate without my team
 --
 This is an arduino based temperature/humidity/wetness sensor controlled system. It will help to generate the intended conditions.
 
-If you want to use the RTC Module, you have to run setserial.ino one time. Here you can set the date via serialmonitor. Read the header information in setserial for more info ;) Btw. the pins are the same like in the main code. 
+In order to use the RTC Module, you have to run setserial.ino one time. Here you can set the date via serialmonitor.  It is essential for some functionalities, so keep in mind to set your clock. Read the header information in setserial for more info ;) 
 
 You will need these libraries:
 
