@@ -24,5 +24,13 @@ DS1302
 
 GUI:
 Node Red and these modules
+
 npm install node-red-node-openweathermap //if you want some weather report
+
 npm install node-red-node-random
+
+npm install node-red-node-arduino
+
+npm install node-red-node-smooth
+
+npm install node-red-contrib-timeout
