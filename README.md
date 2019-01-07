@@ -32,34 +32,34 @@ You will need:
 
 -Node Red 
 
-Best to read the documentation
+Best to read the documentation:
 
-https://nodered.org/docs/getting-started/installation
+- https://nodered.org/docs/getting-started/installation
 
--
+
 Additional Node Red modules can be installed with these commands:
 
--Node arduino (Allows your node red interface to communicate with the arduino)
+- Node arduino (Allows your node red interface to communicate with the arduino)
 
 npm install node-red-node-arduino
 
 
--Node smooth (Used to smooth Data in weather report)
+- Node smooth (Used to smooth Data in weather report)
 
 npm install node-red-node-smooth
 
 
--Open Weather for weather report. (You need an open weather id for this)
+- Open Weather for weather report. (You need an open weather id for this)
 
 npm install node-red-node-openweathermap 
 
 
--Node random (Currently only used for testing, you might not need it)
+- Node random (Currently only used for testing, you might not need it)
 
 npm install node-red-node-random
 
--Node contrib timeout (Used for a watchdog, it will restart your serialport if timed out. This helps if the arduino froze.)
+- Node contrib timeout (Used for a watchdog, it will restart your serialport if timed out. This helps if the arduino froze.)
 
 npm install node-red-contrib-timeout
 
----------
+
