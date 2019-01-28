@@ -51,8 +51,20 @@ void watercontrol_active()
          
 void water_level()
  {
- int water_lev_raw = analogRead(Water_Sensor); //read the sensor
- water_lev = map(water_lev_raw, 1015, 0, 0, 100); // scale analog output from 1015-0 back into the 0-100 range
+ if(water_check_counter >= water_check_counter_cycles) 
+  {
+  water_check_counter = 0;
+  digitalWrite(Water_Sensor_Power, HIGH); //Power the sensor
+  delay(1000); //wait for sensorvoltage to stabilize
+  int water_lev_raw = analogRead(Water_Sensor); //read the sensor
+  delay(50); //wait for reading
+  water_lev = map(water_lev_raw, 1015, 0, 0, 100); // scale analog output from 1015-0 back into the 0-100 range
+  digitalWrite(Water_Sensor_Power, LOW);
+  }
+  else
+  {
+   water_check_counter++;
+  }
  }
 //*********************************************************************************************************
 

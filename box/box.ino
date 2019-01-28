@@ -118,9 +118,10 @@ SHT3x Sensor;*/
 
 
 //*********************************************************************************************************
-//PIN fÃ¼r den Wassersensor
+//PIN settings - Watersensor (YL-69 + YL-39 sensor combo) 
 //*********************************************************************************************************
-#define Water_Sensor A3 //Definiere den Wassersensor Pin
+#define Water_Sensor A3 //Define the analog input pin
+#define Water_Sensor_Power 2 //Define the power pin
 //*********************************************************************************************************
 
 //*********************************************************************************************************
@@ -191,6 +192,7 @@ void setup()
   pinMode(Modeschalter, INPUT);  //Setze den Steuerpin fÃ¼r den gewÃ¼nschten Modus als Eingang
   pinMode(LedPin1, OUTPUT); //Setze den Steuerpin fÃ¼r Led1 als Ausgang
   pinMode(Water_Sensor, INPUT);     //The Water Sensor is an Input
+  pinMode(Water_Sensor_Power, OUTPUT);
   //*****************
  
  
@@ -231,6 +233,8 @@ void setup()
   water_applied = EEPROM.read(eeprom_address_watered);
   Serial.print(F("Bewaesserungsstatus = "));
   Serial.println(water_applied);
+
+  
 //*********************************************************************************************************
 
 //*********************************************************************************************************
@@ -238,7 +242,6 @@ void setup()
 //*********************************************************************************************************
 Box_functions();    
 //*********************************************************************************************************
-
 }
 //*********************************************************************************************************
 //*********************************************************************************************************
@@ -250,79 +253,38 @@ Box_functions();
 void loop()
 {
 //*********************************************************************************************************  
-//GUI READ
+//GUI READ - found in GUI_COMM - reads data from serial port to adjust the program
 //*********************************************************************************************************
-
-if (Serial.available()>0) 
-  // Wenn Daten empfangen wurden und zum Lesen bereitstehen
-{
-gui_opt_temp = Serial.parseInt();
-gui_min_temp = Serial.parseInt();
-gui_max_temp = Serial.parseInt();
-gui_opt_hum = Serial.parseInt();
-gui_min_hum = Serial.parseInt();
-gui_max_hum = Serial.parseInt();
-//gui_tag = Serial.parseInt();
-//gui_nacht = Serial.parseInt();
-int form_trash_gui = Serial.parseInt();
-}
-
-
-
-  Serial.print(F("GUI TEMP:"));
-  Serial.print(F("GUI OPT TEMP:"));
-  Serial.print(gui_opt_temp);
-  Serial.print(F(" GUI MIN TEMP:"));
-  Serial.print(gui_min_temp);
-  Serial.print(F(" GUI MAX TEMP:"));
-  Serial.println(gui_max_temp);
-  
-  Serial.print(F("GUI HUM:"));
-  Serial.print(F("GUI OPT HUM:"));
-  Serial.print(gui_opt_hum);
-  Serial.print(F(" GUI MIN HUM:"));
-  Serial.print(gui_min_hum);
-  Serial.print(F(" GUI MAX HUM:"));
-  Serial.println(gui_max_hum);
-  delay(200);
-
-
+gui_read();
 //*********************************************************************************************************
 
 //************
-//CyclezÃ¤hler
+//Cyclecounter
 //************
 zaehler++;
+//*********************************************************************************************************
+
 //************
-//Einmal kurz blinken um den Start eines neuen Zyklus darzustellen 
+//Blink LED to show the start of a new cycle - found in led_signal
 //************ 
 led_cycle_check();
 //*********************************************************************************************************
-//*********************************************************************************************************
-
 
 //*********************************************************************************************************
-//CLOCK
+//CLOCK - reads and prints DS1302 clock 
 //*********************************************************************************************************
   tmElements_t tm;
   
 //Serial.print("UNIX Time: ");
 //Serial.print(RTC.get());
   RTC.get();
-  Zeitausgabe();
+  Zeitausgabe(); //found in serial_text
   unix_secounds = (RTC.get());
   Serial.print("Unix Zeit: ");
   Serial.println(unix_secounds);
 //*********************************************************************************************************
 //*********************************************************************************************************
   
-//*********************************************************************************************************  
-//WATER LEVEL SEONOR READING
-//*********************************************************************************************************
-water_level(); //function sits in water_control file.
-//*********************************************************************************************************
-//*********************************************************************************************************  
-
 //*********************************************************************
 //DHT
 //*********************************************************************  
@@ -373,7 +335,7 @@ delay(200);*/
   
   
 //*********************************************************************************************************
-//Lesen der Modekonfiguration und Aktivieren der gewÃ¼nschten Einstellungen
+//Read mode_settings_box to apply predefined values 
 //*********************************************************************************************************
   if(Mode == 0) //Grow
   {
@@ -433,8 +395,15 @@ delay(200);*/
   humidity_balancer(); //Schaltvorgang und Feedback
   }
 
+//*********************************************************************************************************  
+//WATERLEVEL SENSOR READING
 //*********************************************************************************************************
-//BewÃ¤sserung
+water_level(); //function sits in water_control file.
+//*********************************************************************************************************
+//*********************************************************************************************************    
+
+//*********************************************************************************************************
+//WATERING
 //*********************************************************************************************************
 //Der Schaltvorgang fÃ¼r die BewÃ¤sserung falls eine fÃ¼r die BewÃ¤sserung gewÃ¤hlte Stunde eintritt.
 //*********************************************************************************************************
@@ -702,7 +671,7 @@ waterlevel_print();
 //RELAITCHECK 
 //Gibt den aktuellen Status der Relaits am Serial Monitor aus
 //*********************************************************************************************************
-  Relaitcheck_ausgabe();
+Relaitcheck_ausgabe();
 
 //*********************************************************************************************************
 //Schaltwerte fÃ¼r Lufteuchte, Temperatur, Abluft ausgeben
@@ -759,19 +728,6 @@ TemperaturStatus_ausgabe();
     }
 Serial.println(F("*^^"));
 Serial.flush();
-
-
-//*********************************************************************************************************
-//Lese vom serial port//
-
-//if(Serial.available() > 0)
-  //  {
-    //    inData = Serial.readStringUntil('\n');
-      // Serial.println("*data: "+inData);
-       //delay(2000);
-       //inData="";
-     //}
-//************************************     
 } //close Mainloop
 
 //*********************************************************************************************************//*********************************************************************************************************

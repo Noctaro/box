@@ -10,13 +10,16 @@
 #define relaisPin4 7 //Definiere den Namen und Pin fÃ¼r das 4. relais - Abluft
 
 //*********************************************************************************************************
-//Relais Globale Variablen
+//Relais Globale Variablen - der Status der Relaits wird hier gespeichert und ausgegeben
 //*********************************************************************************************************
-boolean relais1check = 0;
-boolean relais2check = 0;
-boolean relais3check = 0;
-boolean relais4check = 0;
+bool relais1check = 0;
+bool relais2check = 0;
+bool relais3check = 0;
+bool relais4check = 0;
 
+//*********************************************************************************************************
+//Relais Guard - Die Zeit die bis zum nächsten Schaltvorgang verstreichen muss - anpassbar in mode_settings_box
+//*********************************************************************************************************
 int relais_1_guard_time = 20;
 int relais_1_guard = 0;
 int relais_2_guard_time = 20;
@@ -26,8 +29,9 @@ int relais_3_guard = 0;
 int relais_4_guard_time = 20;
 int relais_4_guard = 0;
 
-
-
+//*********************************************************************************************************
+//Funktion zum initalisieren der Relaits
+//*********************************************************************************************************
 void relaisinit()
 {
   digitalWrite(relaisPin1, HIGH);         //Schalte relaisPin1 aus 
@@ -42,7 +46,9 @@ void relaisinit()
   pinMode(relaisPin4, OUTPUT); //Setze den Steuerpin fÃ¼r relais 4 als Ausgang
 }
 
-
+//*********************************************************************************************************
+//FUNKTIONEN ZUM SCHALTEN DER EINZELNEN RELAITS
+//*********************************************************************************************************
 
 //*********************************************************************************************************
 //RELAIS 1

@@ -58,6 +58,8 @@ void Box_functions()
    Messdurchgaenge = 5; //Anzahl der Messdurchgänge bevor ein Relait geschalten wird
    Messdurchgaenge_negativ = 0 - Messdurchgaenge ;
 
+   water_check_counter_cycles = 5; //Wasserstand alle 5 Messdurchgänge messen
+
 }
 
 
@@ -210,73 +212,82 @@ void Mode1_settings_active()
   air_refresh_minute_03 = 45; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
   air_refresh_minute_04 = 0; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
   */
+
 //******************************
-  //testing Zeitgesteuert
+//Day and Night time
 //****************************** 
-   int sonnenaufgang = 05;
-   int sonnenuntergang = 01;
+  tag_active_start = 1;     //Declare if its day or night at time of upload. 1 = Day / 0 = Night
   
-  //******************************
-  //Bei Tag
-  //******************************
-  
-  //if (hour_global >= sonnenaufgang && hour_global < sonnenuntergang ) //Bei Tag
-  //if (hour_global >= sonnenaufgang)
-  //{
-  
-  maxTemperatur = 24;
-  optimaleTemperatur = 23;
-  minTemperatur = 21;
-  maxLuftfeuchte = 72;
-  optimaleLuftfeuchte = 70;
-  minLuftfeuchte = 68;
-  
-  air_refresh_secound = 180; //Dauer der Belüftung in Sekunden (muss mehr als 60 Sekunden sein)
-  
-  air_refresh_minute_01 = 20;
-  air_refresh_minute_02 = 40; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-  air_refresh_minute_03 = 00; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-  air_refresh_minute_04 = 99; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-
-  tag_active = 1;//<-nicht �ndern
-  //}
-
-  //******************************
-  //Bei Nacht
-  //******************************
-  //if (hour_global >= sonnenuntergang || hour_global < sonnenaufgang) //Bei Nacht
-  if (hour_global >= sonnenuntergang && hour_global < sonnenaufgang)
+  if(gui_form_03 == 0)
   {
-  maxTemperatur = 20;
-  optimaleTemperatur = 19;
-  minTemperatur = 18;
-  maxLuftfeuchte = 70;
-  optimaleLuftfeuchte = 68;
-  minLuftfeuchte = 66;
-  
-  air_refresh_secound = 300; //Dauer der Belüftung in Sekunden (muss mehr als 60 Sekunden sein)
-  
-  air_refresh_minute_01 = 00;
-  air_refresh_minute_02 = 15; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-  air_refresh_minute_03 = 30; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-  air_refresh_minute_04 = 45; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-
-  tag_active = 0;//<-nicht �ndern
+  sonnenaufgang = 9;        //Time of sunrise
+  sonnenuntergang = 21;     //Time of sunset
   }
-
-  //GUI SETTINGS
+//*****************************
   
-  if (gui_opt_temp > 0)
-    {
-    optimaleTemperatur = gui_opt_temp;
-    minTemperatur = gui_min_temp;
-    maxTemperatur = gui_max_temp;
-    optimaleLuftfeuchte = gui_opt_hum;
-    minLuftfeuchte = gui_min_hum;
-    maxLuftfeuchte = gui_max_hum;
+  check_daytime(); //function found at the end of this file
+
+  
+  //******************************
+  //Bei Tag - While day
+  //******************************
+  
+  if (tag_active == 1)  //Bei Tag
+  {
+    if (gui_form_01 == 0)
+    {  
+    maxTemperatur = 20;
+    optimaleTemperatur = 19;
+    minTemperatur = 18;
     }
     
+    if (gui_form_02 == 0)
+    {
+    maxLuftfeuchte = 70;
+    optimaleLuftfeuchte = 68;
+    minLuftfeuchte = 66;
+    }
+    
+  //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+  //Time to refresh air. 
+  air_refresh_minute_01 = 00;
+  air_refresh_minute_02 = 15; 
+  air_refresh_minute_03 = 30; 
+  air_refresh_minute_04 = 45; 
   
+  //Dauer der Belüftung in Sekunden (muss mehr als 60 Sekunden sein)
+  air_refresh_secound = 300; 
+  }
+
+  //******************************
+  //Bei Nacht - While night
+  //******************************
+  if (tag_active == 0) //Bei Nacht
+  {
+    if (gui_form_01 == 0)
+    {  
+    maxTemperatur = 19;
+    optimaleTemperatur = 18;
+    minTemperatur = 17;
+    }
+    
+    if (gui_form_02 == 0)
+    {
+    maxLuftfeuchte = 50;
+    optimaleLuftfeuchte = 44;
+    minLuftfeuchte = 43;
+    }
+  
+  //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+  //Time to refresh air. 
+  air_refresh_minute_01 = 00;
+  air_refresh_minute_02 = 15; 
+  air_refresh_minute_03 = 30; 
+  air_refresh_minute_04 = 45; 
+  
+  //Dauer der Belüftung in Sekunden (muss mehr als 60 Sekunden sein)
+  air_refresh_secound = 300; 
+  }
   
  //*********************************************************************************************************
  //UHRZEITEN für Bewässerung in MODE 1 hier eintragen! (10 verschiedeme Stunden stehen zur Verfügung)(Zum deaktivieren einer Zeit einfach 99 eintragen)
@@ -320,6 +331,12 @@ void Mode1_settings_active()
 //Befeuchtung aktivieren wenn abgesaugt wird. Kann hier exklusiv für diesen Mode aktiviert werden 
 //water_with_air = 0; 
 //***********************
+
+//******************************
+//GUI SETTINGS - replaces predefined setting with Settings that came from GUI
+//******************************
+gui_apply_settings();
+
 
 //*********************************************************************************************************   
 }//end of void MODE 1   
@@ -422,3 +439,34 @@ void Mode3_settings_active()
 //*********************************************************************************************************   
 }//end of void MODE 3   
 //*********************************************************************************************************
+
+
+//*********************************************************************************************************
+//additional functions
+//*********************************************************************************************************
+
+//*********************************************************************************************************
+//Check if it is day or night
+//*********************************************************************************************************
+void check_daytime()
+{
+  //Check while boot if its day or night
+  if(tag_active_boot == 1)
+  {
+  tag_active = tag_active_start;   
+  tag_active_boot = 0;
+  }
+
+  //Check hours to switch between day and night
+  if (hour_global == sonnenaufgang)  //Bei Tag
+  {
+  tag_active = 1;
+  }
+  
+  if (hour_global == sonnenuntergang)  //Bei Nacht
+  {
+  tag_active = 0;
+  }
+}
+
+
