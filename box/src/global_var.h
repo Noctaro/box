@@ -31,7 +31,7 @@ int Absaugung_aktiv = 0;
 
 int water_with_air = 0;
 
-int air_refresh_secound = 0;
+int air_refresh_second = 0;
 
 int dht_adjustment_h = 0;
 int dht_adjustment_t = 0;
@@ -50,7 +50,7 @@ bool h_w_compenstation_active = 0;
 int minute_global = 0;
 int hour_global = 0;
 int second_global = 0;
-long unix_secounds = 0;
+long unix_seconds = 0;
 long air_refresh_time = 0;
 
 
@@ -104,8 +104,8 @@ bool water_check = 1;
 
 bool hourly_air_active = 0;
 
-long flush_time_secounds = 90;  //Dauer der Wasserzufuhr bei dem BewÃ¤ssern
-long flush_timer_secounds = 60; //Dauer der Pause bis zur nÃ¤chsten SpÃ¼lung
+long flush_time_seconds = 90;  //Dauer der Wasserzufuhr bei dem BewÃ¤ssern
+long flush_timer_seconds = 60; //Dauer der Pause bis zur nÃ¤chsten SpÃ¼lung
 
 int Mode = 0;
 

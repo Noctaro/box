@@ -350,10 +350,10 @@ if (! RTC.read(tm))
    }
 //}
 
-//time_t unix_secounds;
-  unix_secounds = RTC.get();
+//time_t unix_seconds;
+  unix_seconds = RTC.get();
   Serial.print("Unix Zeit: ");
-  Serial.println(unix_secounds);
+  Serial.println(unix_seconds);
 
 //*********************************************************************************************************
 //*********************************************************************************************************

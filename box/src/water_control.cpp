@@ -37,7 +37,7 @@ void watercontrol_active()
       count_watercontrol_time++;
         if(excel_output == 0)
         {
-        delay(flush_time_secounds*100); //VerzÃ¶gerung fÃ¼r ein 10tel der angegebenen Zeit in Sekunden
+        delay(flush_time_seconds*100); //VerzÃ¶gerung fÃ¼r ein 10tel der angegebenen Zeit in Sekunden
         Serial.print(F("*"));
         }
       }

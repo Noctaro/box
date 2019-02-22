@@ -24,11 +24,11 @@ void relaisinit()
 
 void relais_1_off()
 {
-  if(relais1check==1 && relais_1_guard <= unix_secounds+relais_1_guard_time)
+  if(relais1check==1 && relais_1_guard <= unix_seconds+relais_1_guard_time)
   {
   digitalWrite(relaisPin1, HIGH);
   relais1check = 0;
-  relais_1_guard = unix_secounds;
+  relais_1_guard = unix_seconds;
   delay(1000);
   }
 
@@ -37,11 +37,11 @@ void relais_1_off()
 
 void relais_1_on()
 {
-  if(relais1check==0 && relais_1_guard <= unix_secounds+relais_1_guard_time)
+  if(relais1check==0 && relais_1_guard <= unix_seconds+relais_1_guard_time)
   {
   digitalWrite(relaisPin1, LOW);
   relais1check = 1;
-  relais_1_guard = unix_secounds;
+  relais_1_guard = unix_seconds;
   delay(1000);
   }
 
@@ -54,11 +54,11 @@ void relais_1_on()
 
 void relais_2_off()
 {
-  if(relais2check==1 && relais_2_guard <= unix_secounds+relais_2_guard_time)
+  if(relais2check==1 && relais_2_guard <= unix_seconds+relais_2_guard_time)
   {
   digitalWrite(relaisPin2, HIGH);
   relais2check = 0;
-  relais_2_guard = unix_secounds;
+  relais_2_guard = unix_seconds;
   delay(1000);
   }
 
@@ -67,11 +67,11 @@ void relais_2_off()
 
 void relais_2_on()
 {
-  if(relais2check==0 && relais_2_guard <= unix_secounds+relais_2_guard_time)
+  if(relais2check==0 && relais_2_guard <= unix_seconds+relais_2_guard_time)
   {
   digitalWrite(relaisPin2, LOW);
   relais2check = 1;
-  relais_2_guard = unix_secounds;
+  relais_2_guard = unix_seconds;
   delay(1000);
   }
 
@@ -84,11 +84,11 @@ void relais_2_on()
 
 void relais_3_off()
 {
-  if(relais3check==1 && relais_3_guard <= unix_secounds+relais_3_guard_time)
+  if(relais3check==1 && relais_3_guard <= unix_seconds+relais_3_guard_time)
   {
   digitalWrite(relaisPin3, HIGH);
   relais3check = 0;
-  relais_3_guard = unix_secounds;
+  relais_3_guard = unix_seconds;
   delay(1000);
   }
 
@@ -97,11 +97,11 @@ void relais_3_off()
 
 void relais_3_on()
 {
-  if(relais3check==0 && relais_3_guard <= unix_secounds+relais_3_guard_time)
+  if(relais3check==0 && relais_3_guard <= unix_seconds+relais_3_guard_time)
   {
   digitalWrite(relaisPin3, LOW);
   relais3check = 1;
-  relais_3_guard = unix_secounds;
+  relais_3_guard = unix_seconds;
   delay(1000);
   }
 
@@ -114,11 +114,11 @@ void relais_3_on()
 
 void relais_4_off()
 {
-  if(relais4check==1 && relais_4_guard <= unix_secounds+relais_4_guard_time)
+  if(relais4check==1 && relais_4_guard <= unix_seconds+relais_4_guard_time)
   {
   digitalWrite(relaisPin4, HIGH);
   relais4check = 0;
-  relais_4_guard = unix_secounds;
+  relais_4_guard = unix_seconds;
   delay(1000);
   }
 
@@ -127,11 +127,11 @@ void relais_4_off()
 
 void relais_4_on()
 {
-  if(relais4check==0 && relais_4_guard <= unix_secounds+relais_4_guard_time)
+  if(relais4check==0 && relais_4_guard <= unix_seconds+relais_4_guard_time)
   {
   digitalWrite(relaisPin4, LOW);
   relais4check = 1;
-  relais_4_guard = unix_secounds;
+  relais_4_guard = unix_seconds;
   delay(1000);
   }
 

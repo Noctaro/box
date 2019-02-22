@@ -108,7 +108,7 @@ Mode = 1;                               //Den gewünschten Modus im Code manuell
   optimaleLuftfeuchte = 65;
   //minLuftfeuchte = 50;
 
-//  air_refresh_secound = 120; //Dauer der Belüftung in Sekunden (muss mehr als 60 Sekunden sein)
+//  air_refresh_second = 120; //Dauer der Belüftung in Sekunden (muss mehr als 60 Sekunden sein)
 //  air_refresh_minute_01 = 15; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
 //  air_refresh_minute_02 = 45; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
 //  air_refresh_minute_03 = 00; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
@@ -120,7 +120,7 @@ Mode = 1;                               //Den gewünschten Modus im Code manuell
   maxLuftfeuchte = 68;
   minLuftfeuchte = 64;
 
-  air_refresh_secound = 240; //Dauer der Belüftung in Sekunden (muss mehr als 60 Sekunden sein)
+  air_refresh_second = 240; //Dauer der Belüftung in Sekunden (muss mehr als 60 Sekunden sein)
 
   air_refresh_minute_01 = 15;
   air_refresh_minute_02 = 45; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
@@ -133,7 +133,7 @@ Mode = 1;                               //Den gewünschten Modus im Code manuell
   maxLuftfeuchte = 70;
   minLuftfeuchte = 60;
 
-  air_refresh_secound = 380; //Dauer der Belüftung in Sekunden (muss mehr als 60 Sekunden sein)
+  air_refresh_second = 380; //Dauer der Belüftung in Sekunden (muss mehr als 60 Sekunden sein)
 
   air_refresh_minute_01 = 99;
   air_refresh_minute_02 = 99; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
@@ -178,7 +178,7 @@ Mode = 1;                               //Den gewünschten Modus im Code manuell
 //*******************************************************************************************
 //Dauer der Wasserzufuhr bei dem Bewässern
 //*******************************************************************************************
-long flush_time_secounds = 65;
+long flush_time_seconds = 65;
 //*********************************************************************************************************
 
 //***********************
@@ -213,7 +213,7 @@ void Mode1_settings_active()
   optimaleLuftfeuchte = 53;
   minLuftfeuchte = 52;
 
-  air_refresh_secound = 300;  //Dauer der Belüftung in Sekunden (muss mindestens 65 Sekunden sein)
+  air_refresh_second = 300;  //Dauer der Belüftung in Sekunden (muss mindestens 65 Sekunden sein)
   air_refresh_minute_01 = 15; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
   air_refresh_minute_02 = 30; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
   air_refresh_minute_03 = 45; //Minute zu der die Belüftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
@@ -263,7 +263,7 @@ void Mode1_settings_active()
   air_refresh_minute_04 = 45;
 
   //Dauer der Belüftung in Sekunden (muss mehr als 60 Sekunden sein)
-  air_refresh_secound = 300;
+  air_refresh_second = 300;
   }
 
   //******************************
@@ -293,7 +293,7 @@ void Mode1_settings_active()
   air_refresh_minute_04 = 45;
 
   //Dauer der Belüftung in Sekunden (muss mehr als 60 Sekunden sein)
-  air_refresh_secound = 300;
+  air_refresh_second = 300;
   }
 
  //*********************************************************************************************************
@@ -331,7 +331,7 @@ void Mode1_settings_active()
  //**********************
 
 //*******************************************************************************************
- flush_time_secounds = 90;  //Dauer der Wasserzufuhr bei dem Bewässern
+ flush_time_seconds = 90;  //Dauer der Wasserzufuhr bei dem Bewässern
 //*********************************************************************************************************
 
 //***********************
@@ -375,9 +375,9 @@ void Mode2_settings_active() //Flush Mode
  //*********************************************************************************************************
  //Zeitintervall für Bewässerung in MODE 2 hier eintragen! (10 verschiedeme Stunden stehen zur Verfügung)(Zum deaktivieren einer Zeit einfach 99 eintragen)
  //*********************************************************************************************************
- flush_time_secounds = 120;  //Dauer der Wasserzufuhr bei dem Bewässern
+ flush_time_seconds = 120;  //Dauer der Wasserzufuhr bei dem Bewässern
  //*******************************************************************************************
- flush_timer_secounds = 60;  //Zeit für Pause nach der Wasserzufuhr
+ flush_timer_seconds = 60;  //Zeit für Pause nach der Wasserzufuhr
  //*********************************************************************************************************
 
 

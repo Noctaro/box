@@ -62,13 +62,13 @@ void air_refresh()
 
     if (air_refresh_time == 0)
     {
-     air_refresh_time = unix_secounds;
+     air_refresh_time = unix_seconds;
     }
 
     }
     //air_refresh_ausgabe();
 
-  if (air_refresh_time != 0 && unix_secounds >= air_refresh_time+air_refresh_secound && hourly_air_active ==1 && t <= optimaleTemperatur && h <= optimaleLuftfeuchte || h <= minLuftfeuchte && hourly_air_active ==1)
+  if (air_refresh_time != 0 && unix_seconds >= air_refresh_time+air_refresh_second && hourly_air_active ==1 && t <= optimaleTemperatur && h <= optimaleLuftfeuchte || h <= minLuftfeuchte && hourly_air_active ==1)
     {
      relais_4_off();
      air_ausgabe2();

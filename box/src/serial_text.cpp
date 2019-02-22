@@ -299,7 +299,7 @@ void watercontrol_active_ausgabe()
       Serial.print(F("Relait 2 Power: "));
       Serial.println(relais2check);
       Serial.print(F("Bewaesserung laeuft fuer "));
-      Serial.print(flush_time_secounds);
+      Serial.print(flush_time_seconds);
       Serial.println(F(" Sekunden"));
       }
 
@@ -368,7 +368,7 @@ void flushcontrol_active_ausgabe()
       Serial.print(F("Relait 2 Power: "));
       Serial.println(relais2check);
       Serial.print(F("Bewaesserung laeuft"));
-      Serial.print(flush_time_secounds);
+      Serial.print(flush_time_seconds);
       Serial.println(F(" Sekunden"));
       }
 
@@ -378,7 +378,7 @@ void flushcontrol_active_ausgabe()
  {
  flush_time_counter++;
  Serial.print(F("*Watering System engaged! ☺"));
- delay(flush_time_secounds*100);
+ delay(flush_time_seconds*100);
  }
  Serial.println(F("Watering System shutting down, all done! ♥"));
  delay(1000);
@@ -476,7 +476,7 @@ void air_ausgabe2()
  {
  air_refresh_counter++;
  Serial.print("*");
- delay(air_refresh_secound*100);
+ delay(air_refresh_second*100);
  }
 }
 */
