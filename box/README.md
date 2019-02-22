@@ -20,3 +20,5 @@ DHT Series (DHT11, DHT21, DHT22) or SHT 31
 
 Clock Module:
 DS1302
+
+Nodered is needed for the gui.
