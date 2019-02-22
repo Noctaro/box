@@ -523,9 +523,13 @@ void print_mode_settings()
 }
 
 //**********************************
-
+//Watercounter
 //**********************************
-
+void watercounter_print()
+  {
+   Serial.print(F("Next waterlevel reading: "));
+   Serial.println(water_check_counter_cycles-water_check_counter);
+  }
 
 
 //**********************************

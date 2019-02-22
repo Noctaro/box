@@ -58,7 +58,7 @@ void Box_functions()
    Messdurchgaenge = 5; //Anzahl der Messdurchgänge bevor ein Relait geschalten wird
    Messdurchgaenge_negativ = 0 - Messdurchgaenge ;
 
-   water_check_counter_cycles = 5; //Wasserstand alle 5 Messdurchgänge messen
+   water_check_counter_cycles = 320; //Wasserstand alle x Messdurchgänge messen
 
 }
 

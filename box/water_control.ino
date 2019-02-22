@@ -55,15 +55,18 @@ void water_level()
   {
   water_check_counter = 0;
   digitalWrite(Water_Sensor_Power, HIGH); //Power the sensor
-  delay(1000); //wait for sensorvoltage to stabilize
+  delay(1500); //wait for sensorvoltage to stabilize
   int water_lev_raw = analogRead(Water_Sensor); //read the sensor
-  delay(50); //wait for reading
-  water_lev = map(water_lev_raw, 1015, 0, 0, 100); // scale analog output from 1015-0 back into the 0-100 range
+  delay(150); //wait for reading
+  Serial.println("Wasser RAW:");
+  Serial.println(water_lev_raw);
+  water_lev = map(water_lev_raw, 1023, 0, 0, 100); // scale analog output from 1015-0 back into the 0-100 range
   digitalWrite(Water_Sensor_Power, LOW);
   }
   else
   {
    water_check_counter++;
+   watercounter_print(); 
   }
  }
 //*********************************************************************************************************

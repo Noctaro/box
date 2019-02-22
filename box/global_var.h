@@ -87,7 +87,7 @@ int air_refresh_times = 0;
 
 //Wasserstand
 int water_lev = 0;
-int water_check_counter = 0;
+int water_check_counter = 320;
 int water_check_counter_cycles = 0;
 
 //Serial output delay
