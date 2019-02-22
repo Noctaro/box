@@ -2,6 +2,7 @@
 #include "gui_comm.h"
 #include "arduino.h"
 #include "global_var.h"
+#include "mode_settings_box.h"
 
 void gui_read()
 {

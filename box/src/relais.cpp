@@ -1,6 +1,7 @@
 #include "arduino.h"
 #include "relais.h"
 #include "global_var.h"
+#include "mode_settings_box.h"
 
 void relaisinit()
 {
