@@ -15,19 +15,19 @@ if (h < optimaleLuftfeuchte)
 feuchtewert--;
 }
 
-if (zaehler == Messdurchgaenge)                                  //Wenn der MesszÃƒÂ¤hler Messdurchgaenge MessdurchgÃƒÂ¤nge erreicht hat                                  
+if (zaehler == Messdurchgaenge)                                  //Wenn der MesszÃ¤hler Messdurchgaenge MessdurchgÃ¤nge erreicht hat                                  
  {
 
   if (h_w_compenstation_active == 0)
     {
-      //Der Schaltvorgang fÃƒÂ¼r den Befeuchter
-      if (h <= minLuftfeuchte && feuchtewert <= Messdurchgaenge)    //Wenn die aktuelle Feuchte niedriger als die Optimale Luftfeuchte ist und feuchtewert dies Messdurchgaenge_negativ mal bestÃƒÂ¤tigt hat.
+      //Der Schaltvorgang fÃ¼r den Befeuchter
+      if (h <= minLuftfeuchte && feuchtewert <= Messdurchgaenge)    //Wenn die aktuelle Feuchte niedriger als die Optimale Luftfeuchte ist und feuchtewert dies Messdurchgaenge_negativ mal bestÃ¤tigt hat.
       {
       relais_1_on();          //Schalte Relait Pin 1 ein
       humidity_balancer_ausgabe();
       }
   
-      if (h >= optimaleLuftfeuchte && feuchtewert >= Messdurchgaenge && Absaugung_aktiv == 0)    //Wenn die aktuelle Feuchte hÃƒÂ¶her als die Optimale Luftfeuchte ist und feuchtewert dies Messdurchgaenge mal bestÃƒÂ¤tigt hat. Und die Absaugung nicht aktiv ist.
+      if (h >= optimaleLuftfeuchte && feuchtewert >= Messdurchgaenge && Absaugung_aktiv == 0)    //Wenn die aktuelle Feuchte hÃ¶her als die Optimale Luftfeuchte ist und feuchtewert dies Messdurchgaenge mal bestÃ¤tigt hat. Und die Absaugung nicht aktiv ist.
       {
       relais_1_off();           //Schalte Relait Pin 1 aus
       humidity_balancer_ausgabe2();
@@ -62,7 +62,7 @@ void water_heat()
 if (heat_water_compensation == 1)
   {
   
-  if (maxTemperatur < t && h < maxLuftfeuchte)  //Nur aktiv wenn die Temperatur Ã¼berschritten wird, aber nicht wenn die maximale Luftfeuchte Ã¼berschritten wird.
+  if (maxTemperatur < t && h < maxLuftfeuchte)  //Nur aktiv wenn die Temperatur überschritten wird, aber nicht wenn die maximale Luftfeuchte überschritten wird.
     {
       h_w_compenstation_active = 1;
       relais_1_on();
@@ -82,17 +82,17 @@ if (heat_water_compensation == 1)
 //************************
 
 //************************
-//TESTING BEFEUCHTUNG BEIM LÃƒÅ“FTEN
+//TESTING BEFEUCHTUNG BEIM LÃœFTEN
 //************************  
   void air_water()
   {
-    if(water_with_air == 1 && t >= minTemperatur && h <= optimaleLuftfeuchte) // Wenn die temperatur grÃƒÂ¶ÃƒÅ¸er oder gleich der minimalen Temperatur ist und die Luftfeuchte kleiner als die optimale Feuchte ist 
+    if(water_with_air == 1 && t >= minTemperatur && h <= optimaleLuftfeuchte) // Wenn die temperatur grÃ¶ÃŸer oder gleich der minimalen Temperatur ist und die Luftfeuchte kleiner als die optimale Feuchte ist 
       {
       relais_1_on();              //Schalte befeuchtung ein
       Absaugung_aktiv = 1;
       }
     
-    if(water_with_air == 1 && h > optimaleLuftfeuchte) //Wenn die Luftfeuchte grÃƒÂ¶ÃƒÅ¸er oder gleich der maximalen Feuchte ist
+    if(water_with_air == 1 && h > optimaleLuftfeuchte) //Wenn die Luftfeuchte grÃ¶ÃŸer oder gleich der maximalen Feuchte ist
       {
       relais_1_off();            //Schalte befeuchtung aus
       Absaugung_aktiv = 0;

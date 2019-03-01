@@ -151,14 +151,14 @@ void Relaitcheck_ausgabe()
 //**********************************
 void LuftfeuchteStatus_ausgabe()
 {
-  if (h <= minLuftfeuchte || h >= maxLuftfeuchte) //Wenn die Luftfeuchte unter minLuftfeuchte oder ÃƒÂ¼ber maxLuftfeuchte
+  if (h <= minLuftfeuchte || h >= maxLuftfeuchte) //Wenn die Luftfeuchte unter minLuftfeuchte oder Ã¼ber maxLuftfeuchte
   {
     led_hum_critical();            //Schalte LedPin 1 ein
     
     if(Luftfeuchte_anzeigen ==1 && excel_output == 0)
     {
     Serial.println(F("Lufteuchte KRITISCH! -.-"));
-    delay(print_delay);                            //VerzÃƒÂ¶gerung 1000cycles - ca. 0,5 Sekunden
+    delay(print_delay);                            //VerzÃ¶gerung 1000cycles - ca. 0,5 Sekunden
     }
     
   }
@@ -167,7 +167,7 @@ void LuftfeuchteStatus_ausgabe()
     {
       if(Luftfeuchte_anzeigen ==1 && excel_output == 0)
       {  
-      Serial.println(F("Lufteuchte OK! ^^Ã‚Â´"));
+      Serial.println(F("Lufteuchte OK! ^^Â´"));
       delay(print_delay);
       }
     }
@@ -209,7 +209,7 @@ void TemperaturStatus_ausgabe()
  {
   if(Luftfeuchte_anzeigen == 1 && excel_output == 0)
   {
-  Serial.print("Luftfeuchitgkeit: ");
+  Serial.print(F("Luftfeuchitgkeit: "));
   Serial.print(h);
   Serial.println(" %\t");
   Stars();
@@ -218,9 +218,9 @@ void TemperaturStatus_ausgabe()
   
   if(Temperatur_anzeigen == 1 && excel_output == 0)
   {
-  Serial.print("Temperatur: ");
+  Serial.print(F("Temperatur: "));
   Serial.print(t);
-  Serial.println(" *C ");
+  Serial.println(F(" *C "));
   Stars();
   delay(print_delay);
   
@@ -285,7 +285,7 @@ void watercontrol_active_ausgabe()
 
       if(Wasserstand_anzeigen == 1 && excel_output == 0)
       {
-        Serial.println("^^");
+        Serial.println(F("^^"));
       }
 }
 
@@ -343,11 +343,11 @@ void flushcontrol_active_ausgabe()
 {
       if(excel_output == 0)
       {
-      Serial.print("Relait 2 Power: ");
+      Serial.print(F("Relait 2 Power: "));
       Serial.println(relais2check);
-      Serial.print("Bewaesserung laeuft");
+      Serial.print(F("Bewaesserung laeuft"));
       Serial.print(flush_time_secounds);
-      Serial.println(" Sekunden");
+      Serial.println(F(" Sekunden"));
       }
       
  
@@ -355,10 +355,11 @@ void flushcontrol_active_ausgabe()
  while(flush_time_counter <= 10)
  {
  flush_time_counter++; 
- Serial.print("*");
+ Serial.print(F("*Watering System engaged! ☺"));
  delay(flush_time_secounds*100);
  }
- Serial.println("^^");
+ Serial.println(F("Watering System shutting down, all done! ♥"));
+ delay(1000);
 }
 
 void flushcontrol_active_ausgabe2()
@@ -459,7 +460,12 @@ void air_ausgabe2()
 */
 //**********************************
 
-
+void waterlevel_print()
+{
+ Serial.print(F("Wasserlevel: "));
+ Serial.println(water_lev);
+ delay(print_delay);
+}
 
 //**********************************
 
@@ -502,7 +508,12 @@ void print_mode_settings()
 
  delay(print_delay);
 
- 
+ Serial.print(F("*Sunrise= "));
+ Serial.println(sonnenaufgang);
+ Serial.print(F("*Sunset= "));
+ Serial.println(sonnenuntergang);
+  
+ delay(print_delay);
 
  Serial.print(F("*Sonne aktiv= "));
  Serial.println(tag_active);
@@ -531,27 +542,27 @@ void CSVausgabe()
 
   if(excel_output == 1)
   {
-   Serial.print("Temperatur: ");
+   Serial.print(F("Temperatur: "));
    Serial.print(t); 
    Serial.print(",");
-   Serial.print("Luftfeuchtigkeit: ");
+   Serial.print(F("Luftfeuchtigkeit: "));
    Serial.print(h);
-   Serial.print(",");
-   Serial.print("Wasserstand: ");
+   Serial.print(F(","));
+   Serial.print(F("Wasserstand: "));
    Serial.print(water_check);
-   Serial.print(",");
-   Serial.print("Relait 1 Power: ");
+   Serial.print(F(","));
+   Serial.print(F("Relait 1 Power: "));
    Serial.print(relais1check);
-   Serial.print(",");
-   Serial.print("Relait 2 Power: ");
+   Serial.print(F(","));
+   Serial.print(F("Relait 2 Power: "));
    Serial.print(relais2check);
-   Serial.print(",");
-   Serial.print("Relait 3 Power: ");
+   Serial.print(F(","));
+   Serial.print(F("Relait 3 Power: "));
    Serial.print(relais3check);
-   Serial.print(",");
-   Serial.print("Relait 4 Power: ");
+   Serial.print(F(","));
+   Serial.print(F("Relait 4 Power: "));
    Serial.print(relais4check);
-   Serial.print(",");
+   Serial.print(F(","));
 
    tmElements_t tm; 
    RTC.get(); 
@@ -577,3 +588,4 @@ void CSVausgabe()
 }
 //#endif
 //**********************************  
+

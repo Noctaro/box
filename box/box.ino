@@ -86,11 +86,11 @@ DS1302RTC RTC(8, 9, 10); //new version
 
 
 #define DHTPIN 3     // what digital pin we're connected to
-//#define DHT_powerPin 3 //Powerpin fÃƒÂ¼r den dht
+//#define DHT_powerPin 3 //Powerpin fÃ¼r den dht
 
 // Uncomment whatever type you're using!
-//#define DHTTYPE DHT11   // DHT 11
-#define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
+#define DHTTYPE DHT11   // DHT 11
+//#define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
 //#define DHTTYPE DHT21   // DHT 21 (AM2301)
 
 DHT dht(DHTPIN, DHTTYPE);
@@ -118,24 +118,23 @@ SHT3x Sensor;*/
 
 
 //*********************************************************************************************************
-//PIN fÃƒÂ¼r den Wassersensor
+//PIN settings - Watersensor (YL-69 + YL-39 sensor combo) 
 //*********************************************************************************************************
-//BenÃƒÂ¶tigt Remapping - Pin 1 == Serial TX
-#define Water_Sensor A2 //Definiere den Wassersensor Pin
-//*********************************************************************************************************
-
-//*********************************************************************************************************
-//PIN fÃƒÂ¼r den Schalter der Modeauswahlfunktion
-//*********************************************************************************************************
-//BenÃƒÂ¶tigt Remapping - Pin 2 == Serial TX
-#define Modeschalter A1 //Definiere den Pin fÃƒÂ¼r den Schalter zwischen Mode 0, 1 ,2 und 3
+#define Water_Sensor A3 //Define the analog input pin
+#define Water_Sensor_Power 2 //Define the power pin
 //*********************************************************************************************************
 
+//*********************************************************************************************************
+//PIN fÃ¼r den Schalter der Modeauswahlfunktion
+//*********************************************************************************************************
+#define Modeschalter A2 //Definiere den Pin fÃ¼r den Schalter zwischen Mode 0, 1 ,2 und 3
+//*********************************************************************************************************
+
 
 //*********************************************************************************************************
-//PIN fÃƒÂ¼r die Statusled
+//PIN fÃ¼r die Statusled
 //*********************************************************************************************************
-#define LedPin1 13     //Namen fÃƒÂ¼r den Ledpin
+#define LedPin1 13     //Namen fuer den Ledpin
 //*********************************************************************************************************
 
 
@@ -162,7 +161,7 @@ int eeprom_address_watered = 0;
 
 
 //*********************************************************************************************************
-//Setup Loop wird einmal ausgefÃƒÂ¼hrt
+//Setup Loop wird einmal ausgefÃ¼hrt
 //*********************************************************************************************************
 void setup()
 {
@@ -174,7 +173,7 @@ void setup()
   //*********************************************************************************************************
   Serial.println(F("Hydrobalancer ist online."));
   dht.begin();
-  //pinMode(DHT_powerPin, OUTPUT); //Setze den PowerPin fÃƒÂ¼r den DHT Sensor als Ausgang
+  //pinMode(DHT_powerPin, OUTPUT); //Setze den PowerPin fÃ¼r den DHT Sensor als Ausgang
   //************
 
   //*********************************************************************************************************
@@ -190,9 +189,10 @@ void setup()
   relaisinit();
   
   //Restliche Pin initialisierung
-  pinMode(Modeschalter, INPUT);  //Setze den Steuerpin fÃƒÂ¼r den gewÃƒÂ¼nschten Modus als Eingang
-  pinMode(LedPin1, OUTPUT); //Setze den Steuerpin fÃƒÂ¼r Led1 als Ausgang
-  //pinMode(Water_Sensor, INPUT);     //The Water Sensor is an Input
+  pinMode(Modeschalter, INPUT);  //Setze den Steuerpin fÃ¼r den gewÃ¼nschten Modus als Eingang
+  pinMode(LedPin1, OUTPUT); //Setze den Steuerpin fÃ¼r Led1 als Ausgang
+  pinMode(Water_Sensor, INPUT);     //The Water Sensor is an Input
+  pinMode(Water_Sensor_Power, OUTPUT);
   //*****************
  
  
@@ -233,6 +233,8 @@ void setup()
   water_applied = EEPROM.read(eeprom_address_watered);
   Serial.print(F("Bewaesserungsstatus = "));
   Serial.println(water_applied);
+
+  
 //*********************************************************************************************************
 
 //*********************************************************************************************************
@@ -240,7 +242,6 @@ void setup()
 //*********************************************************************************************************
 Box_functions();    
 //*********************************************************************************************************
-
 }
 //*********************************************************************************************************
 //*********************************************************************************************************
@@ -252,78 +253,38 @@ Box_functions();
 void loop()
 {
 //*********************************************************************************************************  
-//GUI READ
+//GUI READ - found in GUI_COMM - reads data from serial port to adjust the program
 //*********************************************************************************************************
-
-if (Serial.available()>0) 
-  // Wenn Daten empfangen wurden und zum Lesen bereitstehen
-{
-gui_opt_temp = Serial.parseInt();
-gui_min_temp = Serial.parseInt();
-gui_max_temp = Serial.parseInt();
-gui_opt_hum = Serial.parseInt();
-gui_min_hum = Serial.parseInt();
-gui_max_hum = Serial.parseInt();
-//gui_tag = Serial.parseInt();
-//gui_nacht = Serial.parseInt();
-int form_trash_gui = Serial.parseInt();
-}
-
-
-
-  Serial.print(F("GUI TEMP:"));
-  Serial.print(F("GUI OPT TEMP:"));
-  Serial.print(gui_opt_temp);
-  Serial.print(F(" GUI MIN TEMP:"));
-  Serial.print(gui_min_temp);
-  Serial.print(F(" GUI MAX TEMP:"));
-  Serial.println(gui_max_temp);
-  
-  Serial.print(F("GUI HUM:"));
-  Serial.print(F("GUI OPT HUM:"));
-  Serial.print(gui_opt_hum);
-  Serial.print(F(" GUI MIN HUM:"));
-  Serial.print(gui_min_hum);
-  Serial.print(F(" GUI MAX HUM:"));
-  Serial.println(gui_max_hum);
-  delay(200);
-
-
+gui_read();
 //*********************************************************************************************************
 
 //************
-//CyclezÃƒÂ¤hler
+//Cyclecounter
 //************
 zaehler++;
+//*********************************************************************************************************
+
 //************
-//Einmal kurz blinken um den Start eines neuen Zyklus darzustellen 
+//Blink LED to show the start of a new cycle - found in led_signal
 //************ 
 led_cycle_check();
 //*********************************************************************************************************
-//*********************************************************************************************************
-
 
 //*********************************************************************************************************
-//CLOCK
+//CLOCK - reads and prints DS1302 clock 
 //*********************************************************************************************************
   tmElements_t tm;
   
 //Serial.print("UNIX Time: ");
 //Serial.print(RTC.get());
   RTC.get();
-  Zeitausgabe();
+  Zeitausgabe(); //found in serial_text
   unix_secounds = (RTC.get());
   Serial.print("Unix Zeit: ");
   Serial.println(unix_secounds);
 //*********************************************************************************************************
 //*********************************************************************************************************
   
-  
-
-
-  
-  //*********************************************************************************************************
-
 //*********************************************************************
 //DHT
 //*********************************************************************  
@@ -370,11 +331,11 @@ delay(200);*/
 //*********************************************************************************************************  
 //Modeschalter
 //*********************************************************************************************************
-  Modeswitch();           //Legt den ausgewÃƒÂ¤hlten Mode fest
+  Modeswitch();           //Legt den ausgewÃ¤hlten Mode fest
   
   
 //*********************************************************************************************************
-//Lesen der Modekonfiguration und Aktivieren der gewÃƒÂ¼nschten Einstellungen
+//Read mode_settings_box to apply predefined values 
 //*********************************************************************************************************
   if(Mode == 0) //Grow
   {
@@ -434,10 +395,17 @@ delay(200);*/
   humidity_balancer(); //Schaltvorgang und Feedback
   }
 
+//*********************************************************************************************************  
+//WATERLEVEL SENSOR READING
 //*********************************************************************************************************
-//BewÃƒÂ¤sserung
+water_level(); //function sits in water_control file.
 //*********************************************************************************************************
-//Der Schaltvorgang fÃƒÂ¼r die BewÃƒÂ¤sserung falls eine fÃƒÂ¼r die BewÃƒÂ¤sserung gewÃƒÂ¤hlte Stunde eintritt.
+//*********************************************************************************************************    
+
+//*********************************************************************************************************
+//WATERING
+//*********************************************************************************************************
+//Der Schaltvorgang fÃ¼r die BewÃ¤sserung falls eine fÃ¼r die BewÃ¤sserung gewÃ¤hlte Stunde eintritt.
 //*********************************************************************************************************
 if(Bewaesserung_regulieren == 1)
 {
@@ -469,7 +437,7 @@ if(Mode == 1 || Mode == 0)
         water_cycles_ausgabe();
         Serial.println(water_hour_cycles_01);
 
-        watercontrol_active(); //Auskommentieren falls keine BewÃƒÂ¤sserung notwendig
+        watercontrol_active(); //Auskommentieren falls keine BewÃ¤sserung notwendig
         delay(3000); //Schaltpause  
        }
       water_applied = 1;
@@ -488,7 +456,7 @@ if(Mode == 1 || Mode == 0)
         water_cycles_ausgabe();
         Serial.println(water_hour_cycles_02);
 
-        watercontrol_active(); //Auskommentieren falls keine BewÃƒÂ¤sserung notwendig
+        watercontrol_active(); //Auskommentieren falls keine BewÃ¤sserung notwendig
         delay(3000); //Schaltpause  
        }
       water_applied = 1;
@@ -507,7 +475,7 @@ if(Mode == 1 || Mode == 0)
         water_cycles_ausgabe();
         Serial.println(water_hour_cycles_03);
 
-        watercontrol_active(); //Auskommentieren falls keine BewÃƒÂ¤sserung notwendig
+        watercontrol_active(); //Auskommentieren falls keine BewÃ¤sserung notwendig
         delay(3000); //Schaltpause  
        }
       water_applied = 1;
@@ -526,7 +494,7 @@ if(Mode == 1 || Mode == 0)
         water_cycles_ausgabe();
         Serial.println(water_hour_cycles_04);
 
-        watercontrol_active(); //Auskommentieren falls keine BewÃƒÂ¤sserung notwendig
+        watercontrol_active(); //Auskommentieren falls keine BewÃ¤sserung notwendig
         delay(3000); //Schaltpause  
        }
       water_applied = 1;
@@ -545,7 +513,7 @@ if(Mode == 1 || Mode == 0)
         water_cycles_ausgabe();
         Serial.println(water_hour_cycles_05);
 
-        watercontrol_active(); //Auskommentieren falls keine BewÃƒÂ¤sserung notwendig
+        watercontrol_active(); //Auskommentieren falls keine BewÃ¤sserung notwendig
         delay(3000); //Schaltpause  
        }
       water_applied = 1;
@@ -564,7 +532,7 @@ if(Mode == 1 || Mode == 0)
         water_cycles_ausgabe();
         Serial.println(water_hour_cycles_06);
 
-        watercontrol_active(); //Auskommentieren falls keine BewÃƒÂ¤sserung notwendig
+        watercontrol_active(); //Auskommentieren falls keine BewÃ¤sserung notwendig
         delay(3000); //Schaltpause  
        }
       water_applied = 1;
@@ -583,7 +551,7 @@ if(Mode == 1 || Mode == 0)
         water_cycles_ausgabe();
         Serial.println(water_hour_cycles_07);
 
-        watercontrol_active(); //Auskommentieren falls keine BewÃƒÂ¤sserung notwendig
+        watercontrol_active(); //Auskommentieren falls keine BewÃ¤sserung notwendig
         delay(3000); //Schaltpause  
        }
       water_applied = 1;
@@ -602,7 +570,7 @@ if(Mode == 1 || Mode == 0)
         water_cycles_ausgabe();
         Serial.println(water_hour_cycles_08);
 
-        watercontrol_active(); //Auskommentieren falls keine BewÃƒÂ¤sserung notwendig
+        watercontrol_active(); //Auskommentieren falls keine BewÃ¤sserung notwendig
         delay(3000); //Schaltpause  
        }
       water_applied = 1;
@@ -621,7 +589,7 @@ if(Mode == 1 || Mode == 0)
         water_cycles_ausgabe();
         Serial.println(water_hour_cycles_09);
 
-        watercontrol_active(); //Auskommentieren falls keine BewÃƒÂ¤sserung notwendig
+        watercontrol_active(); //Auskommentieren falls keine BewÃ¤sserung notwendig
         delay(3000); //Schaltpause  
        }
       water_applied = 1;
@@ -640,7 +608,7 @@ if(Mode == 1 || Mode == 0)
         water_cycles_ausgabe();
         Serial.println(water_hour_cycles_10);
 
-        watercontrol_active(); //Auskommentieren falls keine BewÃƒÂ¤sserung notwendig
+        watercontrol_active(); //Auskommentieren falls keine BewÃ¤sserung notwendig
         delay(3000); //Schaltpause  
        }
       water_applied = 1;
@@ -652,12 +620,12 @@ if(Mode == 1 || Mode == 0)
       //****
       
   
-      //ÃƒÅ“berprÃƒÂ¼fe ob die BewÃƒÂ¤sserung zur aktuellen Stunde ausgefÃƒÂ¼hrt wurde
+      //ÃœberprÃ¼fe ob die BewÃ¤sserung zur aktuellen Stunde ausgefÃ¼hrt wurde
       if ( minute_global == 59 && second_global >= 40 && water_applied == 1 )
       {
       //Stars();
         
-      watercontrol_reset(); //Auskommentieren falls keine BewÃƒÂ¤sserung notwendig
+      watercontrol_reset(); //Auskommentieren falls keine BewÃ¤sserung notwendig
       
       //Stars();   
       }
@@ -680,7 +648,7 @@ if(Mode == 1 || Mode == 0)
 //*********************************************************************************************************  
 
 //*********************************************************************************************************
-//MesszÃƒÂ¤hler
+//MesszÃ¤hler
 //Gibt den aktuellen Messdurchgang am Serial Monitor aus
 //*********************************************************************************************************
   Messzaehler_ausgabe();
@@ -691,18 +659,24 @@ if(Mode == 1 || Mode == 0)
 //*********************************************************************************************************
   Temperatur_Luftfeuchte_ausgabe();
 
+//*********************************************************************************************************  
+//Wasserstand ausgeben
 //*********************************************************************************************************
-//Relaitcheck 
-//Gibt den aktuellen Status der Relaits am Serial Monitor aus
-//*********************************************************************************************************
-  Relaitcheck_ausgabe();
-//*********************************************************************************************************
+if (Wasserstand_anzeigen == 1)
+{
+waterlevel_print(); 
+}
 
 //*********************************************************************************************************
-//Schaltwerte fÃƒÂ¼r Lufteuchte, Temperatur, Abluft ausgeben
+//RELAITCHECK 
+//Gibt den aktuellen Status der Relaits am Serial Monitor aus
+//*********************************************************************************************************
+Relaitcheck_ausgabe();
+
+//*********************************************************************************************************
+//Schaltwerte fÃ¼r Lufteuchte, Temperatur, Abluft ausgeben
 //*********************************************************************************************************
 Schaltwerte_ausgabe();
-//*********************************************************************************************************
 
 //**********************************
 //Optimale Werte ausgeben 
@@ -718,34 +692,15 @@ LuftfeuchteStatus_ausgabe();
 //Ausgabe des Temperatur Status an die LED und den Serial Monitior
 //*********************************************************************************************************
 TemperaturStatus_ausgabe();
-//*********************************************************************************************************
-//*********************************************************************************************************
-
-
-//*********************************************************************************************************  
-//Wassersensor auslesen und Wasserstand ausgeben
-//*********************************************************************************************************
-if (Wasserstand_anzeigen == 1)
-{
-water_level();  
-}
-//*********************************************************************************************************
-
-
-
 
 //*********************************************************************************************************  
 //CSV Ausgabe am Serial Monitor (Serial print)
 //*********************************************************************************************************
   
   //CSVausgabe();  
- 
-  
-
-
 
 //*********************************************************************************************************
-//ZÃƒÂ¤hler Reset
+//MEASURING LOOP COUNTER - Resets if all measuring loops are done
 //*********************************************************************************************************
   if(zaehler >= Messdurchgaenge)
   {
@@ -753,38 +708,31 @@ water_level();
   }
 
 //*********************************************************************************************************
-//VerzÃƒÂ¶gerung bis zur nÃƒÂ¤chsten Messung
+//VerzÃ¶gerung bis zur nÃ¤chsten Messung
 //*********************************************************************************************************  
   int delayer = 0;
   while(delayer <= 10)
     {
+    if(excel_output == 0)
+      {
+      Serial.println(F("*Waiting for next cycle"));
+      }
+    
+      
     delayer++;  
     delay(Messpause*100);
      if(excel_output == 0)
       {
-      Serial.print("*");
+      //Serial.println(F("**"));
       }
-      Serial.println("^^");
     }
-
+Serial.println(F("*^^"));
 Serial.flush();
-
-
-//*********************************************************************************************************
-//Lese vom serial port//
-
-//if(Serial.available() > 0)
-  //  {
-    //    inData = Serial.readStringUntil('\n');
-      // Serial.println("*data: "+inData);
-       //delay(2000);
-       //inData="";
-     //}
-//************************************     
 } //close Mainloop
 
 //*********************************************************************************************************//*********************************************************************************************************
 //*********************************************************************************************************//*********************************************************************************************************
+
 //CLOCK
 void print2digits(int number) {
   if (number >= 0 && number < 10)
@@ -792,15 +740,15 @@ void print2digits(int number) {
   Serial.print(number);
 }
 
-//
-// END OF FILE
-//
- 
 
-//vorgefertigte Textsegmente
+
+//vorgefertigtes Textsegment - Stars
 void Stars()
 {
   Serial.println(F("*********"));
 }
 
+//
+// END OF FILE
+//
 

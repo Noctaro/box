@@ -2,7 +2,7 @@
 #define global_var_h
 
 //*********************************************************************************************************
-//Globale Variablen (Bitte nicht ÃƒÂ¤ndern) -> GewÃƒÂ¼nschte Werte sind in mode_settings.ino anpassbar
+//Globale Variablen (Bitte nicht Ã¤ndern) -> GewÃ¼nschte Werte sind in mode_settings.ino anpassbar
 //*********************************************************************************************************
 int zaehler = 0;
 //int zaehler2 = 0;
@@ -34,14 +34,14 @@ int air_refresh_secound = 0;
 int dht_adjustment_h = 0;
 int dht_adjustment_t = 0;
 
-float h = 0; //Variable fÃƒÂ¼r aktuelle Luftfeuchte in %
-float t = 0; //Variable fÃƒÂ¼r aktuelle Temperatur in Celsius
-float f = 0; //Variable fÃƒÂ¼r aktuelle Temperatur in Fahrenheit
+float h = 0; //Variable fÃ¼r aktuelle Luftfeuchte in %
+float t = 0; //Variable fÃ¼r aktuelle Temperatur in Celsius
+float f = 0; //Variable fÃ¼r aktuelle Temperatur in Fahrenheit
 float hif = 0;
 float hic = 0;
 
-boolean heat_water_compensation = 0;
-boolean h_w_compenstation_active = 0;
+bool heat_water_compensation = 0;
+bool h_w_compenstation_active = 0;
 
 
 int minute_global = 0;
@@ -52,7 +52,7 @@ long air_refresh_time = 0;
 
 
 
-boolean errorcheck = 0;
+bool errorcheck = 0;
 
 
 
@@ -78,59 +78,83 @@ int water_hour_cycles_08 = 1;
 int water_hour_cycles_09 = 1;
 int water_hour_cycles_10 = 1;
 
-int air_refresh_minute_01 = 99; //Minute zu der die BelÃƒÂ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-int air_refresh_minute_02 = 99; //Minute zu der die BelÃƒÂ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-int air_refresh_minute_03 = 99; //Minute zu der die BelÃƒÂ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
-int air_refresh_minute_04 = 99; //Minute zu der die BelÃƒÂ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+int air_refresh_minute_01 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+int air_refresh_minute_02 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+int air_refresh_minute_03 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
+int air_refresh_minute_04 = 99; //Minute zu der die BelÃ¼ftung eingeschaltet wird, sofern es die Luftfeuchtigkeit erlaubt.
 
 int air_refresh_times = 0;
 
+//Wasserstand
+int water_lev = 0;
+int water_check_counter = 200;
+int water_check_counter_cycles = 0;
+
+//Serial output delay
 int print_delay = 0;
 
-//String inData = 0;
 
-boolean water_applied = 1;
+
+bool water_applied = 1;
 int water_cycles_done = 0;
-boolean water_check = 1;
+bool water_check = 1;
 
-boolean hourly_air_active = 0;
+bool hourly_air_active = 0;
 
-long flush_time_secounds = 90;  //Dauer der Wasserzufuhr bei dem BewÃƒÂ¤ssern
-long flush_timer_secounds = 60; //Dauer der Pause bis zur nÃƒÂ¤chsten SpÃƒÂ¼lung
+long flush_time_secounds = 90;  //Dauer der Wasserzufuhr bei dem BewÃ¤ssern
+long flush_timer_secounds = 60; //Dauer der Pause bis zur nÃ¤chsten SpÃ¼lung
 
 byte Mode = 0; 
 
 //Box Funktionen 
-boolean Luftfeuchte_regulieren = 1; 
-boolean Temperatur_regulieren = 1;
-boolean Abluft_regulieren = 1;
-boolean Bewaesserung_regulieren = 1;
+bool Luftfeuchte_regulieren = 1; 
+bool Temperatur_regulieren = 1;
+bool Abluft_regulieren = 1;
+bool Bewaesserung_regulieren = 1;
 
-boolean Temperatur_anzeigen = 1;        //Gibt die aktuelle Temperatur am Serial Monitor aus.
-boolean Luftfeuchte_anzeigen = 1;       //Gibt die aktuelle Luftfeuchte am Serial Monitor aus
-boolean Wasserstand_anzeigen = 1;
-boolean Relaticheck_anzeigen = 1;
-boolean Messdurchgang_anzeigen = 1;
-boolean TemperaturStatus_anzeigen = 1;
-boolean Schaltvorgang_anzeigen = 1;
-boolean Schaltzyklus_anzeigen = 1;
-boolean Modeschalter_anzeigen = 1;
+bool Temperatur_anzeigen = 1;        //Gibt die aktuelle Temperatur am Serial Monitor aus.
+bool Luftfeuchte_anzeigen = 1;       //Gibt die aktuelle Luftfeuchte am Serial Monitor aus
+bool Wasserstand_anzeigen = 1;
+bool Relaticheck_anzeigen = 1;
+bool Messdurchgang_anzeigen = 1;
+bool TemperaturStatus_anzeigen = 1;
+bool Schaltvorgang_anzeigen = 1;
+bool Schaltzyklus_anzeigen = 1;
+bool Modeschalter_anzeigen = 1;
 
-boolean Uhrzeit_anzeigen = 1;
-boolean Wochentag_anzeigen = 1;
-boolean Datum_anzeigen = 1;
+bool Uhrzeit_anzeigen = 1;
+bool Wochentag_anzeigen = 1;
+bool Datum_anzeigen = 1;
 
-boolean excel_output = 1;
+bool excel_output = 1;
 
-boolean tag_active = 1;
+bool tag_active = 1;
+bool tag_active_boot = 1;
+bool tag_active_start = 1;
+
+int sonnenaufgang = 0;
+int sonnenuntergang = 0;
+
+
 
 //GUI EINGABE
+int gui_input_01 = 0;
+int gui_input_02 = 0;
+int gui_input_03 = 0;
+int gui_input_04 = 0;
+
+int gui_form_01 = 0;
+int gui_form_02 = 0;
+int gui_form_03 = 0;
+
+
 int gui_opt_temp = 0;
 int gui_min_temp = 0;
 int gui_max_temp = 0;
 int gui_opt_hum = 0;
 int gui_min_hum = 0;
 int gui_max_hum = 0;
+
 
 
 #endif
